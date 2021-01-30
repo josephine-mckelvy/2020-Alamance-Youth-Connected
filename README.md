@@ -3,6 +3,7 @@ code for analyzing data for the Alamance Youth Connected (AYC) initiative
 
 # Purpose:
 to store datasets and R code to analyze assessment data for AYC
+(when in doubt go here: https://happygitwithr.com/rstudio-git-github.html)
 
 # Inputs:
   + Markdown files to document what the R code is and does (*.rmd), knit into a Word document (*.docx)
