@@ -28,7 +28,7 @@ to store datasets and R code to analyze assessment data for AYC
   + Include Page Numbers
   + Print without Page Breaks
 
-# Getting Started--Survey Monkey
+# Getting Started--Exporting Data
 
 1. Sign in to Survey Monkey and select your survey
 2. Export the responses ("Exports" under "Analyze Results")
@@ -41,6 +41,13 @@ to store datasets and R code to analyze assessment data for AYC
 
 # Getting Started--R Studio
 
-Download the PPGWLI-master zipped folder
-Open the 2018-2019 PPGWLI.Rproj (a directory where you'll find the inputs, code, and outputs)
-Open the 2018-2019.R (the R code with documentation to explain what the code does)
+First time: 
+1. Create a new project (top right) > version control > GIT > https://github.com/[owner name]/[repository name].git. This will create a local directory (i.e., a folder with the repository name in your Documents folder).
+2. Upload datasets and Markdown files there. Knitting the Markdown file will generate the visualizations, also saved in that local directory folder.
+3. Commit your changes: Git tab (top right) > select all those additions (A), add a commit message that summarizes what you're doing in this version, session, or draft > commit those changes > push those committed changes to GitHub (enter your GitHub username and password)
+
+Every time:
+1. Set your project (top right in RStudio
+2. Pull any changes made in GitHub to your local directory.
+3. Commit any changes you  make (i.e., saving changes frequently) with a description.
+4. Push those committed changes to GitHub before you close out of RStudio.
