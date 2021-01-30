@@ -47,7 +47,7 @@ First time:
 3. Commit your changes: Git tab (top right) > select all those additions (A), add a commit message that summarizes what you're doing in this version, session, or draft > commit those changes > push those committed changes to GitHub (enter your GitHub username and password)
 
 Every time:
-1. Set your project (top right in RStudio
+1. Set your project (top right in RStudio).
 2. Pull any changes made in GitHub to your local directory.
 3. Commit any changes you  make (i.e., saving changes frequently) with a description.
 4. Push those committed changes to GitHub before you close out of RStudio.
