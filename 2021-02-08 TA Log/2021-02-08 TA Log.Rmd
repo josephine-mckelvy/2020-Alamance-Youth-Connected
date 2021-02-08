@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ---
 title: "AYC TA Log - 2020-Q2: Oct to Dec 2020"
 subtitle: "Summarizing Counts (MRDum) by Date"
@@ -23,12 +22,12 @@ The shortcut key for "<-" is ALT + [dash]
 CTRL + ENTER will run the highlighted line(s) of code.
 The hashtag is code that is commented out.
 
-#1. Find/Set the working directory, where you'll import/export files.
+# 1. Find/Set the working directory, where you'll import/export files.
 ```{r}
 getwd() 
 # Wherever this code is saved, the file(s) for your dataset(s) should be there too
 ```
-#2. Name & import your data frame, or set of information (like a .csv file of survey responses), as factor variables.
+# 2. Name & import your data frame, or set of information (like a .csv file of survey responses), as factor variables.
 - I created a dataframe object (which I named "raw.df") for each dataset that will read in the respective .csv files and convert categorical variables into factor variables. (Copy and paste the name of the file. There's a hidden character in the SurveyMonkey exports.)
 ```{r}
 raw.df <- read.csv("AYC TA Log 2020-2021.csv", stringsAsFactors = TRUE)
@@ -37,7 +36,7 @@ raw.df <- read.csv("AYC TA Log 2020-2021.csv", stringsAsFactors = TRUE)
 
 # Clean variable names in advance (e.g., insert a row of Q#s). Do NOT start variable names with numbers.
 ```
-#3. Clean the dataset.
+# 3. Clean the analytic dataset.
 - I created an analytic dataset (which I named "ta.df") that will subset the data and remove informational header rows that are not survey responses.
 
 (**1-based index**: R starts with the first row of obs. being "1"; 3:nrow means that your responses/obs. start on row 4 until the Nth row. Check your dataset to see which row the actual observations start.)
@@ -49,7 +48,7 @@ ta.df <- raw.df[3:nrow(raw.df),] #17 obs
 ```{r}
 ta.df[ta.df==""] <- NA
 ```
-#3a. Clean the nominal (categorical, dichotomous) variables.
+# 3a. Clean the nominal (categorical, dichotomous/MRdum, ordinal) variables.
 - For each multiple choice statement, change the response values to factor, specify levels, and rename the value labels, based on the survey/codebook: (open both the dataset and the codebook/survey with question numbers and recode values to make sure the labels and levels are correct)
 ```{r}
 labelspec <- c("Lisa Garland",
@@ -116,7 +115,7 @@ mrdumdisc <- data.frame(Freq=colSums(ta.df[16:25]),
 # Plot and save bar charts for these percentages of cases/obs.
 # library(ggplot2)
 ```
-#3b. Convert continuous variables from factor to numeric.
+# 3e. Convert continuous variables from factor to numeric.
 (Factor variables are stored as integer codes--not numeric value--to create levels (e.g., responses ranging from 10 to 12 are three levels). Convert to character and then numeric.)
 ```{r}
 ta.df$adult <- as.numeric(as.character(ta.df$Q17))
@@ -126,7 +125,7 @@ ta.df$minutes <- as.numeric(as.character(ta.df$Q5))
 #Optional: Convert to hours
 ta.df$hours <- ta.df$minutes/60
 ```
-# 3c. Subset data by date ranges (e.g., quarters)
+# 4. Subset data by date ranges (e.g., quarters)
 ```{r}
 # Convert column/variable to "date" class (%m = 2-digit month; %d = 2-digit day; %[capital]Y = 4-digit year)
 ta.df$Q4 <- as.Date(ta.df$Q4,"%m/%d/%Y")
