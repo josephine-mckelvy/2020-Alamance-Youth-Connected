@@ -6,12 +6,12 @@ to store datasets and R code to analyze assessment data for AYC
 (when in doubt go here: https://happygitwithr.com/rstudio-git-github.html)
 
 # Inputs:
-  + Markdown files to document what the R code is and does (*.rmd), knit into a Word document (*.docx)
-  + datasets (with numerical values) from SurveyMonkey (*.csv)
+  + Markdown files to document what the R code is and does (.rmd), knit into a Word document (.docx)
+  + datasets (with numerical values) from SurveyMonkey (.csv)
 
 # Outputs:
-  + Diverging bar charts to visualize Likert scale items (i.e., 5-point scales ranging from strongly disagree (1) to strongly agree (5) for progress reports (*.png)
-  + Donut charts to visualize counts/percents of categorical data for progress reports (*.png)
+  + Diverging bar charts to visualize Likert scale items (i.e., 5-point scales ranging from strongly disagree (1) to strongly agree (5) for progress reports (.png)
+  + Donut charts to visualize counts/percents of categorical data for progress reports (.png)
 
 # Getting Started--Data Collection
 
