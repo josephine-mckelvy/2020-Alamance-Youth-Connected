@@ -116,7 +116,7 @@ mrdumdisc <- data.frame(Freq=colSums(ta.df[16:25]),
 # library(ggplot2)
 ```
 # 3e. Convert continuous variables from factor to numeric.
-(Factor variables are stored as integer codes--not numeric value--to create levels (e.g., responses ranging from 10 to 12 are three levels). Convert to character and then numeric.)
+(Factor variables are stored as integer codes--not numeric value--to create levels (e.g., responses ranging from 10 to 12 are three levels). (https://stackoverflow.com/questions/6328771/changing-values-when-converting-column-type-to-numeric; https://www.geeksforgeeks.org/convert-factor-to-numeric-and-numeric-to-factor-in-r-programming/) Convert to character and then numeric.)
 ```{r}
 ta.df$adult <- as.numeric(as.character(ta.df$Q17))
 sum(ta.df$adult)
@@ -127,7 +127,7 @@ ta.df$hours <- ta.df$minutes/60
 ```
 # 4. Subset data by date ranges (e.g., quarters)
 ```{r}
-# Convert column/variable to "date" class (%m = 2-digit month; %d = 2-digit day; %[capital]Y = 4-digit year)
+# Convert column/variable to "date" class (%m = 2-digit month; %d = 2-digit day; %[capital]Y = 4-digit year)(https://www.statmethods.net/input/dates.html; https://www.statology.org/subset-by-date-range-in-r/)
 ta.df$Q4 <- as.Date(ta.df$Q4,"%m/%d/%Y")
 
 # Subset data between two dates, inclusive
@@ -138,7 +138,7 @@ qtr3 <- ta.df[ta.df$Q4 >="2021-01-01" & ta.df$Q4 <="2021-03-31",]
 ```
 - How many adults (from IOs, CAG) were trained this quarter (by T vs TA)?
 ```{r}
-
+# https://www.datasciencemadesimple.com/sum-function-in-r/
 aggregate(x= qtr2$adult,
           by= list(qtr2$Q3),
           FUN=sum)
