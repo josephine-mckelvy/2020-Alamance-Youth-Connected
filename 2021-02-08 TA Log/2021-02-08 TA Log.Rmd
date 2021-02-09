@@ -47,6 +47,7 @@ ta.df <- raw.df[3:nrow(raw.df),] #17 obs
 - Recode missing data:
 ```{r}
 ta.df[ta.df==""] <- NA
+ta.df[ta.df=="N/A"] <- NA
 ```
 # 3a. Clean the nominal (categorical, dichotomous/MRdum, ordinal) variables.
 - For each multiple choice statement, change the response values to factor, specify levels, and rename the value labels, based on the survey/codebook: (open both the dataset and the codebook/survey with question numbers and recode values to make sure the labels and levels are correct)
@@ -99,12 +100,14 @@ cleanIt <- function(vec){
   chars <- as.character(vec)
   chars[is.na(chars)] <- "0"
   chars[chars==""] <- "0"
+  chars[chars!="0"] <- "1"
   return(as.numeric(chars))
 }
 ```
 - There is a multiple-response item/column with varying numbers of options for each implementing organization (IO): columns 16-25 of the ta.df. Use list apply (lapply) to repeat the "cleanIt" function to those columns, i.e., your vectors.  
 ```{r}
 ta.df[16:25] <- lapply(ta.df[16:25], cleanIt)
+ta.df[30:82] <- lapply(ta.df[30:82], cleanIt)
 ```
 - Compute frequencies and percentages for each response category for each question.
 ```{r}
