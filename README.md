@@ -42,7 +42,7 @@ to store datasets and R code to analyze assessment data for AYC
 # Getting Started--R Studio
 
 First time: 
-1. Download & install R (e.g., http://archive.linux.duke.edu/cran/) and RStudio (https://rstudio.com/products/rstudio/download/#download). 
+1. Download & install Git (http://git-scm.com/downloads), R (e.g., http://archive.linux.duke.edu/cran/), and RStudio (https://rstudio.com/products/rstudio/download/#download). 
 2. Open RStudio. Create a new project (top right) > version control > GIT > https://github.com/ [owner name]/[repository name].git. This will create a local directory (i.e., a folder with the repository name in your Documents folder).
 3. Upload datasets and Markdown files there. Knitting the Markdown file will generate the visualizations, also saved in that local directory folder.
 4. Commit your changes: Git tab (top right) > select all those additions (A), add a commit message that summarizes what you're doing in this version, session, or draft > commit those changes > push those committed changes to GitHub (enter your GitHub username and password)
