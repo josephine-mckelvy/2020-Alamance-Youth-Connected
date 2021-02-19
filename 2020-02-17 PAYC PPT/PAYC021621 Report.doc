@@ -9,8 +9,8 @@ xmlns="http://www.w3.org/TR/REC-html40">
 <meta name=ProgId content=Word.Document>
 <meta name=Generator content="Microsoft Word 15">
 <meta name=Originator content="Microsoft Word 15">
-<link rel=File-List href="PAYC021621_files/filelist.xml">
-<link rel=Edit-Time-Data href="PAYC021621_files/editdata.mso">
+<link rel=File-List href="PAYC021621%20Report_files/filelist.xml">
+<link rel=Edit-Time-Data href="PAYC021621%20Report_files/editdata.mso">
 <!--[if !mso]>
 <style>
 v\:* {behavior:url(#default#VML);}
@@ -22,28 +22,28 @@ w\:* {behavior:url(#default#VML);}
  <o:DocumentProperties>
   <o:Author>Josephine McKelvy</o:Author>
   <o:LastAuthor>Josephine McKelvy</o:LastAuthor>
-  <o:Revision>2</o:Revision>
+  <o:Revision>4</o:Revision>
   <o:TotalTime>24</o:TotalTime>
   <o:Created>2021-02-19T02:55:00Z</o:Created>
-  <o:LastSaved>2021-02-19T03:19:00Z</o:LastSaved>
-  <o:Pages>2</o:Pages>
+  <o:LastSaved>2021-02-19T03:46:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
   <o:Words>229</o:Words>
-  <o:Characters>1310</o:Characters>
+  <o:Characters>1309</o:Characters>
   <o:Lines>10</o:Lines>
   <o:Paragraphs>3</o:Paragraphs>
-  <o:CharactersWithSpaces>1536</o:CharactersWithSpaces>
+  <o:CharactersWithSpaces>1535</o:CharactersWithSpaces>
   <o:Version>16.00</o:Version>
  </o:DocumentProperties>
  <o:OfficeDocumentSettings>
   <o:AllowPNG/>
  </o:OfficeDocumentSettings>
 </xml><![endif]-->
-<link rel=themeData href="PAYC021621_files/themedata.thmx">
-<link rel=colorSchemeMapping href="PAYC021621_files/colorschememapping.xml">
+<link rel=themeData href="PAYC021621%20Report_files/themedata.thmx">
+<link rel=colorSchemeMapping
+href="PAYC021621%20Report_files/colorschememapping.xml">
 <!--[if gte mso 9]><xml>
  <w:WordDocument>
   <w:View>Print</w:View>
-  <w:GrammarState>Clean</w:GrammarState>
   <w:TrackMoves>false</w:TrackMoves>
   <w:TrackFormatting/>
   <w:ValidateAgainstSchemas/>
@@ -58,6 +58,7 @@ w\:* {behavior:url(#default#VML);}
    <w:BreakWrappedTables/>
    <w:SplitPgBreakAndParaMark/>
   </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
   <m:mathPr>
    <m:mathFont m:val="Cambria Math"/>
    <m:brkBin m:val="before"/>
@@ -692,7 +693,7 @@ w\:* {behavior:url(#default#VML);}
 	mso-pagination:widow-orphan;
 	font-size:12.0pt;
 	font-family:"Times New Roman",serif;
-	mso-fareast-font-family:PMingLiU;
+	mso-fareast-font-family:"Times New Roman";
 	mso-fareast-theme-font:minor-fareast;}
 p.MsoHeader, li.MsoHeader, div.MsoHeader
 	{mso-style-priority:99;
@@ -702,17 +703,18 @@ p.MsoHeader, li.MsoHeader, div.MsoHeader
 	tab-stops:center 3.25in right 6.5in;
 	font-size:12.0pt;
 	font-family:"Times New Roman",serif;
-	mso-fareast-font-family:PMingLiU;
+	mso-fareast-font-family:"Times New Roman";
 	mso-fareast-theme-font:minor-fareast;}
 p.MsoFooter, li.MsoFooter, div.MsoFooter
-	{mso-style-priority:99;
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
 	mso-style-link:"Footer Char";
 	margin:0in;
 	mso-pagination:widow-orphan;
 	tab-stops:center 3.25in right 6.5in;
 	font-size:12.0pt;
 	font-family:"Times New Roman",serif;
-	mso-fareast-font-family:PMingLiU;
+	mso-fareast-font-family:"Times New Roman";
 	mso-fareast-theme-font:minor-fareast;}
 p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
 	{mso-style-priority:34;
@@ -726,7 +728,7 @@ p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
 	mso-pagination:widow-orphan;
 	font-size:12.0pt;
 	font-family:"Times New Roman",serif;
-	mso-fareast-font-family:PMingLiU;
+	mso-fareast-font-family:"Times New Roman";
 	mso-fareast-theme-font:minor-fareast;}
 p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphCxSpFirst
 	{mso-style-priority:34;
@@ -741,7 +743,7 @@ p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphC
 	mso-pagination:widow-orphan;
 	font-size:12.0pt;
 	font-family:"Times New Roman",serif;
-	mso-fareast-font-family:PMingLiU;
+	mso-fareast-font-family:"Times New Roman";
 	mso-fareast-theme-font:minor-fareast;}
 p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagraphCxSpMiddle
 	{mso-style-priority:34;
@@ -756,7 +758,7 @@ p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagrap
 	mso-pagination:widow-orphan;
 	font-size:12.0pt;
 	font-family:"Times New Roman",serif;
-	mso-fareast-font-family:PMingLiU;
+	mso-fareast-font-family:"Times New Roman";
 	mso-fareast-theme-font:minor-fareast;}
 p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxSpLast
 	{mso-style-priority:34;
@@ -771,7 +773,7 @@ p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxS
 	mso-pagination:widow-orphan;
 	font-size:12.0pt;
 	font-family:"Times New Roman",serif;
-	mso-fareast-font-family:PMingLiU;
+	mso-fareast-font-family:"Times New Roman";
 	mso-fareast-theme-font:minor-fareast;}
 p.msonormal0, li.msonormal0, div.msonormal0
 	{mso-style-name:msonormal;
@@ -783,7 +785,7 @@ p.msonormal0, li.msonormal0, div.msonormal0
 	mso-pagination:widow-orphan;
 	font-size:12.0pt;
 	font-family:"Times New Roman",serif;
-	mso-fareast-font-family:PMingLiU;
+	mso-fareast-font-family:"Times New Roman";
 	mso-fareast-theme-font:minor-fareast;}
 span.HeaderChar
 	{mso-style-name:"Header Char";
@@ -794,10 +796,13 @@ span.HeaderChar
 	mso-ansi-font-size:12.0pt;
 	mso-bidi-font-size:12.0pt;
 	font-family:"PMingLiU",serif;
-	mso-fareast-font-family:PMingLiU;
-	mso-fareast-theme-font:minor-fareast;}
+	mso-ascii-font-family:PMingLiU;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	mso-hansi-font-family:PMingLiU;}
 span.FooterChar
 	{mso-style-name:"Footer Char";
+	mso-style-noshow:yes;
 	mso-style-priority:99;
 	mso-style-unhide:no;
 	mso-style-locked:yes;
@@ -805,8 +810,10 @@ span.FooterChar
 	mso-ansi-font-size:12.0pt;
 	mso-bidi-font-size:12.0pt;
 	font-family:"PMingLiU",serif;
-	mso-fareast-font-family:PMingLiU;
-	mso-fareast-theme-font:minor-fareast;}
+	mso-ascii-font-family:PMingLiU;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	mso-hansi-font-family:PMingLiU;}
 .MsoChpDefault
 	{mso-style-type:export-only;
 	mso-default-props:yes;
@@ -815,16 +822,16 @@ span.FooterChar
 	mso-bidi-font-size:10.0pt;}
  /* Page Definitions */
  @page
-	{mso-footnote-separator:url("PAYC021621_files/header.htm") fs;
-	mso-footnote-continuation-separator:url("PAYC021621_files/header.htm") fcs;
-	mso-endnote-separator:url("PAYC021621_files/header.htm") es;
-	mso-endnote-continuation-separator:url("PAYC021621_files/header.htm") ecs;}
+	{mso-footnote-separator:url("PAYC021621%20Report_files/header.htm") fs;
+	mso-footnote-continuation-separator:url("PAYC021621%20Report_files/header.htm") fcs;
+	mso-endnote-separator:url("PAYC021621%20Report_files/header.htm") es;
+	mso-endnote-continuation-separator:url("PAYC021621%20Report_files/header.htm") ecs;}
 @page WordSection1
 	{size:8.5in 11.0in;
 	margin:1.0in 1.0in 1.0in 1.0in;
 	mso-header-margin:.5in;
 	mso-footer-margin:.5in;
-	mso-header:url("PAYC021621_files/header.htm") h1;
+	mso-header:url("PAYC021621%20Report_files/header.htm") h1;
 	mso-paper-source:0;}
 div.WordSection1
 	{page:WordSection1;}
@@ -931,7 +938,7 @@ ul
 <div class=WordSection1>
 
 <table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
- style='border-collapse:collapse;mso-yfti-tbllook:1184'>
+ style='border-collapse:collapse;mso-yfti-tbllook:1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
  <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
   <p class=MsoNormal><b><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></b></p>
@@ -1225,9 +1232,9 @@ ul
 <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>While
-the group is evenly split by age, participants come from many grade-levels.
-This may impact individual understanding and group rapport, if participants do
-not regularly interact with one another.<br clear=all style='mso-special-character:
+the group is evenly split by age, participants come from many grade-levels. This
+may impact individual understanding and group rapport, if participants do not
+regularly interact with one another<br clear=all style='mso-special-character:
 line-break;page-break-before:always'>
 <o:p></o:p></span></p>
 
@@ -1262,7 +1269,7 @@ line-break;page-break-before:always'>
   mso-position-horizontal-relative:text;mso-position-vertical:absolute;
   mso-position-vertical-relative:text;mso-width-percent:0;mso-height-percent:0;
   mso-width-relative:page;mso-height-relative:page'>
-  <v:imagedata src="PAYC021621_files/image001.png" o:title=""/>
+  <v:imagedata src="PAYC021621%20Report_files/image001.png" o:title=""/>
   <w:wrap type="topAndBottom"/>
  </v:shape><![endif]--><![if !vml]><span style='mso-ignore:vglayout'>
  <table cellpadding=0 cellspacing=0 align=left>
@@ -1271,7 +1278,8 @@ line-break;page-break-before:always'>
   </tr>
   <tr>
    <td></td>
-   <td><img width=624 height=174 src="PAYC021621_files/image002.jpg" v:shapes="Picture_x0020_1"></td>
+   <td><img width=624 height=174 src="PAYC021621%20Report_files/image002.jpg"
+   v:shapes="Picture_x0020_1"></td>
   </tr>
  </table>
  </span><![endif]><!--[if gte vml 1]></o:wrapblock><![endif]--><br
@@ -1290,15 +1298,15 @@ the influence of drugs or alcohol.<o:p></o:p></span></p>
 mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_2" o:spid="_x0000_i1026"
  type="#_x0000_t75" style='width:468pt;height:130.2pt;visibility:visible;
  mso-wrap-style:square'>
- <v:imagedata src="PAYC021621_files/image003.png" o:title=""/>
+ <v:imagedata src="PAYC021621%20Report_files/image003.png" o:title=""/>
 </v:shape><![endif]--><![if !vml]><img width=624 height=174
-src="PAYC021621_files/image004.jpg" v:shapes="Picture_x0020_2"><![endif]></span><span
+src="PAYC021621%20Report_files/image004.jpg" v:shapes="Picture_x0020_2"><![endif]></span><span
 style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Of
 the Nine participants that answered these questions on the Pre-Test, <o:p></o:p></span></p>
 
-<p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span
+<p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l0 level1 lfo2'><![if !supportLists]><span
 style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
 Symbol'><span style='mso-list:Ignore'>&middot;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span></span><![endif]><span style='mso-fareast-font-family:"Times New Roman"'>Nine
@@ -1307,14 +1315,14 @@ to have sex or if someone wanted to have sex with them without a barrier
 method. (*Not shown: one participant accidentally took the Post-Test instead of
 the Pre-Test. They disagreed to both of these statements.)<o:p></o:p></span></p>
 
-<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l0 level1 lfo2'><![if !supportLists]><span
 style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
 Symbol'><span style='mso-list:Ignore'>&middot;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span></span><![endif]><span style='mso-fareast-font-family:"Times New Roman"'>One
 participant reported they were not sure if they would use birth control if they
 or their partner were worried about getting pregnant. <o:p></o:p></span></p>
 
-<p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span
+<p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l0 level1 lfo2'><![if !supportLists]><span
 style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
 Symbol'><span style='mso-list:Ignore'>&middot;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span></span><![endif]><span style='mso-fareast-font-family:"Times New Roman"'>One
