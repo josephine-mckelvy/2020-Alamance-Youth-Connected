@@ -22,16 +22,16 @@ w\:* {behavior:url(#default#VML);}
  <o:DocumentProperties>
   <o:Author>Josephine McKelvy</o:Author>
   <o:LastAuthor>Josephine McKelvy</o:LastAuthor>
-  <o:Revision>8</o:Revision>
-  <o:TotalTime>24</o:TotalTime>
+  <o:Revision>9</o:Revision>
+  <o:TotalTime>54</o:TotalTime>
   <o:Created>2021-02-19T02:55:00Z</o:Created>
-  <o:LastSaved>2021-02-19T03:57:00Z</o:LastSaved>
-  <o:Pages>1</o:Pages>
-  <o:Words>229</o:Words>
-  <o:Characters>1307</o:Characters>
-  <o:Lines>10</o:Lines>
-  <o:Paragraphs>3</o:Paragraphs>
-  <o:CharactersWithSpaces>1533</o:CharactersWithSpaces>
+  <o:LastSaved>2021-02-24T14:00:00Z</o:LastSaved>
+  <o:Pages>3</o:Pages>
+  <o:Words>397</o:Words>
+  <o:Characters>2267</o:Characters>
+  <o:Lines>18</o:Lines>
+  <o:Paragraphs>5</o:Paragraphs>
+  <o:CharactersWithSpaces>2659</o:CharactersWithSpaces>
   <o:Version>16.00</o:Version>
  </o:DocumentProperties>
  <o:OfficeDocumentSettings>
@@ -706,8 +706,7 @@ p.MsoHeader, li.MsoHeader, div.MsoHeader
 	mso-fareast-font-family:"Times New Roman";
 	mso-fareast-theme-font:minor-fareast;}
 p.MsoFooter, li.MsoFooter, div.MsoFooter
-	{mso-style-noshow:yes;
-	mso-style-priority:99;
+	{mso-style-priority:99;
 	mso-style-link:"Footer Char";
 	margin:0in;
 	mso-pagination:widow-orphan;
@@ -802,7 +801,6 @@ span.HeaderChar
 	mso-hansi-font-family:PMingLiU;}
 span.FooterChar
 	{mso-style-name:"Footer Char";
-	mso-style-noshow:yes;
 	mso-style-priority:99;
 	mso-style-unhide:no;
 	mso-style-locked:yes;
@@ -835,11 +833,30 @@ span.FooterChar
 	mso-paper-source:0;}
 div.WordSection1
 	{page:WordSection1;}
+@page WordSection2
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-columns:2 even .5in;
+	mso-header:url("PAYC021621%20Report_files/header.htm") h1;
+	mso-paper-source:0;}
+div.WordSection2
+	{page:WordSection2;}
+@page WordSection3
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-header:url("PAYC021621%20Report_files/header.htm") h1;
+	mso-paper-source:0;}
+div.WordSection3
+	{page:WordSection3;}
  /* List Definitions */
  @list l0
-	{mso-list-id:1678120585;
+	{mso-list-id:578247125;
 	mso-list-type:hybrid;
-	mso-list-template-ids:1810674638 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+	mso-list-template-ids:700992160 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
 @list l0:level1
 	{mso-level-number-format:bullet;
 	mso-level-text:\F0B7;
@@ -903,6 +920,73 @@ div.WordSection1
 	mso-level-number-position:left;
 	text-indent:-.25in;
 	font-family:Wingdings;}
+@list l1
+	{mso-list-id:1678120585;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1810674638 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
 ol
 	{margin-bottom:0in;}
 ul
@@ -924,6 +1008,21 @@ ul
 	mso-pagination:widow-orphan;
 	font-size:10.0pt;
 	font-family:"Times New Roman",serif;}
+table.MsoTableGrid
+	{mso-style-name:"Table Grid";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-priority:39;
+	mso-style-unhide:no;
+	border:solid windowtext 1.0pt;
+	mso-border-alt:solid windowtext .5pt;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-border-insideh:.5pt solid windowtext;
+	mso-border-insidev:.5pt solid windowtext;
+	mso-para-margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;}
 </style>
 <![endif]--><!--[if gte mso 9]><xml>
  <o:shapedefaults v:ext="edit" spidmax="2049"/>
@@ -937,15 +1036,23 @@ ul
 
 <div class=WordSection1>
 
-<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
- style='border-collapse:collapse;mso-yfti-tbllook:1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 align=left
+ style='border-collapse:collapse;mso-table-overlap:never;mso-yfti-tbllook:1184;
+ mso-table-lspace:9.0pt;margin-left:6.75pt;mso-table-rspace:9.0pt;margin-right:
+ 6.75pt;mso-table-anchor-vertical:paragraph;mso-table-anchor-horizontal:column;
+ mso-table-left:left;mso-table-top:.05pt;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
  <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><b><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></b></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><b><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></b></p>
   </td>
   <td colspan=2 style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><b><span style='mso-fareast-font-family:"Times New Roman"'>Reach
-  for Group PAYC021621*<o:p></o:p></span></b></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><b><span
+  style='mso-fareast-font-family:"Times New Roman"'>Reach for Group PAYC021621*<o:p></o:p></span></b></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:1;height:1.0pt'>
@@ -953,318 +1060,693 @@ ul
   border-left:none;border-bottom:solid black 1.0pt;border-right:none;
   mso-border-top-alt:double windowtext 2.25pt;mso-border-bottom-alt:solid black .75pt;
   padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><i><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></i></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><i><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></i></p>
   </td>
   <td style='border-top:double windowtext 2.25pt;border-left:none;border-bottom:
   solid black 1.0pt;border-right:none;mso-border-top-alt:double windowtext 2.25pt;
   mso-border-bottom-alt:solid black .75pt;padding:.7pt .7pt .7pt .7pt;
   height:1.0pt'>
-  <p class=MsoNormal><i><span style='mso-fareast-font-family:"Times New Roman"'>Reach<o:p></o:p></span></i></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><i><span
+  style='mso-fareast-font-family:"Times New Roman"'>Reach<o:p></o:p></span></i></p>
   </td>
   <td style='border-top:double windowtext 2.25pt;border-left:none;border-bottom:
   solid black 1.0pt;border-right:none;mso-border-top-alt:double windowtext 2.25pt;
   mso-border-bottom-alt:solid black .75pt;padding:.7pt .7pt .7pt .7pt;
   height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><i><span
-  style='mso-fareast-font-family:"Times New Roman"'>Freq<o:p></o:p></span></i></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><i><span style='mso-fareast-font-family:"Times New Roman"'>Freq<o:p></o:p></span></i></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:2;height:1.0pt'>
   <td width=274 colspan=3 style='width:205.35pt;padding:.7pt .7pt .7pt .7pt;
   height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Gender<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Gender<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:3;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Male<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Male<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>6<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>6<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:4;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Female<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Female<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>4<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>4<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:5;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Transgender<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Transgender<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:6;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Did
-  not identify (?)<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Did not identify (?)<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:7;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Gender
-  not reported<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Gender not reported<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:8;height:1.0pt'>
   <td width=274 colspan=3 style='width:205.35pt;padding:.7pt .7pt .7pt .7pt;
   height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Race<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Race<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:9;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>White<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>White<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:10;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Black<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Black<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>9<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>9<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:11;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Asian<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Asian<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:12;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Alaska
-  Native<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Alaska Native<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:13;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Native
-  Hawaiian<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Native Hawaiian<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:14;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Multiracial<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Multiracial<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:15;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Race
-  not reported<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Race not reported<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>0<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:16;height:1.0pt'>
   <td width=274 colspan=3 style='width:205.35pt;padding:.7pt .7pt .7pt .7pt;
   height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Age
-  (years)<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Age (years)<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:17;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>12<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>12<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>5<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>5<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:18;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>14<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>14<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>5<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>5<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:19;height:1.0pt'>
   <td width=274 colspan=3 style='width:205.35pt;padding:.7pt .7pt .7pt .7pt;
   height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Grade<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>Grade<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:20;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>6th
-  Grade<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>6th Grade<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>3<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>3<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:21;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>7th
-  Grade<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>7th Grade<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>2<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>2<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:22;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>8th
-  Grade<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>8th Grade<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>4<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>4<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:23;height:1.0pt'>
   <td width=34 style='width:25.8pt;padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>9th
-  Grade<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='mso-fareast-font-family:
+  "Times New Roman"'>9th Grade<o:p></o:p></span></p>
   </td>
   <td style='padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span
-  style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;
+  mso-height-rule:exactly'><span style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:24;mso-yfti-lastrow:yes;height:1.0pt'>
   <td width=274 colspan=3 style='width:205.35pt;border:none;border-top:double windowtext 1.5pt;
   padding:.7pt .7pt .7pt .7pt;height:1.0pt'>
-  <p class=MsoNormal><span style='font-size:10.0pt;mso-fareast-font-family:
-  "Times New Roman"'>Note: n=10; *one participant took the Post-Test instead of
-  the Pre-Test thus skipped the demographics portion of the survey.<o:p></o:p></span></p>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  column;mso-element-top:.05pt;mso-height-rule:exactly'><span style='font-size:
+  10.0pt;mso-fareast-font-family:"Times New Roman"'>Note: n=10; *one
+  participant took the Post-Test instead of the Pre-Test thus skipped the
+  demographics portion of the survey.<o:p></o:p></span></p>
   </td>
  </tr>
 </table>
 
 <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
 
-<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>While
-the group is evenly split by age, participants come from many grade-levels. This
-may impact individual understanding and group rapport, if participants do not
-regularly interact with one another<o:p></o:p></span></p>
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>One out
+of eleven participants took the Post-Test instead of the Pre-Test thus skipping
+the demographics portion of the survey. <o:p></o:p></span></p>
 
-<p class=MsoNormal><!--[if gte vml 1]><o:wrapblock><v:shapetype id="_x0000_t75"
-  coordsize="21600,21600" o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe"
-  filled="f" stroked="f">
-  <v:stroke joinstyle="miter"/>
-  <v:formulas>
-   <v:f eqn="if lineDrawn pixelLineWidth 0"/>
-   <v:f eqn="sum @0 1 0"/>
-   <v:f eqn="sum 0 0 @1"/>
-   <v:f eqn="prod @2 1 2"/>
-   <v:f eqn="prod @3 21600 pixelWidth"/>
-   <v:f eqn="prod @3 21600 pixelHeight"/>
-   <v:f eqn="sum @0 0 1"/>
-   <v:f eqn="prod @6 1 2"/>
-   <v:f eqn="prod @7 21600 pixelWidth"/>
-   <v:f eqn="sum @8 21600 0"/>
-   <v:f eqn="prod @7 21600 pixelHeight"/>
-   <v:f eqn="sum @10 21600 0"/>
-  </v:formulas>
-  <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
-  <o:lock v:ext="edit" aspectratio="t"/>
- </v:shapetype><v:shape id="Picture_x0020_1" o:spid="_x0000_s1026" type="#_x0000_t75"
-  style='position:absolute;margin-left:0;margin-top:.2pt;width:468pt;height:130.2pt;
-  z-index:251659264;visibility:visible;mso-wrap-style:square;
-  mso-width-percent:0;mso-height-percent:0;mso-wrap-distance-left:9pt;
-  mso-wrap-distance-top:0;mso-wrap-distance-right:9pt;
-  mso-wrap-distance-bottom:0;mso-position-horizontal:absolute;
-  mso-position-horizontal-relative:text;mso-position-vertical:absolute;
-  mso-position-vertical-relative:text;mso-width-percent:0;mso-height-percent:0;
-  mso-width-relative:page;mso-height-relative:page'>
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>There
+were also two participants with the same initials and birthdate but different
+genders. This is either the same person or fraternal twins. <o:p></o:p></span></p>
+
+<table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 align=right
+ width=312 style='width:233.75pt;border-collapse:collapse;border:none;
+ mso-border-alt:solid windowtext .5pt;mso-yfti-tbllook:1184;mso-table-lspace:
+ 9.0pt;margin-left:6.75pt;mso-table-rspace:9.0pt;margin-right:6.75pt;
+ mso-table-anchor-vertical:paragraph;mso-table-anchor-horizontal:margin;
+ mso-table-left:right;mso-table-top:9.8pt;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td width=32 valign=top style='width:24.25pt;border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-left:right;mso-element-top:9.8pt;mso-height-rule:exactly'><o:p>&nbsp;</o:p></p>
+  </td>
+  <td width=114 valign=top style='width:85.8pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-left:right;mso-element-top:9.8pt;mso-height-rule:exactly'>IP
+  Address<o:p></o:p></p>
+  </td>
+  <td width=93 valign=top style='width:69.7pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-left:right;mso-element-top:9.8pt;mso-height-rule:exactly'>Time
+  Spent<o:p></o:p></p>
+  </td>
+  <td width=72 valign=top style='width:.75in;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-left:right;mso-element-top:9.8pt;mso-height-rule:exactly'><o:p>&nbsp;</o:p></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=32 valign=top style='width:24.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-left:right;mso-element-top:9.8pt;mso-height-rule:exactly'>P1<o:p></o:p></p>
+  </td>
+  <td width=114 valign=top style='width:85.8pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-left:right;mso-element-top:9.8pt;mso-height-rule:exactly'>107.77.233.4<o:p></o:p></p>
+  </td>
+  <td width=93 valign=top style='width:69.7pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-left:right;mso-element-top:9.8pt;mso-height-rule:exactly'>1:34
+  to 1:47<o:p></o:p></p>
+  </td>
+  <td width=72 valign=top style='width:.75in;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-left:right;mso-element-top:9.8pt;mso-height-rule:exactly'>(13
+  min)<o:p></o:p></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;mso-yfti-lastrow:yes'>
+  <td width=32 valign=top style='width:24.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-left:right;mso-element-top:9.8pt;mso-height-rule:exactly'>P9<o:p></o:p></p>
+  </td>
+  <td width=114 valign=top style='width:85.8pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-left:right;mso-element-top:9.8pt;mso-height-rule:exactly'>107.77.236.113<o:p></o:p></p>
+  </td>
+  <td width=93 valign=top style='width:69.7pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-left:right;mso-element-top:9.8pt;mso-height-rule:exactly'>1:43
+  to 2:08<o:p></o:p></p>
+  </td>
+  <td width=72 valign=top style='width:.75in;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-left:right;mso-element-top:9.8pt;mso-height-rule:exactly'>(25
+  min)<o:p></o:p></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Because
+of the different IP addresses (thus different devices) and slight overlap in
+time, I&#8217;d conclude that these are fraternal twins. Also, the first
+participant to take the Pre-Test did so very quickly and scored higher. There
+would be little reason for this person to take the Pre-Test again, take longer,
+and perform more poorly.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>While
+the group is evenly split by age, participants come from many grade-levels.
+This may impact individual understanding and group rapport, if participants do
+not regularly interact with one another. <o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman";
+mso-no-proof:yes'><!--[if gte vml 1]><v:shapetype id="_x0000_t75" coordsize="21600,21600"
+ o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe" filled="f"
+ stroked="f">
+ <v:stroke joinstyle="miter"/>
+ <v:formulas>
+  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+  <v:f eqn="sum @0 1 0"/>
+  <v:f eqn="sum 0 0 @1"/>
+  <v:f eqn="prod @2 1 2"/>
+  <v:f eqn="prod @3 21600 pixelWidth"/>
+  <v:f eqn="prod @3 21600 pixelHeight"/>
+  <v:f eqn="sum @0 0 1"/>
+  <v:f eqn="prod @6 1 2"/>
+  <v:f eqn="prod @7 21600 pixelWidth"/>
+  <v:f eqn="sum @8 21600 0"/>
+  <v:f eqn="prod @7 21600 pixelHeight"/>
+  <v:f eqn="sum @10 21600 0"/>
+ </v:formulas>
+ <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+ <o:lock v:ext="edit" aspectratio="t"/>
+</v:shapetype><v:shape id="Picture_x0020_4" o:spid="_x0000_i1027" type="#_x0000_t75"
+ style='width:468pt;height:237pt;visibility:visible;mso-wrap-style:square'>
+ <v:imagedata src="PAYC021621%20Report_files/image006.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=624 height=316
+src="PAYC021621%20Report_files/image007.png" v:shapes="Picture_x0020_4"><![endif]></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Range:
+18% to 88%<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Median:
+38% <o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Mean:
+45% (right skew: higher-scoring outliers pulling the distribution to the right)<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Mode:
+tri-modal<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Standard
+deviation: 23% (quite the spread of scores)<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+</div>
+
+<span style='font-size:12.0pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
+"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:ZH-TW;
+mso-bidi-language:AR-SA'><br clear=all style='page-break-before:auto;
+mso-break-type:section-break'>
+</span>
+
+<div class=WordSection2>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Most
+difficult questions: <o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>1) water-based
+lubricants<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>2) EC
+without a prescription<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>2)
+withdrawal<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>4)
+PrEP<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Least
+difficult questions:<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>14)
+healthy relationship<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>11)
+dating abuse<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>11)
+hormone-based birth control<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>11)
+STIs<o:p></o:p></span></p>
+
+</div>
+
+<span style='font-size:12.0pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
+"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:ZH-TW;
+mso-bidi-language:AR-SA'><br clear=all style='page-break-before:auto;
+mso-break-type:section-break'>
+</span>
+
+<div class=WordSection3>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+<span style='font-size:12.0pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
+"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:ZH-TW;
+mso-bidi-language:AR-SA'><br clear=all style='mso-special-character:line-break;
+page-break-before:always'>
+</span>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><!--[if gte vml 1]><o:wrapblock><v:shape id="Picture_x0020_1"
+  o:spid="_x0000_s1026" type="#_x0000_t75" style='position:absolute;
+  margin-left:0;margin-top:.2pt;width:468pt;height:130.2pt;z-index:251659264;
+  visibility:visible;mso-wrap-style:square;mso-width-percent:0;
+  mso-height-percent:0;mso-wrap-distance-left:9pt;mso-wrap-distance-top:0;
+  mso-wrap-distance-right:9pt;mso-wrap-distance-bottom:0;
+  mso-position-horizontal:absolute;mso-position-horizontal-relative:text;
+  mso-position-vertical:absolute;mso-position-vertical-relative:text;
+  mso-width-percent:0;mso-height-percent:0;mso-width-relative:page;
+  mso-height-relative:page'>
   <v:imagedata src="PAYC021621%20Report_files/image001.png" o:title=""/>
   <w:wrap type="topAndBottom"/>
  </v:shape><![endif]--><![if !vml]><span style='mso-ignore:vglayout'>
@@ -1274,7 +1756,7 @@ regularly interact with one another<o:p></o:p></span></p>
   </tr>
   <tr>
    <td></td>
-   <td><img width=624 height=174 src="PAYC021621%20Report_files/image002.jpg"
+   <td><img width=624 height=174 src="PAYC021621%20Report_files/image008.jpg"
    v:shapes="Picture_x0020_1"></td>
   </tr>
  </table>
@@ -1296,13 +1778,13 @@ mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_2" o:spid="_x000
  mso-wrap-style:square'>
  <v:imagedata src="PAYC021621%20Report_files/image003.png" o:title=""/>
 </v:shape><![endif]--><![if !vml]><img width=624 height=174
-src="PAYC021621%20Report_files/image004.jpg" v:shapes="Picture_x0020_2"><![endif]></span><span
+src="PAYC021621%20Report_files/image009.jpg" v:shapes="Picture_x0020_2"><![endif]></span><span
 style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>Of
 the Nine participants that answered these questions on the Pre-Test, <o:p></o:p></span></p>
 
-<p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l0 level1 lfo2'><![if !supportLists]><span
+<p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l1 level1 lfo2'><![if !supportLists]><span
 style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
 Symbol'><span style='mso-list:Ignore'>&middot;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span></span><![endif]><span style='mso-fareast-font-family:"Times New Roman"'>Nine
@@ -1311,14 +1793,14 @@ to have sex or if someone wanted to have sex with them without a barrier
 method. (*Not shown: one participant accidentally took the Post-Test instead of
 the Pre-Test. They disagreed to both of these statements.)<o:p></o:p></span></p>
 
-<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l0 level1 lfo2'><![if !supportLists]><span
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l1 level1 lfo2'><![if !supportLists]><span
 style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
 Symbol'><span style='mso-list:Ignore'>&middot;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span></span><![endif]><span style='mso-fareast-font-family:"Times New Roman"'>One
 participant reported they were not sure if they would use birth control if they
 or their partner were worried about getting pregnant. <o:p></o:p></span></p>
 
-<p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l0 level1 lfo2'><![if !supportLists]><span
+<p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l1 level1 lfo2'><![if !supportLists]><span
 style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
 Symbol'><span style='mso-list:Ignore'>&middot;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span></span><![endif]><span style='mso-fareast-font-family:"Times New Roman"'>One

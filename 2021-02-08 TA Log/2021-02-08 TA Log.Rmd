@@ -106,14 +106,15 @@ cleanIt <- function(vec){
 ```
 - There is a multiple-response item/column with varying numbers of options for each implementing organization (IO): columns 16-25 of the ta.df. Use list apply (lapply) to repeat the "cleanIt" function to those columns, i.e., your vectors.  
 ```{r}
-ta.df[16:25] <- lapply(ta.df[16:25], cleanIt)
-ta.df[30:82] <- lapply(ta.df[30:82], cleanIt)
+ta.df[16:25] <- lapply(ta.df[16:25], cleanIt) # IOs
+ta.df[30:82] <- lapply(ta.df[30:82], cleanIt) # GTO
 ```
 - Compute frequencies and percentages for each response category for each question.
 ```{r}
 mrdumdisc <- data.frame(Freq=colSums(ta.df[16:25]),
                   Pct.of.Answ = (colSums(ta.df[16:25])/sum(ta.df[16:25]))*100,
                   Pct.of.Case = (colSums(ta.df[16:25])/nrow(ta.df[16:25]))*100)
+
 
 # Plot and save bar charts for these percentages of cases/obs.
 # library(ggplot2)
