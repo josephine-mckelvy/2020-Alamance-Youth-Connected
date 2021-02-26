@@ -399,7 +399,7 @@ experiencelkt <- likert(items=experience)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Sexual Experiences")
 ggsave("PAYC021621 Experiences.png", width = 9, height = 2.5)
 
-thoughtslkt <- likert(thoughts.df[,2:5], grouping = thoughts.df$Time)
+thoughtslkt <- likert(thoughts.df[,2:6], grouping = thoughts.df$Time)
 plot(thoughtslkt, group.order = c("Before","After")) + ggtitle("Participants' Intended Behaviors")
 ggsave("PAYC021621 Thoughts.png", width = 9, height = 6)
 ```
