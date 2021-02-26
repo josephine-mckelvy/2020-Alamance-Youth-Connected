@@ -30,18 +30,18 @@ getwd()
 # 2. Name & import your data frame, or set of information (like a .csv file of survey responses), as factor variables.
 - I created a dataframe object (which I named "raw.df") for each dataset that will read in the respective .csv files and convert categorical variables into factor variables. (Copy and paste the name of the file. There's a hidden character in the SurveyMonkey exports.)
 ```{r}
-raw.df <- read.csv("Participant PrePostTest Survey.csv", stringsAsFactors = TRUE)
+raw.df <- read.csv("Participant Pre-  Post-Test Survey.csv", stringsAsFactors = TRUE)
 
 # Export .CSV from your survey platform and confirm numeric values, NOT choice text. 
 
 # Clean variable names in advance (e.g., insert a row of Q#s). Do NOT start variable names with numbers.
 ```
 # 3. Clean the analytic dataset.
-- I created an analytic dataset (which I named "ppt.df") that will select/subset the data and remove informational header rows that are not survey responses.
+- I created an analytic dataset (which I named "ppt.df") that will select/subset the data columns and remove informational header rows that are not survey responses.
 
-(**1-based index**: R starts with the first row of obs. being "1"; 3:nrow means that your responses/obs. start on row 4 until the Nth row. Check your dataset to see which row the actual observations start.)
+(**1-based index**: R starts with the first row of obs. being "1"; 2:nrow means that your responses/obs. start on row 3 until the Nth row. Check your dataset to see which row the actual observations start.)
 ```{r}
-ppt.df <- raw.df[3:nrow(raw.df),c(12:67,75:113)] #11 obs, 95 variables
+ppt.df <- raw.df[2:nrow(raw.df),c(12:67,75:113)] #11 obs, 95 variables
 # Confirm the number of obs and variables.
 
 names(ppt.df) <- c("Time",
@@ -90,12 +90,12 @@ names(ppt.df) <- c("Time",
                     "Other Method",
                     "Group leader understood me",
                     "Group mates respect each other",
-                    "I felt judged",
+                    "I felt judged*",
                     "Group leader knew the material",
                     "I understood the material",
                     "Group leader made the activities fun",
                     "I felt free to speak",
-                    "I felt uncomfortable participating",
+                    "I felt uncomfortable participating*",
                     "Topics I will remember",
                     "Group did this well",
                     "Improvements",
@@ -293,8 +293,8 @@ ppt.df$`Group mates respect each other` <- factor(ppt.df$`Group mates respect ea
                                               levels = c(1,2,3,4),
                                               labels = labellikert,
                                               ordered = FALSE)
-ppt.df$`I felt judged` <- factor(ppt.df$`I felt judged`,
-                                 levels = c(1,2,3,4),
+ppt.df$`I felt judged*` <- factor(ppt.df$`I felt judged`,
+                                 levels = c(3,2,1,4), # reverse-coded
                                  labels = labellikert,
                                  ordered = FALSE)
 ppt.df$`Group leader knew the material` <- factor(ppt.df$`Group leader knew the material`,
@@ -313,8 +313,8 @@ ppt.df$`I felt free to speak` <- factor(ppt.df$`I felt free to speak`,
                                         levels = c(1,2,3,4),
                                         labels = labellikert,
                                         ordered = FALSE)
-ppt.df$`I felt uncomfortable participating` <- factor(ppt.df$`I felt uncomfortable participating`,
-                                                      levels = c(1,2,3,4),
+ppt.df$`I felt uncomfortable participating*` <- factor(ppt.df$`I felt uncomfortable participating`,
+                                                      levels = c(3,2,1,4), # reverse-coded
                                                       labels = labellikert,
                                                       ordered = FALSE)
 ```
@@ -332,11 +332,9 @@ https://www.theanalysisfactor.com/easy-reverse-code/
 
 Convert the factor variable to numeric so that you can subtract it from a value to reverse code that value
 ```{r}
-ppt.df$`I felt judged` <- as.numeric(as.character(ppt.df$`I felt judged`))
-ppt.df$`I felt judgedR` <- 4-ppt.df$`I felt judged` #NAs introduced by coercion
-
-ppt.df$`I felt uncomfortable participating` <- as.numeric(as.character(ppt.df$`I felt uncomfortable participating`))
-ppt.df$`I felt uncomfortable participatingR` <- 4=ppt.df$`I felt uncomfortable participating` #on a scale of 1 to 3
+# Example:
+# ppt.df$`I felt judged` <- as.numeric(as.character(ppt.df$`I felt judged`))
+# ppt.df$`I felt judged` <- 4-ppt.df$`I felt judged` # on an ordered scale of 1 to 3
 ```
 # 4. Select/subset specific variables/columns or observations/rows.
 ```{r}
@@ -354,47 +352,45 @@ ppt.df$`I felt uncomfortable participatingR` <- 4=ppt.df$`I felt uncomfortable p
 # newdata <- subset(mydata, sex=="m" & age > 25,
 # select=weight:income)
 
-ppt.df$Q4 <- tolower(ppt.df$Q4) #lowercase that group name to standardize it
+ppt.df$`Group Name` <- tolower(ppt.df$`Group Name`) #lowercase that group name to standardize it
 
-demo.df <- ppt.df [ppt.df$Q4=="payc" & ppt.df$Q3=="Before",c(12:55,109:114)] #demographics/experiences & thoughts from pre-test for a specific group
-post.df <- ppt.df [ppt.df$Q4=="payc" & ppt.df$Q3=="After",] #post-test only for a specific group
-ksa.df <- ppt.df [ppt.df$Q4=="payc" & ppt.df$Q3=="Before" | ppt.df$Q3=="After",c(12,77:108)] #KSAs before and after EBP for a specific group with identifier
-thoughts.df <- ppt.df[ppt.df$Q4=="payc" & ppt.df$Q3=="Before" | ppt.df$Q3=="After",c(12, 109:114)] #thoughts before and after EBP for a specific group with identifier
-
-
+demographics.df <- ppt.df [ppt.df$`Group Name`=="payc" & ppt.df$Time=="Before",c(1:44,91:96)] #demographics/experiences & thoughts from pre-test for a specific group
+satisfaction.df <- ppt.df [ppt.df$`Group Name`=="payc" & ppt.df$Time=="After",c(45:58)] #post-test only for a specific group
+ksa.df <- ppt.df [ppt.df$`Group Name`=="payc" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1,59:90)] #KSAs before and after EBP for a specific group with identifier 
+thoughts.df <- ppt.df[ppt.df$`Group Name`=="payc" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1, 91:95)] #thoughts before and after EBP for a specific group with identifier
 
 #remove non-answers from ordinal scales
-experience <- paycpre.df[,24:29]
+experience <- demographics.df[,24:29]
 experience[experience=="Prefer not to answer"] <- NA 
 experience <- na.omit(experience)
 
-thoughts <- paycpre.df[,45:49]
-thoughts[thoughts=="Prefer not to answer"] <- NA
-thoughts[thoughts=="Not applicable to me"] <- NA
-thoughts <- na.omit(thoughts)
+#thoughts <- demographics.df[,45:49]
+thoughts.df[thoughts.df=="Prefer not to answer"] <- NA
+thoughts.df[thoughts.df=="Not applicable"] <- NA
+thoughts.df <- na.omit(thoughts.df)
 ```
 # 5. Compute frequencies and percentages for each multi-response category; categorical variable.
 ```{r}
-age <- data.frame(table(paycpre.df$Age))
-names(age) <- c("Reach","Freq")
-grade <- data.frame(table(paycpre.df$Grade))
-names(grade) <- c("Reach","Freq")
+age <- data.frame(table(demographics.df$age))
+names(age) <- c("Demographics","Freq")
+grade <- data.frame(table(demographics.df$Grade))
+names(grade) <- c("Demographics","Freq")
 
-mrdumgender <- data.frame(Freq=colSums(paycpre.df[16:21]))
-mrdumrace <- data.frame(Freq=colSums(paycpre.df[7:12]))
-mrdumlastsex <- data.frame(Freq=colSums(paycpre.df[32:43]))
+mrdumgender <- data.frame(Freq=colSums(demographics.df[16:20]))
+mrdumrace <- data.frame(Freq=colSums(demographics.df[7:11]))
+mrdumlastsex <- data.frame(Freq=colSums(demographics.df[30:43]))
 
 # how to combine with different number of columns? will need to manually create tables for MRDUMs
 
-gender <- data.frame(Reach=c("Male","Female","Transgender","Does not identify","Gender not reported"),Freq=c(6,4,0,0,0))
-race <- data.frame(Reach=c("White","Black","Asian","Alaska Native", "Native Hawaiian","Multiracial", "Race not Reported"),Freq=c(0,9,0,0,0,1,0))
+gender <- data.frame(Demographics=c("Male","Female","Transgender","Does not identify","Gender not reported"),Freq=c(6,4,0,0,0))
+race <- data.frame(Demographics=c("White","Black","Asian","Alaska Native", "Native Hawaiian","Multiracial", "Race not Reported"),Freq=c(0,9,0,0,0,1,0))
 
 payc021621 <- rbind.data.frame(gender,race,age,grade)
 
 library(sjPlot)
 tab_df(payc021621,
-       title = "Demographics for Group PAYC021621",
-       file = "PAYC021621.doc")
+       title = "Reach for Group PAYC021621",
+       file = "PAYC021621 Demographics Table.doc")
 ```
 # 6. Plot and save diverging bar charts for each set of Likert statements.
 ```{r}
@@ -403,7 +399,7 @@ experiencelkt <- likert(items=experience)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Sexual Experiences")
 ggsave("PAYC021621 Experiences.png", width = 9, height = 2.5)
 
-thoughtslkt <- likert(items = thoughts)
-plot(thoughtslkt, positive.order = TRUE) + ggtitle("Participants' Thoughts about  Future Actions")
-ggsave("PAYC021621 Thoughts.png", width = 9, height = 2.5)
+thoughtslkt <- likert(thoughts.df[,2:5], grouping = thoughts.df$Time)
+plot(thoughtslkt, group.order = c("Before","After")) + ggtitle("Participants' Intended Behaviors")
+ggsave("PAYC021621 Thoughts.png", width = 9, height = 6)
 ```
