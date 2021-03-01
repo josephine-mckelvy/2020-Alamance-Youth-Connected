@@ -50,5 +50,13 @@ First time:
 Every time:
 1. Open RStudio. Set your project (top right in RStudio).
 2. Pull any changes made in GitHub to your local directory FIRST.
-3. Commit any changes you  make (i.e., saving changes frequently) with a description.
-4. Push those committed changes to GitHub before you close out of RStudio.
+3. File > New Files > R Script or R Markdown to clean, analyze, visualize data
+ + import or read in your dataset
+ + remove informational headers
+ + define/recode missingness (e.g., -99 = NA)
+ + factor categorical (dichotomous, nominal, ordinal) variables
+ + select or subset the data you want to analyze
+ + run any analyses
+ + plot any visualizations
+4. Commit any changes you  make (i.e., saving changes frequently) with a description.
+5. Push those committed changes to GitHub before you close out of RStudio.
