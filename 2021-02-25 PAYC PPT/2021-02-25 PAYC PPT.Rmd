@@ -383,11 +383,11 @@ mrdumlastsex <- data.frame(Freq=colSums(demographics.df[30:43]))
 gender <- data.frame(Demographics=c("Male","Female","Transgender","Does not identify","Gender not reported"),Freq=c(6,4,0,0,0))
 race <- data.frame(Demographics=c("White","Black","Asian","Alaska Native", "Native Hawaiian","Multiracial", "Race not Reported"),Freq=c(0,9,0,0,0,1,0))
 
-payc021621 <- rbind.data.frame(gender,race,age,grade)
+payc022521 <- rbind.data.frame(gender,race,age,grade)
 
 library(sjPlot)
-tab_df(payc021621,
-       title = "Reach for Group PAYC021621",
+tab_df(payc022521,
+       title = "Reach for Group PAYC022521",
        file = "PAYC021621 Demographics Table.doc")
 ```
 # 6. Plot and save diverging bar charts for each set of Likert statements.
@@ -395,9 +395,9 @@ tab_df(payc021621,
 library(likert)
 experiencelkt <- likert(items=experience)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Sexual Experiences")
-ggsave("PAYC021621 Experiences.png", width = 9, height = 2.5)
+ggsave("PAYC022521 Experiences.png", width = 9, height = 2.5)
 
 thoughtslkt <- likert(thoughts.df[,2:6], grouping = thoughts.df$Time)
 plot(thoughtslkt, group.order = c("Before","After")) + ggtitle("Participants' Intended Behaviors")
-ggsave("PAYC021621 Thoughts.png", width = 9, height = 6)
+ggsave("PAYC022521 Thoughts.png", width = 9, height = 6)
 ```
