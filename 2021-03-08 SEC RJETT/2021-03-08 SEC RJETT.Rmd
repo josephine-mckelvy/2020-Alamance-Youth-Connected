@@ -1,0 +1,112 @@
+---
+title: "Sex Ed Collaborative Racial Justice & Equity Task Team"
+subtitle: "Summarizing the SEC RJETT Needs Assessment"
+author: "Josephine McKelvy"
+date: "March 8, 2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+Click the **+c Insert** button to insert code chunks (or functions). Add documentation outside of the code chunks as reminders of what your code does.
+
+When you click the **Knit** button, it compiles all of the code chunks and generates a document that includes both content as well as the output of any embedded R code chunks within the document. Use the **gear** icon to adjust settings (e.g., "show output only") for each code chunk. 
+
+The shortcut key for "<-" is ALT + [dash] 
+CTRL + ENTER will run the highlighted line(s) of code.
+The hashtag is code that is commented out.
+
+# 1. Find/Set the working directory, where you'll import/export files.
+```{r}
+getwd() 
+# Wherever this code is saved, the file(s) for your dataset(s) should be there too
+```
+# 2. Name & import your data frame, or set of information (like a .csv file of survey responses), as factor variables.
+- I created a dataframe object (which I named "raw.df") for each dataset that will read in the respective .csv files and convert categorical variables into factor variables. (Copy and paste the name of the file.)
+```{r}
+raw.df <- read.csv("SEC RACIAL JUSTICE AND EQUITY TASK TEAM ORGANIZATION ASSESSMENT.csv", stringsAsFactors = TRUE)
+
+# Export .CSV from your survey platform and confirm numeric values, NOT choice text. 
+```
+# 3. Clean the analytic dataset.
+- I created an analytic dataset (which I named "ppt.df") that will select/subset the data columns and remove informational header rows that are not survey responses.
+
+(**1-based index**: R starts with the first row of obs. being "1"; 2:nrow means that your responses/obs. start on row 3 until the Nth row. Check your dataset to see which row the actual observations start.)
+```{r}
+secrjett.df <- raw.df[2:nrow(raw.df),c(10:18)] #5 obs of 9 variables
+# Confrm the number of obs and variables.
+
+names(secrjett.df) <- c("Courageous leadership to navigate uncomfortable situations",
+                   "Change the culture when BIPOC folks are expected to assimilate to white culture",
+                   "Encourage conversations about racial justice at all levels",
+                   "Center racial justice across all programs with the groups we work with",
+                   "Center BIPOC folks within the community in regular programming",
+                   "Advocate for racial justice in advisory groups",
+                   "Prioritize the participation of BIPOC-led groups",
+                   "Provide Training/TA in the first language of participants",
+                   "Racial justice is a guiding principle in program development and QA")
+```
+- Recode missing data:
+```{r}
+secrjett.df[secrjett.df==""] <- NA
+secrjett.df[secrjett.df=="6"] <- NA
+```
+# 3a. Clean the nominal (categorical, ordinal) variables:
+- For each multiple choice statement, change the response values to factor, specify levels, and rename the value labels, based on the survey/codebook: (open both the dataset and the codebook/survey with question numbers and recode values to make sure the labels and levels are correct)
+```{r}
+labellight <- c("Dark Red-Light",
+                "Red-Light",
+                "Yellow-Light",
+                "Green-Light",
+                "Bright Green-Light")
+
+secrjett.df$`Courageous leadership to navigate uncomfortable situations` <- factor(secrjett.df$`Courageous leadership to navigate uncomfortable situations`,
+                   levels = c(1,2,3,4,5),
+                   labels = labellight,
+                   ordered = TRUE)
+secrjett.df$`Change the culture when BIPOC folks are expected to assimilate to white culture` <- factor(secrjett.df$`Change the culture when BIPOC folks are expected to assimilate to white culture`,
+                   levels = c(1,2,3,4,5),
+                   labels = labellight,
+                   ordered = TRUE)
+secrjett.df$`Encourage conversations about racial justice at all levels` <- factor(secrjett.df$`Encourage conversations about racial justice at all levels`,
+                   levels = c(1,2,3,4,5),
+                   labels = labellight,
+                   ordered = TRUE)
+secrjett.df$`Center racial justice across all programs with the groups we work with` <- factor(secrjett.df$`Center racial justice across all programs with the groups we work with`,
+                   levels = c(1,2,3,4,5),
+                   labels = labellight,
+                   ordered = TRUE)
+secrjett.df$`Center BIPOC folks within the community in regular programming` <- factor(secrjett.df$`Center BIPOC folks within the community in regular programming`,
+                   levels = c(1,2,3,4,5),
+                   labels = labellight,
+                   ordered = TRUE)
+secrjett.df$`Advocate for racial justice in advisory groups` <- factor(secrjett.df$`Advocate for racial justice in advisory groups`,
+                   levels = c(1,2,3,4,5),
+                   labels = labellight,
+                   ordered = TRUE)
+secrjett.df$`Prioritize the participation of BIPOC-led groups` <- factor(secrjett.df$`Prioritize the participation of BIPOC-led groups`,
+                   levels = c(1,2,3,4,5),
+                   labels = labellight,
+                   ordered = TRUE)
+secrjett.df$`Provide Training/TA in the first language of participants` <- factor(secrjett.df$`Provide Training/TA in the first language of participants`,
+                   levels = c(1,2,3,4,5),
+                   labels = labellight,
+                   ordered = TRUE)
+secrjett.df$`Racial justice is a guiding principle in program development and QA` <- factor(secrjett.df$`Racial justice is a guiding principle in program development and QA`,
+                   levels = c(1,2,3,4,5),
+                   labels = labellight,
+                   ordered = TRUE)
+```
+# 6. Plot and save diverging bar charts for each set of Likert statements.
+```{r}
+library(likert)
+secrjettlkt <- likert(items=secrjett.df)
+plot(secrjettlkt, ordered = TRUE) + ggtitle(label = "SHIFT NC's engagement with racial justice & equity", subtitle = "Staff at SHIFT NC reported that the organization promotes racial justice in internal conversations \nand external partnerships but could improve our equity work in programming, training, and TA.")
+ggsave("secrjett.png", width = 10, height = 5)
+```

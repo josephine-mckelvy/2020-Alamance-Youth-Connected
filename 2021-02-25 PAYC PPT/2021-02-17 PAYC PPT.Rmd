@@ -28,13 +28,11 @@ getwd()
 # Wherever this code is saved, the file(s) for your dataset(s) should be there too
 ```
 # 2. Name & import your data frame, or set of information (like a .csv file of survey responses), as factor variables.
-- I created a dataframe object (which I named "raw.df") for each dataset that will read in the respective .csv files and convert categorical variables into factor variables. (Copy and paste the name of the file. There's a hidden character in the SurveyMonkey exports.)
+- I created a dataframe object (which I named "raw.df") for each dataset that will read in the respective .csv files and convert categorical variables into factor variables. 
 ```{r}
 raw.df <- read.csv("Participant Pre-  Post-Test Survey.csv", stringsAsFactors = TRUE)
 
 # Export .CSV from your survey platform and confirm numeric values, NOT choice text. 
-
-# Clean variable names in advance (e.g., insert a row of Q#s). Do NOT start variable names with numbers.
 ```
 # 3. Clean the analytic dataset.
 - I created an analytic dataset (which I named "ppt.df") that will select/subset the data columns and remove informational header rows that are not survey responses.
