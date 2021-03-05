@@ -141,6 +141,7 @@ names(ppt.df) <- c("Group Name", "Participant", "Time",
 ```
 - Recode missing data:
 ```{r}
+#install.packages("naniar")
 library(naniar)
 replace_with_na_at(data = ppt.df,
                    .vars = c( "Oral Sex",
@@ -181,14 +182,6 @@ ppt.df[ppt.df==""] <- NA
 ```{r}
 # SurveyMonkey Quirk: Even though each check in "Check all that apply" (multiple response dummies) is dichotomous or binary (i.e., zeroes and ones), selecting the "none of the above" or "prefer not to answer" option/column is marked as "zero". Also, the 4th option/column, if checked, is marked as "four". With dummy variables, zero = "no" and one = "yes", which helps with summing each option. The function below converts the CATA/MR into dummy variables. But sometimes, zero means yes. So convert those "yeses" to one. Then convert remaining blanks to zero
 
-#cleanIt <- function(vec){
-#  chars <- as.character(vec)
-#  chars[is.na(chars)] <- "0"
-#  chars[chars==""] <- "0"
-#  chars[chars!="0"] <- "1"
-#  return(as.numeric(chars))
-#}
-
 cleanIt <- function(vec){
   chars <- as.character(vec)
   chars[chars!=""] <- "1" #if not blank (including zeroes), replace with "one"
@@ -220,16 +213,6 @@ labelgrade <- c("6th Grade",
                 "Not in school",
                 "Prefer not to answer")
 #not in the order of the paper survey so that it's in order for the scale's legend
-labelnafreq <- c("Prefer not to answer",
-               "Never",
-               "Not sure",
-               "Within the last 30 days",
-               "Ever (more than 30 days ago")
-labelnalikert <- c("Not applicable",
-                 "Disagree",
-                 "Not Sure",
-                 "Agree",
-                 "Prefer not to answer")
 labelfreq <- c("Never",
                "Not sure",
                "Within the last 30 days",
@@ -246,7 +229,7 @@ ppt.df$Birthdate <- as.Date(ppt.df$Birthdate, "%m/%d/%Y")
 # create a variable, called "age" in the dataframe "ppt.df" that is a calculated age in years, based on Q5 (P's DOB), using the age_calc function in the eeptools library
 # install.packages("eeptools")
 library(eeptools)
-ppt.df$age <- floor(age_calc(ppt.df$Birthdate, units = "years")) #make sure your date variable is formatted
+ppt.df$Age <- floor(age_calc(ppt.df$Birthdate, units = "years")) #make sure your date variable is formatted
 
 ppt.df$Grade <- factor(ppt.df$Grade,
                    levels = c(1,2,3,4,5,6,7,8,9,10,11),
@@ -354,90 +337,55 @@ ppt.df$`I felt uncomfortable participating*` <- factor(ppt.df$`I felt uncomforta
                                                       labels = labellikert,
                                                       ordered = FALSE)
 ```
-# 3c. Convert continuous variables from factor to numeric:
-(Factor variables are stored as integer codes--not numeric value--to create levels (e.g., responses ranging from 10 to 12 are three levels). (https://stackoverflow.com/questions/6328771/changing-values-when-converting-column-type-to-numeric; https://www.geeksforgeeks.org/convert-factor-to-numeric-and-numeric-to-factor-in-r-programming/) Convert the variable from factor to character (e.g., a ten) and then to numeric.)
-```{r}
-# Example:
-# ta.df$minutes <- as.numeric(as.character(ta.df$Q5))
-
-# Optional: Convert to hours
-# ta.df$hours <- ta.df$minutes/60
-```
-# 3d. Reverse-coded columns/variables:
-https://www.theanalysisfactor.com/easy-reverse-code/
-
-Convert the factor variable to numeric so that you can subtract it from a value to reverse code that value
-```{r}
-# Example:
-# ppt.df$`I felt judged` <- as.numeric(as.character(ppt.df$`I felt judged`))
-# ppt.df$`I felt judged` <- 4-ppt.df$`I felt judged` # on an ordered scale of 1 to 3
-```
 # 4. Select/subset specific variables/columns or observations/rows.
 ```{r}
-# Optional: select the 1st through 3rd columns/variables and start them with Q and separate them with a space
-# myvars <- paste("Q", 1:3, sep="")
-# newdata <- mydata[myvars]
-# or only columns/variables 1 and 5 through 10
-# newdata <- mydata[c(1,5:10)]
-
-# subset all rows/observations that have a column/variable value of greater than or equal to 20 OR less than 10, keeping the column/variables that are named.
-# newdata <- subset(mydata, age >= 20 | age < 10,
-# select=c(ID, Weight))
-
-# subset all men over the age of 25, keeping columns/variables weight, income and all columns/variables between them).
-# newdata <- subset(mydata, sex=="m" & age > 25,
-# select=weight:income)
-
 #filter by group/section:
 ppt.df$`Group Name` <- tolower(ppt.df$`Group Name`) #lowercase that group name to standardize it
 
-#if group name is approximate; e.g., all groups for specific IO:
-library(data.table)
-group.df <- ppt.df[ppt.df$`Group Name` %like% "payc",] #change value for group name
-
-demgrp <- group.df[group.df$Time=="Before",c(1:23,96)]
-expgrp <- group.df[c(2,3,24:44)]
-thogrp <- group.df[c(3,91:95)]
-ksagrp <- group.df[c(2,3,59:90)]
-satgrp <- group.df[group.df$Time=="After",c(45:58)]
+#if group name is exact:
+demographics.df <- ppt.df [ppt.df$`Group Name`=="payc" & ppt.df$Time=="Before",c(1:23,96)] 
+experiences.df <- ppt.df [ppt.df$`Group Name`=="payc",c(1:3,24:44)]
+thoughts.df <- ppt.df[ppt.df$`Group Name`=="payc" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1,3,91:95)] 
+ksa.df <- ppt.df [ppt.df$`Group Name`=="payc" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1:3,59:90)] 
+satisfaction.df <- ppt.df [ppt.df$`Group Name`=="payc" & ppt.df$Time=="After",c(1:3,45:58)] 
 
 #remove non-answers from ordinal scales
-experience <- expgrp[,3:8]
+experience <- experiences.df[4:9]
 experience <- na.omit(experience)
 
-thogrp <- na.omit(thogrp)
+thoughts.df <- na.omit(thoughts.df)
 ```
 # 5. Compute frequencies and percentages for each multi-response category; categorical variable.
 ```{r}
-age <- data.frame(table(demgrp$age))
+age <- data.frame(table(demographics.df$Age))
 names(age) <- c("Demographics","Freq")
-grade <- data.frame(table(demgrp$Grade))
+grade <- data.frame(table(demographics.df$Grade))
 names(grade) <- c("Demographics","Freq")
 
-mrdumgender <- data.frame(Freq=colSums(demgrp[16:20]))
-mrdumrace <- data.frame(Freq=colSums(demgrp[8:11]))
-mrdumlastsex <- data.frame(Freq=colSums(expgrp[9:22]))
+mrdumgender <- data.frame(Freq=colSums(demographics.df[16:20]))
+mrdumrace <- data.frame(Freq=colSums(demographics.df[8:11]))
+mrdumlastsex <- data.frame(Freq=colSums(experiences.df[10:23]))
 
 # how to combine with different number of columns? will need to manually create tables for MRDUMs
 
-gender <- data.frame(Demographics=c("Male","Female","Transgender","Does not identify","Gender not reported"),Freq=c(7,4,0,0,0))
-race <- data.frame(Demographics=c("White","Black","Asian","Alaska Native", "Native Hawaiian","Multiracial", "Race not Reported"),Freq=c(0,10,0,0,0,1,0))
+gender <- data.frame(Demographics=c("Male","Female","Transgender","Does not identify","Gender not reported"),Freq=c(6,4,0,0,0))
+race <- data.frame(Demographics=c("White","Black","Asian","Alaska Native", "Native Hawaiian","Multiracial", "Race not Reported"),Freq=c(0,9,0,0,0,1,0))
 
 payc022521 <- rbind.data.frame(gender,race,age,grade)
 
 library(sjPlot)
 tab_df(payc022521,
        title = "Reach for Group PAYC022521",
-       file = "PAYC021621 Demographics Table.doc")
+       file = "PPT Demographics Table.doc")
 ```
 # 6. Plot and save diverging bar charts for each set of Likert statements.
 ```{r}
 library(likert)
 experiencelkt <- likert(items=experience)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Sexual Experiences")
-ggsave("PAYC022521 Experiences.png", width = 9, height = 2.5)
+ggsave("PPT Experiences.png", width = 9, height = 2.5)
 
-thoughtlkt <- likert(thogrp[2:6], grouping = thogrp$Time)
+thoughtlkt <- likert(thoughts.df[,3:7], grouping = thoughts.df$Time)
 plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Intended Behaviors")
-ggsave("PAYC022521 Thoughts.png", width = 9, height = 6)
+ggsave("PPT Thoughts.png", width = 9, height = 6)
 ```
