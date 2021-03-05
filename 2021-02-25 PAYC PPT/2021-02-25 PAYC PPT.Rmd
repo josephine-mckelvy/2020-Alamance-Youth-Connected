@@ -175,6 +175,7 @@ replace_with_na_at(data = ppt.df,
                    "I felt uncomfortable participating*"),
                    condition = ~.x == 4) #"prefer not to answer"
 ppt.df[ppt.df==""] <- NA
+ppt.df$Hispanic[ppt.df$Hispanic=="0" | ppt.df$Hispanic=="2"] <- NA
 ```
 #3a. Clean the dichotomous (CATA/MRdum) variables: 
 - Create an object (called "cleanIt") that performs a function to a vector, which serves as a placeholder for something like a column. In that function, convert the vector to a character variable. You have to convert this factor variable to a character variable first because you may see two types of labels (e.g., "1" and "NA"), but there could be more than 2 hidden levels in your factor variable. Where the variable is "NA" or a blank, replace with zero (0). Then convert the vector to a numeric variable that can be summed.
@@ -200,9 +201,9 @@ cleanIt <- function(vec){
 - Use list apply (lapply) to repeat the "cleanIt" function to those columns, i.e., your vectors.  
 ```{r}
 ppt.df[8:11] <- lapply(ppt.df[8:11], cleanIt) #racial identity options
+ppt.df[13] <- lapply(ppt.df[13], cleanIt)
 ppt.df[16:20] <- lapply(ppt.df[16:20], cleanIt) #gender identity options
 ppt.df[30:43] <- lapply(ppt.df[30:43], cleanIt) #last time sex options
-
 ppt.df[64:81] <- lapply(ppt.df[64:81], cleanIt) #if used correctly Qs
 ```
 # 3b. Clean the nominal (categorical, ordinal) variables:
@@ -246,7 +247,7 @@ ppt.df$Birthdate <- as.Date(ppt.df$Birthdate, "%m/%d/%Y")
 # create a variable, called "age" in the dataframe "ppt.df" that is a calculated age in years, based on Q5 (P's DOB), using the age_calc function in the eeptools library
 # install.packages("eeptools")
 library(eeptools)
-ppt.df$age <- floor(age_calc(ppt.df$Birthdate, units = "years")) #make sure your date variable is formatted
+ppt.df$Age <- floor(age_calc(ppt.df$Birthdate, units = "years")) #make sure your date variable is formatted
 
 ppt.df$Grade <- factor(ppt.df$Grade,
                    levels = c(1,2,3,4,5,6,7,8,9,10,11),
@@ -254,11 +255,6 @@ ppt.df$Grade <- factor(ppt.df$Grade,
 ppt.df$Time <- factor(ppt.df$Time,
                     levels = c(1,2),
                     labels = c("Before", "After"))
-ppt.df$Hispanic <- factor(ppt.df$Hispanic,
-                         levels = c(0,1,2),
-                         labels = c("Prefer not to answer",
-                                    "Yes",
-                                    "No"))
 ppt.df$Language <- factor(ppt.df$Language,
                          levels = c(0,1,2),
                          labels = c("Prefer not to answer",
@@ -409,19 +405,20 @@ thogrp <- na.omit(thogrp)
 ```
 # 5. Compute frequencies and percentages for each multi-response category; categorical variable.
 ```{r}
-age <- data.frame(table(demgrp$age))
+age <- data.frame(table(demgrp$Age))
 names(age) <- c("Demographics","Freq")
 grade <- data.frame(table(demgrp$Grade))
 names(grade) <- c("Demographics","Freq")
 
 mrdumgender <- data.frame(Freq=colSums(demgrp[16:20]))
 mrdumrace <- data.frame(Freq=colSums(demgrp[8:11]))
+mrdumhisp <- data.frame(Freq=colSums(demgrp[13]))
 mrdumlastsex <- data.frame(Freq=colSums(expgrp[9:22]))
 
 # how to combine with different number of columns? will need to manually create tables for MRDUMs
 
-gender <- data.frame(Demographics=c("Male","Female","Transgender","Does not identify","Gender not reported"),Freq=c(7,4,0,0,0))
-race <- data.frame(Demographics=c("White","Black","Asian","Alaska Native", "Native Hawaiian","Multiracial", "Race not Reported"),Freq=c(0,10,0,0,0,1,0))
+gender <- data.frame(Demographics=c("Male","Female","Transgender","Nonbinary/Does not identify","Gender not reported"),Freq=c(7,4,0,0,0))
+race <- data.frame(Demographics=c("White","Black","Asian","Alaska Native", "Native Hawaiian","Multiracial", "Race not Reported","Hispanic"),Freq=c(0,10,0,0,0,1,0,0))
 
 payc022521 <- rbind.data.frame(gender,race,age,grade)
 
