@@ -428,7 +428,7 @@ payc022521 <- rbind.data.frame(gender,race,age,grade)
 library(sjPlot)
 tab_df(payc022521,
        title = "Reach for Group PAYC022521",
-       file = "PAYC021621 Demographics Table.doc")
+       file = "PAYC022521 Demographics Table.doc")
 ```
 # 6. Plot and save diverging bar charts for each set of Likert statements.
 ```{r}
