@@ -40,6 +40,8 @@ raw.df <- read.csv("Participant Pre-  Post-Test Survey.csv", stringsAsFactors = 
 - I created an analytic dataset (which I named "ppt.df") that will select/subset the data columns and remove informational header rows that are not survey responses.
 
 (**1-based index**: R starts with the first row of obs. being "1"; 2:nrow means that your responses/obs. start on row 3 until the Nth row. Check your dataset to see which row the actual observations start.)
+
+I will be keeping columns 12 through 67, and then 75 through 113 of the dataframe.
 ```{r}
 ppt.df <- raw.df[2:nrow(raw.df),c(12:67,75:113)] #11 obs, 95 variables
 # Confirm the number of obs and variables.
@@ -167,7 +169,7 @@ cleanIt <- function(vec){
 ```
 - Use list apply (lapply) to repeat the "cleanIt" function to those columns, i.e., your vectors.  
 ```{r}
-ppt.df[7:11] <- lapply(ppt.df[7:11], cleanIt) #racial identity options
+ppt.df[7:11] <- lapply(ppt.df[7:11], cleanIt) #racial identity options are columns 7 through 11
 ppt.df[16:20] <- lapply(ppt.df[16:20], cleanIt) #gender identity options
 ppt.df[30:43] <- lapply(ppt.df[30:43], cleanIt) #last time sex options
 
@@ -353,6 +355,8 @@ Convert the factor variable to numeric so that you can subtract it from a value 
 # select=weight:income)
 
 ppt.df$`Group Name` <- tolower(ppt.df$`Group Name`) #lowercase that group name to standardize it
+
+pretest.df <- ppt.df [ppt.df$`Group Name`=="payc" & ppt.df$Time=="Before",] #all the questions for this group in their pretest
 
 demographics.df <- ppt.df [ppt.df$`Group Name`=="payc" & ppt.df$Time=="Before",c(1:44,91:96)] #demographics/experiences & thoughts from pre-test for a specific group
 satisfaction.df <- ppt.df [ppt.df$`Group Name`=="payc" & ppt.df$Time=="After",c(45:58)] #post-test only for a specific group
