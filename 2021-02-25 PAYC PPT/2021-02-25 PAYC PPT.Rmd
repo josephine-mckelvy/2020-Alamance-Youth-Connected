@@ -46,8 +46,8 @@ ppt.df <- raw.df[2:nrow(raw.df),c(12:18,20:68,76:114)] #11 obs, 95 variables
 # Confirm the number of obs and variables.
 
 names(ppt.df) <- c("Group Name", "Participant", "Time",
-                   "Live in County",
-                   "Home County",
+                   "County of residence",
+                   "County as home",
                    "Birthdate",
                    "Grade",
                    "White",
@@ -201,7 +201,7 @@ cleanIt <- function(vec){
 - Use list apply (lapply) to repeat the "cleanIt" function to those columns, i.e., your vectors.  
 ```{r}
 ppt.df[8:11] <- lapply(ppt.df[8:11], cleanIt) #racial identity options
-#ppt.df[13] <- lapply(ppt.df[13], cleanIt)
+#ppt.df[13] <- lapply(ppt.df[13], cleanIt) #hispanic as CATA
 ppt.df[16:20] <- lapply(ppt.df[16:20], cleanIt) #gender identity options
 ppt.df[30:43] <- lapply(ppt.df[30:43], cleanIt) #last time sex options
 ppt.df[64:81] <- lapply(ppt.df[64:81], cleanIt) #if used correctly Qs
@@ -249,8 +249,8 @@ ppt.df$Time <- factor(ppt.df$Time,
 ppt.df$Hispanic <- factor(ppt.df$Hispanic,
                           levels = c(0,1,2),
                           labels = c("Prefer not to answer",
-                                     "Yes",
-                                     "No"))
+                                     "Hispanic",
+                                     "Not Hispanic"))
 ppt.df$Language <- factor(ppt.df$Language,
                          levels = c(0,1,2),
                          labels = c("Prefer not to answer",
@@ -269,7 +269,18 @@ ppt.df$Birthdate <- as.Date(ppt.df$Birthdate, "%m/%d/%Y")
 # install.packages("eeptools")
 library(eeptools)
 ppt.df$Age <- floor(age_calc(ppt.df$Birthdate, units = "years")) #make sure your date variable is formatted
+ppt.df$race <- 0
+ppt.df$race[ppt.df$White==1] <- 1
+ppt.df$race[ppt.df$Black==1] <- 2
+ppt.df$race[ppt.df$Asian==1] <- 3
+ppt.df$race[ppt.df$`Native American`==1] <- 4
+ppt.df$race[ppt.df] <- 5
 
+ppt.df$race <- factor(ppt.df$race,
+                         levels = c(1,2,3,4,5),
+                         labels = c("White","Black","Asian","Native American","Multiracial"),
+                         ordered = FALSE)
+table(ppt.df$race)
 #experiences
 
 #the levels are re-ordered to how I want them to appear in the legend with "prefer not to answer" on one end or the other of the Likert scale
@@ -401,23 +412,76 @@ expgrp <- group.df[c(2,3,24:44)]
 thogrp <- group.df[c(3,91:95)]
 ksagrp <- group.df[c(2,3,59:90)]
 satgrp <- group.df[group.df$Time=="After",c(45:58)]
-
-#remove non-answers from ordinal scales
-experience <- expgrp[,3:8]
-experience <- na.omit(experience)
-
-thogrp <- na.omit(thogrp)
 ```
 # 5. Compute frequencies and percentages for each multi-response category; categorical variable.
 ```{r}
+install.packages("gtsummary")
+library(gtsummary)
+reach <- demgrp %>% select(Man, Woman, Transgender, `Nonbinary/Does not identify`, `Gender not reported`, White, Black, Asian, `Native American`, Age, Grade)
+
+tbl_reach <- tbl_summary(reach) #not sure where this table saves
+#tbl_summary(by = trt) %>%
+#  add_p() %>%
+
+library(gt)
+reach %>% gt() #just recreates the dataset
+
+cross <- table(demgrp$White,demgrp$Hispanic)
+print(cross)
+
+multipleSelect.Xtab <- function(Questions, comparison, rnm = NULL, byCase = T, both = F){
+  
+  if(both == T){
+    
+    List <- list()
+    for(i in 1:length(comparison)){
+      Row <- sapply(Questions, table, comparison[,i])
+      List[[i]] <- Row
+    }
+    
+    for(i in 2:length(List)){
+      List[[1]] <- cbind(List[[1]], List[[i]])
+    }
+    colnames(List[[1]]) <- colnames(comparison)
+  }else{    
+    List <- lapply(Questions,table,comparison)
+    for(i in 2:length(List)){
+      List[[1]]<-rbind(List[[1]],List[[i]])
+    }
+  }
+  
+  Table <- List[[1]]
+  
+  if(is.null(rnm)==F){
+    rownames(Table) <- rnm
+  }else rownames(Table) <- names(Questions)
+  
+  if(byCase==T){
+    Table <- sweep(x = Table, MARGIN = 2, STATS = summary(as.factor(comparison)),FUN = "/")*100
+  }
+  
+  return(Table)
+}
+
+raceid <- demgrp %>% select(White, Black, Asian, `Native American`)
+multipleSelect.Xtab(raceid, demgrp$Hispanic) #not sure about the variables
+
+library(eeptools)
+crosstabs(demgrp, row.vars = "Black", col.vars = "Hispanic", type = "f")
+
+
 age <- data.frame(table(demgrp$Age))
 names(age) <- c("Demographics","Freq")
 grade <- data.frame(table(demgrp$Grade))
 names(grade) <- c("Demographics","Freq")
+hisp <- data.frame(table(demgrp$Hispanic))
+names(hisp) <- c("Demographics","Freq")
+
+wh <- data.frame(table(demgrp$White, demgrp$Hispanic))
 
 mrdumgender <- data.frame(Freq=colSums(demgrp[16:20]))
 mrdumrace <- data.frame(Freq=colSums(demgrp[8:11]))
-mrdumhisp <- data.frame(Freq=colSums(demgrp[13]))
+#mrdumhisp <- data.frame(Freq=colSums(demgrp[13]))
 mrdumlastsex <- data.frame(Freq=colSums(expgrp[9:22]))
 
 # how to combine with different number of columns? will need to manually create tables for MRDUMs
@@ -425,15 +489,23 @@ mrdumlastsex <- data.frame(Freq=colSums(expgrp[9:22]))
 gender <- data.frame(Demographics=c("Male","Female","Transgender","Nonbinary/Does not identify","Gender not reported"),Freq=c(7,4,0,0,0))
 race <- data.frame(Demographics=c("White","Black","Asian","Alaska Native", "Native Hawaiian","Multiracial", "Race not Reported","Hispanic"),Freq=c(0,10,0,0,0,1,0,0))
 
-payc022521 <- rbind.data.frame(gender,race,age,grade)
+payc022521 <- rbind.data.frame(gender,race,age,grade,hisp)
 
 library(sjPlot)
 tab_df(payc022521,
        title = "Reach for Group PAYC022521",
        file = "PAYC022521 Demographics Table.doc")
+
+install.packages("gtools")
+library(gtools)
+smartbind(mrdumgender, mrdumrace, age, grade)
 ```
 # 6. Plot and save diverging bar charts for each set of Likert statements.
 ```{r}
+#remove non-answers from ordinal scales
+expgrp <- na.omit(expgrp[,3:8])
+thogrp <- na.omit(thogrp)
+
 library(likert)
 experiencelkt <- likert(items=experience)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Sexual Experiences")
