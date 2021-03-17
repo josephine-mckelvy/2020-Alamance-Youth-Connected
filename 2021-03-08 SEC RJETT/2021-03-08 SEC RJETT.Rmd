@@ -107,6 +107,6 @@ secrjett.df$`Racial justice is a guiding principle in program development and QA
 ```{r}
 library(likert)
 secrjettlkt <- likert(items=secrjett.df)
-plot(secrjettlkt, ordered = TRUE) + ggtitle(label = "SHIFT NC's engagement with racial justice & equity", subtitle = "Staff at SHIFT NC reported that the organization promotes racial justice in internal conversations \nand external partnerships but could improve our equity work in programming, training, and TA.")
+plot(secrjettlkt, ordered = TRUE) + ggtitle(label = "SHIFT NC's engagement with racial justice & equity", subtitle = "Staff at SHIFT NC reported that the organization promotes racial justice in internal conversations \nand external partnerships but could improve our equity work in programming and SHIFT NC leadership.")
 ggsave("secrjett.png", width = 10, height = 5)
 ```
