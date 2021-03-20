@@ -566,12 +566,12 @@ mrdumlastsex <- data.frame(Freq=colSums(experiences.df[10:23]))
 #race <- data.frame(Demographics=c("White","Black","Asian","Native American", "Pacific Islander","Multiracial", "Race not Reported","Hispanic"),Freq=c(0,10,0,0,0,1,0,0))
 
 gender.df <- ppt.df[ppt.df$`Group Name`=="payc022521",c(18:22)]
-gender.df$gender_cat <- apply(gender.df, 1, function(x) {ifelse(sum(x) > 1, "other gender", names(x[x != 0]))})
+gender.df$gender_cat <- apply(gender.df, 1, function(x) {ifelse(sum(x) > 1, "Other Gender", names(x[x != 0]))})
 gender <- data.frame(table(gender.df$gender_cat))
 names(gender) <- c("Demographics","Freq")
 
 race.df <- ppt.df[ppt.df$`Group Name`=="payc022521",c(8:13)]
-race.df$race_cat <- apply(race.df, 1, function(x) {ifelse(sum(x) > 1, "multiracial", names(x[x != 0]))})
+race.df$race_cat <- apply(race.df, 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
 race <- data.frame(table(race.df$race_cat))
 names(race) <- c("Demographics","Freq")
 
