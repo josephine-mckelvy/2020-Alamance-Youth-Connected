@@ -267,7 +267,6 @@ flqpr.df[138:142] <- lapply(flqpr.df[138:142], cleanIt) #QPR4 eval
 - Optional: name the sets of labels for each categorical response that you'll reuse
 ```{r}
 # P/PT Demographics
-
 ppt.df$Time <- factor(ppt.df$Time,
                     levels = c(1,2),
                     labels = c("Before", "After"))
@@ -525,7 +524,7 @@ ppt.df$`Group Name` <- tolower(ppt.df$`Group Name`)
 flqpr.df$`FL grp`<- tolower(flqpr.df$`FL grp`) 
 
 #Pre/Post Test by group if group name is exact (Update group name):
-demographics.df <- ppt.df [ppt.df$`Group Name`=="payc022521" & ppt.df$Time=="Before",c(1:25,98)] 
+
 experiences.df <- ppt.df [ppt.df$`Group Name`=="payc022521",c(1:3,26:46)]
 thoughts.df <- ppt.df[ppt.df$`Group Name`=="payc022521" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1:3,93:97)] 
 ksa.df <- ppt.df [ppt.df$`Group Name`=="payc022521" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1:3,61:92)] 
@@ -556,25 +555,33 @@ dosage.df <- flqpr.df[flqpr.df$`QPR period` %like% "Y1",c(95,99:101)] #change va
 # 5. Compute frequencies and percentages for each multi-response category; categorical variable.
 ```{r}
 #OAH 1: Reach
-age <- data.frame(table(demographics.df$Age))
-names(age) <- c("Demographics","Freq")
-grade <- data.frame(table(demographics.df$Grade))
-names(grade) <- c("Demographics","Freq")
 
-mrdumgender <- data.frame(Freq=colSums(demographics.df[18:22]))
-mrdumrace <- data.frame(Freq=colSums(demographics.df[8:13]))
-mrdumhisp <- data.frame(Freq=colSums(demographics.df[15]))
+#mrdumgender <- data.frame(Freq=colSums(demographics.df[18:22]))
+#mrdumrace <- data.frame(Freq=colSums(demographics.df[8:13]))
+#mrdumhisp <- data.frame(Freq=colSums(demographics.df[15]))
 mrdumlastsex <- data.frame(Freq=colSums(experiences.df[10:23]))
 
-ppt.df$multiracial <- 0
-multiracial <- rowSums()
-ppt.df$race = (ppt.df$White + ppt.df$Black + ppt.df$Asian + ppt.df$`Pacific Islander` + ppt.df$`Native American`)
-#if race >=2, multiracial=1; but still double counting that person
-
-
 # how to combine with different number of columns? will need to manually create tables for MRDUMs
-gender <- data.frame(Demographics=c("Male","Female","Transgender","Nonbinary/Does not identify","Gender not reported"),Freq=c(6,4,0,0,0))
-race <- data.frame(Demographics=c("White","Black","Asian","Native American", "Pacific Islander","Multiracial", "Race not Reported","Hispanic"),Freq=c(0,10,0,0,0,1,0,0))
+#gender <- data.frame(Demographics=c("Male","Female","Transgender","Nonbinary/Does not identify","Gender not reported"),Freq=c(6,4,0,0,0))
+#race <- data.frame(Demographics=c("White","Black","Asian","Native American", "Pacific Islander","Multiracial", "Race not Reported","Hispanic"),Freq=c(0,10,0,0,0,1,0,0))
+
+gender.df <- ppt.df[ppt.df$`Group Name`=="payc022521",c(18:22)]
+gender.df$gender_cat <- apply(gender.df, 1, function(x) {ifelse(sum(x) > 1, "other gender", names(x[x != 0]))})
+gender <- data.frame(table(gender.df$gender_cat))
+names(gender) <- c("Demographics","Freq")
+
+race.df <- ppt.df[ppt.df$`Group Name`=="payc022521",c(8:13)]
+race.df$race_cat <- apply(race.df, 1, function(x) {ifelse(sum(x) > 1, "multiracial", names(x[x != 0]))})
+race <- data.frame(table(race.df$race_cat))
+names(race) <- c("Demographics","Freq")
+
+demographics.df <- ppt.df [ppt.df$`Group Name`=="payc022521" & ppt.df$Time=="Before",c(1:25,98)] 
+
+age <- data.frame(table(demographics.df$Age))
+names(age) <- c("Demographics","Freq")
+
+grade <- data.frame(table(demographics.df$Grade))
+names(grade) <- c("Demographics","Freq")
 
 payc022521 <- rbind.data.frame(gender,race,age,grade)
 
@@ -596,6 +603,7 @@ viol <- sum(referrals.df$`FL ref viol`)
 voc <- sum(referrals.df$`FL ref voc`)
 
 referrals <- data.frame(type=c("SRH","MH","SA","PCP","EDU","VOC","VIOL"),count=c(srh,mh,sa,pcp,edu,voc,viol))
+racenew <- data.frame(type=c("black", "multi"), count=(race))
 
 library(sjPlot)
 tab_df(payc022521,
