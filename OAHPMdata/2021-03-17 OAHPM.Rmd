@@ -606,7 +606,7 @@ referrals <- data.frame(type=c("SRH","MH","SA","PCP","EDU","VOC","VIOL"),count=c
 racenew <- data.frame(type=c("black", "multi"), count=(race))
 
 library(sjPlot)
-tab_df(payc022521,
+tab_df(payc022521, referrals,
        title = "Reach for Group PAYC022521",
        file = "PPT Demographics Table.doc")
 tab_df(referrals,
