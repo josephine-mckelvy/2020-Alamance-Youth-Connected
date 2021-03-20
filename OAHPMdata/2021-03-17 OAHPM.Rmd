@@ -530,8 +530,9 @@ thoughts.df <- ppt.df[ppt.df$`Group Name`=="payc022521" & ppt.df$Time=="Before" 
 ksa.df <- ppt.df [ppt.df$`Group Name`=="payc022521" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1:3,61:92)] 
 satisfaction.df <- ppt.df [ppt.df$`Group Name`=="payc022521" & ppt.df$Time=="After",c(1:3,47:57)] 
 
-#Referrals for every group in the reporting period (change values of the EBP dates):
-qtref <- flqpr.df[flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31",c(1:3,9:15,33,38,43)]
+#IO's referrals for every group in the reporting period (change values of the EBP dates):
+referrals.df <- flqpr.df[flqpr.df$`FL io` =="PAYC" & flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31",c(2:3,9:15,33)] #NAed the data
+referrals.df <- na.omit(referrals.df)
 
 #Sessions completed as planned in the reporting period (change values of the EBP dates):
 qtrfid <- flqpr.df[flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31",c(1:3,34,39,44)]
@@ -585,7 +586,15 @@ names(grade) <- c("Demographics","Freq")
 
 payc022521 <- rbind.data.frame(gender,race,age,grade)
 
-#referrals
+#OAH 2: Dosage
+
+#OAH 3: Fidelity
+fidelity <- data.frame(table(flqpr.df$`MPC1 how`))
+names(fidelity) <- c("Implementation", "Freq")
+
+#OAH OBS SM
+
+#OAH 4: Referrals
 referrals.df$`FL ref edu` <- as.numeric(as.character(referrals.df$`FL ref edu`))
 referrals.df$`FL ref mh` <- as.numeric(as.character(referrals.df$`FL ref mh`))
 referrals.df$`FL ref pcp` <- as.numeric(as.character(referrals.df$`FL ref pcp`))
@@ -602,11 +611,10 @@ srh <- sum(referrals.df$`FL ref srh`)
 viol <- sum(referrals.df$`FL ref viol`)
 voc <- sum(referrals.df$`FL ref voc`)
 
-referrals <- data.frame(type=c("SRH","MH","SA","PCP","EDU","VOC","VIOL"),count=c(srh,mh,sa,pcp,edu,voc,viol))
-racenew <- data.frame(type=c("black", "multi"), count=(race))
+referrals <- data.frame(referral=c("SRH","MH","SA","PCP","EDU","VOC","VIOL"),count=c(srh,mh,sa,pcp,edu,voc,viol))
 
 library(sjPlot)
-tab_df(payc022521, referrals,
+tab_df(payc022521,
        title = "Reach for Group PAYC022521",
        file = "PPT Demographics Table.doc")
 tab_df(referrals,
