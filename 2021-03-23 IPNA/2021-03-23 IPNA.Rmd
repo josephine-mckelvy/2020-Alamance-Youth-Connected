@@ -1,0 +1,556 @@
+---
+title: "Implementation Partners Needs Assessment (IPNA)"
+subtitle: "Summarizing capacity by IO"
+author: "Josephine McKelvy"
+date: "March 23, 2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+Click the **+c Insert** button to insert code chunks (or functions). Add documentation outside of the code chunks as reminders of what your code does.
+
+When you click the **Knit** button, it compiles all of the code chunks and generates a document that includes both content as well as the output of any embedded R code chunks within the document. Use the **gear** icon to adjust settings (e.g., "show output only") for each code chunk. 
+
+The shortcut key for "<-" is ALT + [dash] 
+CTRL + ENTER will run the highlighted line(s) of code.
+The hashtag is documentation/explanation that is commented out.
+
+# 0. First time: 
+- Create a new project with version control (Git) on the top right corner. Clone the AYC repository.
+# 0. Every time: 
+- Select your existing project. Pull any changes from GitHub, using the Git tab in the Environment panel/window.
+- Copy the template .rmd into a project folder and upload the dataset.
+# 0. Analog prep:
+- have a copy of the survey with question numbers and recode values of every closed-ended answer choice--your codebook
+- log into oahpmdata.net to see what data you'll need to report (and how) to OPA
+
+# 1. Find/Set the working directory, where you'll import/export files.
+```{r}
+getwd() 
+# Wherever this code is saved, the file(s) for your dataset(s) should be there too
+```
+# 2. Name & import your data frame, or set of information (like a .csv file of survey responses), as factor variables.
+- I created a dataframe object (which I named "raw.df") for each dataset that will read in the respective .csv files and convert categorical variables into factor variables. 
+```{r}
+raw.df <- read.csv("AYC Implementation Partner Needs Assessment.csv", stringsAsFactors = TRUE)
+
+# Export .CSV from your survey platform and confirm numeric values, NOT choice text. 
+# Make sure filters are turned on or off. 
+```
+# 3. Clean the analytic dataset.
+- I created analytic datasets ("ppt.df" for the pre/post test, "flqpr.df" for the fidelity logs and quarterly program reports) that will select/subset the data columns and remove informational header rows that are not survey responses.
+- **1-based index**: R starts with the first row of obs. being "1"; 2:nrow means that your responses/obs. start on row 3 until the Nth row. Check your dataset to see which row the actual observations start.)
+```{r}
+ipna.df <- raw.df[2:nrow(raw.df),c(10:85)] #76 variables
+
+# Confirm the number of obs and variables in the environment with the survey codebooks.
+
+# Rename the variables/columns:
+
+names(ipna.df) <- c("Date",
+                    "IO",
+                    "Other IO (text)",
+                    "Role",
+                    "Tenure",
+                    "L-champion",
+                    "L-TPP programs",
+                    "L-feedback",
+                    "L-barriers",
+                    "L-grassroots orgs",
+                    "L-EBPs",
+                    "L-linkages",
+                    "L-relationships",
+                    "L-gaps",
+                    "L-gaps (text)",
+                    "L-resource plan",
+                    "L-grants",
+                    "L-trained staff",
+                    "L-team",
+                    "L-onboarding",
+                    "L-EBP training",
+                    "L-evaluate trainings",
+                    "L-time",
+                    "L-observations",
+                    "L-evaluate EBPs",
+                    "L-evaluation staff",
+                    "L-evaluation tools",
+                    "L-sensitive questions",
+                    "L-evaluation resources",
+                    "L-TIA policies",
+                    "L-policy review",
+                    "L-confidentiality",
+                    "L-referral directory",
+                    "L-TIA training",
+                    "L-TIA feedback",
+                    "L-PYD opportunities",
+                    "L-PYD training",
+                    "L-PYD confidentiality",
+                    "L-LGBTQ policies",
+                    "L-LGBTQ affirming",
+                    "L-LGBTQ recruitment",
+                    "L-LGBTQ safe environment",
+                    "L-LGBTQ risk factors",
+                    "L-LGBTQ feedback",
+                    "L-LGBTQ gender",
+                    "L-LGBTQ name",
+                    "L-LGBTQ pronouns",
+                    "SF-causes",
+                    "SF-comfortable",
+                    "SF-TIA",
+                    "SF-ally",
+                    "SF-LGBTQ",
+                    "SF-cultural",
+                    "SF-referrals",
+                    "SF-logic models",
+                    "SF-work plans",
+                    "SF-budgets",
+                    "SF-fidelity",
+                    "SF-assess",
+                    "SF-ACES",
+                    "SF-TIA nonjudgmental",
+                    "SF-safe environment",
+                    "SF-confidentiality",
+                    "SF-LGBTQ safe environment",
+                    "SF-expectations",
+                    "SF-receptive",
+                    "SF-positive",
+                    "SF-LGBTQ role models",
+                    "SF-LGBTQ referrals",
+                    "SF-LGBTQ bias",
+                    "SF-PYD nonjudgmental",
+                    "SF-communication",
+                    "SF-critical thinking",
+                    "SF-PYD cultural",
+                    "SF-YAC",
+                    "comments (text)")
+```
+- Recode missing data:
+```{r}
+# Recode "prefer not to answer" as missing in Pre/Post Test:
+ipna.df[ipna.df==""] <- NA
+```
+# 3. Clean the nominal (categorical, ordinal) variables:
+- For each multiple choice statement, change the response values to factor, specify sequence & values of levels, and rename the value labels, based on the survey/codebook. (Open both the dataset and the codebook/survey with question numbers and recode values to make sure the labels and levels are correct.)
+- Optional: name the sets of labels for each categorical response that you'll reuse
+```{r}
+
+# Convert date column/variable to "date" class (%m = 2-digit month; %d = 2-digit day; %[capital]Y = 4-digit year)(https://www.statmethods.net/input/dates.html; https://www.statology.org/subset-by-date-range-in-r/)
+
+ipna.df$Date <- as.Date(ipna.df$Date,"%m/%d/%Y")
+ipna.df$Time <- ifelse((ipna.df$Date <= "2021-03-31"), 1,
+                ifelse((ipna.df$Date >= "2021-04-01") & (ipna.df$Date <= "2023-03-31"), 2,
+                ifelse((ipna.df$Date >= "2023-04-01"), 3, NA))) #may need to reset time points
+ipna.df$Time <- factor(ipna.df$Time,
+                       levels = c(1,2,3),
+                       labels = c("Before","Middle","After"),
+                       ordered = TRUE)
+
+labelio <- c("Other",
+             "AACAHC",
+             "Alamance Achieves",
+             "ABSS",
+             "Alamance Cares",
+             "AC DSS",
+             "AC HD",
+             "Alamance Pride",
+             "ADS",
+             "BHA",
+             "CHS",
+             "CGDC",
+             "CrossRoads",
+             "Elon",
+             "FAS",
+             "NC DPS",
+             "PAYC",
+             "SA B&GC",
+             "UW")
+               
+ipna.df$IO <- factor(ipna.df$IO,
+                     levels = c(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18),
+                     labels = labelio)
+
+ipna.df$Role <- factor(ipna.df$Role,
+                       levels = c(1,2,3),
+                       labels = c("Facilitator","Supervisor","Leadership"))
+
+ipna.df$Tenure <- factor(ipna.df$Tenure,
+                         levels = c(1,2,3,4,5,6),
+                         labels = c("Half a year","Whole year","1-2 years","3-5 years","6-10 years","11+ years"))
+
+labellight <- c("Red Light","Yellow Light","Green Light")
+#P3: Leadership
+ipna.df$`L-champion` <- factor(ipna.df$`L-champion`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-TPP programs` <- factor(ipna.df$`L-TPP programs`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-feedback` <- factor(ipna.df$`L-feedback`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-barriers` <- factor(ipna.df$`L-barriers`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+#P4: Partnerships
+ipna.df$`L-grassroots orgs` <- factor(ipna.df$`L-grassroots orgs`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-EBPs` <- factor(ipna.df$`L-EBPs`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-linkages` <- factor(ipna.df$`L-linkages`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-relationships` <- factor(ipna.df$`L-relationships`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-gaps` <- factor(ipna.df$`L-gaps`,
+                               levels = c(1,2),
+                               labels = c("No","Yes"))
+#P5: Sustainability
+ipna.df$`L-resource plan` <- factor(ipna.df$`L-resource plan`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-grants` <- factor(ipna.df$`L-grants`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-trained staff` <- factor(ipna.df$`L-trained staff`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-team` <- factor(ipna.df$`L-team`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+#P6: Implementation
+ipna.df$`L-onboarding` <- factor(ipna.df$`L-onboarding`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-EBP training` <- factor(ipna.df$`L-EBP training`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-evaluate trainings` <- factor(ipna.df$`L-evaluate trainings`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-time` <- factor(ipna.df$`L-time`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-observations` <- factor(ipna.df$`L-observations`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+#P7: Evaluation
+ipna.df$`L-evaluate EBPs` <- factor(ipna.df$`L-evaluate EBPs`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-evaluation staff` <- factor(ipna.df$`L-evaluation staff`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-evaluation tools` <- factor(ipna.df$`L-evaluation tools`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-sensitive questions` <- factor(ipna.df$`L-sensitive questions`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-evaluation resources` <- factor(ipna.df$`L-evaluation resources`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+#P8: TIA
+ipna.df$`L-TIA policies` <- factor(ipna.df$`L-TIA policies`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-policy review` <- factor(ipna.df$`L-policy review`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-confidentiality` <- factor(ipna.df$`L-confidentiality`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-referral directory` <- factor(ipna.df$`L-referral directory`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+
+ipna.df$`L-TIA training` <- factor(ipna.df$`L-TIA training`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-TIA feedback` <- factor(ipna.df$`L-TIA feedback`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+#P9: PYD
+ipna.df$`L-PYD opportunities` <- factor(ipna.df$`L-PYD opportunities`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-PYD training` <- factor(ipna.df$`L-PYD training`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-PYD confidentiality` <- factor(ipna.df$`L-PYD confidentiality`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+#P10: LGBTQ+
+ipna.df$`L-LGBTQ policies` <- factor(ipna.df$`L-LGBTQ policies`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-LGBTQ affirming` <- factor(ipna.df$`L-LGBTQ affirming`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-LGBTQ recruitment` <- factor(ipna.df$`L-LGBTQ recruitment`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+
+ipna.df$`L-LGBTQ safe environment` <- factor(ipna.df$`L-LGBTQ safe environment`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-LGBTQ risk factors` <- factor(ipna.df$`L-LGBTQ risk factors`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-LGBTQ feedback` <- factor(ipna.df$`L-LGBTQ feedback`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+
+ipna.df$`L-LGBTQ gender` <- factor(ipna.df$`L-LGBTQ gender`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-LGBTQ name` <- factor(ipna.df$`L-LGBTQ name`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`L-LGBTQ pronouns` <- factor(ipna.df$`L-LGBTQ pronouns`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+#P11: Implementation
+ipna.df$`SF-causes` <- factor(ipna.df$`SF-causes`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-comfortable` <- factor(ipna.df$`SF-comfortable`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-TIA` <- factor(ipna.df$`SF-TIA`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-ally` <- factor(ipna.df$`SF-ally`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-LGBTQ` <- factor(ipna.df$`SF-LGBTQ`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-cultural` <- factor(ipna.df$`SF-cultural`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-referrals` <- factor(ipna.df$`SF-referrals`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+
+ipna.df$`SF-logic models` <- factor(ipna.df$`SF-logic models`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-work plans` <- factor(ipna.df$`SF-work plans`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-budgets` <- factor(ipna.df$`SF-budgets`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-fidelity` <- factor(ipna.df$`SF-fidelity`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-assess` <- factor(ipna.df$`SF-assess`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+#P12: TIA
+ipna.df$`SF-ACES` <- factor(ipna.df$`SF-ACES`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-TIA nonjudgmental` <- factor(ipna.df$`SF-TIA nonjudgmental`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-safe environment` <- factor(ipna.df$`SF-safe environment`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-confidentiality` <- factor(ipna.df$`SF-confidentiality`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+#P13: LGBTQ+
+ipna.df$`SF-LGBTQ safe environment` <- factor(ipna.df$`SF-LGBTQ safe environment`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-expectations` <- factor(ipna.df$`SF-expectations`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-receptive` <- factor(ipna.df$`SF-receptive`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-positive` <- factor(ipna.df$`SF-positive`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-LGBTQ role models` <- factor(ipna.df$`SF-LGBTQ role models`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-LGBTQ referrals` <- factor(ipna.df$`SF-LGBTQ referrals`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+
+ipna.df$`SF-LGBTQ bias` <- factor(ipna.df$`SF-LGBTQ bias`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+#P14: PYD
+ipna.df$`SF-PYD nonjudgmental` <- factor(ipna.df$`SF-PYD nonjudgmental`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-communication` <- factor(ipna.df$`SF-communication`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-critical thinking` <- factor(ipna.df$`SF-critical thinking`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-PYD cultural` <- factor(ipna.df$`SF-PYD cultural`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+ipna.df$`SF-YAC` <- factor(ipna.df$`SF-YAC`,
+                               levels = c(1,2,3),
+                               labels = labellight,
+                               ordered = TRUE)
+```
+# 4. Select/subset specific variables/columns or observations/rows.
+```{r}
+#IPNA by IO across time:
+     acdss.df <- ipna.df[ipna.df$IO=="AC DSS",c(1:2,4:14,16:75,77)]
+       chs.df <- ipna.df[ipna.df$IO=="CHS",c(1:2,4:14,16:75,77)]
+      cgdc.df <- ipna.df[ipna.df$IO=="CGDC",c(1:2,4:14,16:75,77)]
+crossroads.df <- ipna.df[ipna.df$IO=="CrossRoads",c(1:2,4:14,16:75,77)]
+      elon.df <- ipna.df[ipna.df$IO=="Elon",c(1:2,4:14,16:75,77)]
+      payc.df <- ipna.df[ipna.df$IO=="PAYC",c(1:2,4:14,16:75,77)]
+     sabgc.df <- ipna.df[ipna.df$IO=="SA B&GC",c(1:2,4:14,16:75,77)]
+```
+# 5. Compute frequencies and percentages for each multi-response category; categorical variable.
+```{r}
+
+```
+# 6. Plot and save diverging bar charts for each set of Likert statements.
+```{r}
+#remove non-answers from ordinal scales
+elon1 <- elon.df[c(74,5:45)]
+elon1 <- na.omit(elon1)
+
+elon2 <- elon.df[c(74,46:73)]
+elon2 <- na.omit(elon2)
+
+library(likert)
+#leadership
+elon1policy <- likert(elon1[,2:5], grouping = elon1$Time)
+plot(elon1policy, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Policies")
+ggsave("IPNA-Elon Leadership (Policy).png", height = 5)
+
+elon1partner <- likert(elon1[,6:9], grouping = elon1$Time)
+plot(elon1partner, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Partnerships")
+ggsave("IPNA-Elon Leadership (Partnerships).png", height = 5)
+
+elon1sustain <- likert(elon1[,11:14], grouping = elon1$Time)
+plot(elon1sustain, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Sustainability")
+ggsave("IPNA-Elon Leadership (Sustainability).png", height = 5)
+
+elon1impl <- likert(elon1[,15:19], grouping = elon1$Time)
+plot(elon1impl, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Implementation")
+ggsave("IPNA-Elon Leadership (Implementation).png", height = 6)
+
+elon1eval <- likert(elon1[,20:24], grouping = elon1$Time)
+plot(elon1eval, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Evaluation")
+ggsave("IPNA-Elon Leadership (Evaluation).png", height = 6)
+
+elon1tia <- likert(elon1[,25:30], grouping = elon1$Time)
+plot(elon1tia, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Trauma-Informed Approaches")
+ggsave("IPNA-Elon Leadership (TIA).png", height = 7)
+
+elon1pyd <- likert(elon1[,31:33], grouping = elon1$Time)
+plot(elon1pyd, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Positive Youth Development")
+ggsave("IPNA-Elon Leadership (PYD).png", height = 4)
+
+elon1lgbt <- likert(elon1[,34:42], grouping = elon1$Time)
+plot(elon1lgbt, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - LGBTQ+ Inclusivity")
+ggsave("IPNA-Elon Leadership (LGBTQ).png", height = 10)
+
+#Supervisors/Facilitators
+elon2impl <- likert(elon2[,2:13], grouping = elon2$Time)
+plot(elon2impl, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Implementation")
+ggsave("IPNA-Elon Staff (Implementation).png", height = 12)
+
+elon2tia <- likert(elon2[,14:17], grouping = elon2$Time)
+plot(elon2tia, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Trauma-Informed Approaches")
+ggsave("IPNA-Elon Staff (TIA).png", height = 5)
+
+elon2lgbt <- likert(elon2[,18:24], grouping = elon2$Time)
+plot(elon2lgbt, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - LGBTQ+ Inclusivity")
+ggsave("IPNA-Elon Staff (LGBTQ).png", height = 9)
+
+elon2pyd <- likert(elon2[,25:29], grouping = elon2$Time)
+plot(elon2pyd, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Positive Youth Development")
+ggsave("IPNA-Elon Staff (PYD).png", height = 6)
+
+```

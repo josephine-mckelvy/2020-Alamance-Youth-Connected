@@ -489,12 +489,12 @@ mrdumlastsex <- data.frame(Freq=colSums(expgrp[9:22]))
 gender <- data.frame(Demographics=c("Male","Female","Transgender","Nonbinary/Does not identify","Gender not reported"),Freq=c(7,4,0,0,0))
 race <- data.frame(Demographics=c("White","Black","Asian","Alaska Native", "Native Hawaiian","Multiracial", "Race not Reported","Hispanic"),Freq=c(0,10,0,0,0,1,0,0))
 
-payc022521 <- rbind.data.frame(gender,race,age,grade,hisp)
+payc021821 <- rbind.data.frame(gender,race,age,grade,hisp)
 
 library(sjPlot)
-tab_df(payc022521,
-       title = "Reach for Group PAYC022521",
-       file = "PAYC022521 Demographics Table.doc")
+tab_df(payc021821,
+       title = "Reach for Group PAYC021821",
+       file = "PAYC021821 Demographics Table.doc")
 
 install.packages("gtools")
 library(gtools)
@@ -509,9 +509,9 @@ thogrp <- na.omit(thogrp)
 library(likert)
 experiencelkt <- likert(items=experience)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Sexual Experiences")
-ggsave("PAYC022521 Experiences.png", width = 9, height = 2.5)
+ggsave("PAYC021821 Experiences.png", width = 9, height = 2.5)
 
 thoughtlkt <- likert(thogrp[2:6], grouping = thogrp$Time)
 plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Intended Behaviors")
-ggsave("PAYC022521 Thoughts.png", width = 9, height = 6)
+ggsave("PAYC021821 Thoughts.png", width = 9, height = 6)
 ```
