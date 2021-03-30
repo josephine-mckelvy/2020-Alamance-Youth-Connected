@@ -617,6 +617,9 @@ tab_xtab(var.row = demographics.df$race_cat, var.col = demographics.df$Hispanic,
          title = "Race by Ethnicity for: DreamCenter032421",
          file = "DreamCenter032421 - OAH Race by Ethnicity Table.doc")
 
+freq(experlkt.df)
+freq(thoughts.df)
+
 tab_df(fidelity,
        title = "Lessons completed for Group PAYC022521",
        file = "FL Fidelity Table.doc")
