@@ -1,5 +1,5 @@
 ---
-title: "Section: Pre-Test Summary; Reach (P/PT), Dosage & Fidelity (QPR)"
+title: "Section Data: Pre-Test Summary; Reach (P/PT), Dosage & Fidelity (QPR)"
 subtitle: "Summarizing Data by Group"
 author: "Josephine McKelvy"
 date: "March 17, 2021"
@@ -41,7 +41,7 @@ getwd()
 ```{r}
 rawppt.df <- read.csv("Participant Pre-  Post-Test Survey.csv", stringsAsFactors = TRUE)
 rawflqpr.df <- read.csv("Facilitators Evaluation Tools.csv", stringsAsFactors = TRUE)
-
+rawobs.df <- read.csv("OAH Program Observation Form for TPP Grantees.csv", stringsAsFactors = TRUE)
 # Export .CSV from your survey platform and confirm numeric values, NOT choice text. 
 # Make sure filters are turned on or off. 
 ```
@@ -51,6 +51,7 @@ rawflqpr.df <- read.csv("Facilitators Evaluation Tools.csv", stringsAsFactors = 
 ```{r}
 ppt.df <- rawppt.df[2:nrow(rawppt.df),c(12:19,20:69,77:115)] #97 variables
 flqpr.df <- rawflqpr.df[2:nrow(rawflqpr.df),c(10:30,32:36,38:47,49:53,55:64,66:70,72:81,83:87,89:93,95:99,101:106,114:132,134:145,147:158,160:174)] #145 variables
+obs.df <- rawobs.df[2:nrow(rawobs.df),c(10,14:16,34)]
 
 # Confirm the number of obs and variables in the environment with the survey codebooks.
 
@@ -189,6 +190,12 @@ names(flqpr.df) <- c("tool",
                     "QPR3 name","QPR3 start","QPR3 end","QPR3 change","QPR3 reach","QPR3 attend","QPR3 retent","QPR3 eval-none","QPR3 eval-pre","QPR3 eval-FL","QPR3 eval-obs","QPR3 eval-post",
                     "QPR4 name","QPR4 start","QPR4 end","QPR4 change","QPR4 reach","QPR4 attend","QPR4 retent","QPR4 eval-none","QPR4 eval-pre","QPR4 eval-FL","QPR4 eval-obs","QPR4 eval-post",
                     "add'l info","TA concerns","AL upload")
+
+names(obs.df) <- c("Obs io",
+                   "# lessons obs",
+                   "# activities total",
+                   "# activities implemented",
+                   "Quality")
 ```
 - Recode missing data:
 ```{r}
@@ -230,6 +237,7 @@ replace_with_na_at(data = ppt.df,
 
 ppt.df[ppt.df==""] <- NA
 flqpr.df[flqpr.df==""] <- NA
+obs.df[obs.df==""] <- NA
 ```
 #3a. Clean the dichotomous (CATA/MRdum) variables: 
 - Create an object (called "cleanIt") that performs a function to a vector, which serves as a placeholder for something like a column. In that function, convert the vector to a character variable. You have to convert this factor variable to a character variable first because you may see two types of labels (e.g., "1" and "NA"), but there could be more than 2 hidden levels in your factor variable. Where the variable is "NA" or a blank, replace with zero (0). Then convert the vector to a numeric variable that can be summed.
@@ -515,6 +523,10 @@ flqpr.df$`QPR period` <- factor(flqpr.df$`QPR period`,
 flqpr.df$`QPR ebp` <- factor(flqpr.df$`QPR ebp`,
                            levels = c(1,2,3,4,5,6,7),
                            labels = labelepb)
+
+obs.df$`Obs io` <- factor(obs.df$`Obs io`,
+                          levels = c(1,2,3,4,5,6,7,8),
+                          labels = labelio)
 ```
 # 4. Select/subset specific variables/columns or observations/rows.
 ```{r}
@@ -531,12 +543,13 @@ thoughts.df <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="B
 ksa.df <- ppt.df [ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1:3,61:92)] #16 KSA variables with 32 options
 satisfaction.df <- ppt.df [ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="After",c(1,47:57)] #11 Group variables on Post
 
+
 #IO's referrals for every group in the reporting period (change values of the EBP dates):
-referrals.df <- flqpr.df[flqpr.df$`FL io` =="PAYC" & flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31",c(2:3,9:15,33)] #NAed the data
+referrals.df <- flqpr.df[flqpr.df$`FL io` %like% "PAYC" & flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31",c(3,9:15,33)] 
 referrals.df <- na.omit(referrals.df)
 
 #Sessions completed as planned in the reporting period (change values of the EBP dates):
-fidelity.df <- flqpr.df[flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31",c(1:3,34,39,44)]
+fidelity.df <- flqpr.df[flqpr.df$`FL io` %like% "PAYC" & flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31",c(3,34,39,44)]
 
 #all Love Notes Fidelity Logs across groups
 FLLN.df <- flqpr.df[flqpr.df$tool=="FL" & flqpr.df$`FL ebp` =="Love Notes",c(3:15,17:31)]
@@ -553,8 +566,10 @@ FLSL.df <- flqpr.df[flqpr.df$tool=="FL" & flqpr.df$`FL ebp`=="Supplementals", c(
 #Quarterly Program reports
 QPR.df <- flqpr.df[flqpr.df$`QPR period` %like% "Y1",c(87:141)] #change value of reporting period
 dosage.df <- flqpr.df[flqpr.df$`QPR period` %like% "Y1",c(95,99:101)] #change value of reporting period
+
+#Obs Form: Fidelity
 ```
-# 5. Compute frequencies and percentages for each multi-response category; categorical variable.
+# 5. Compute frequencies and percentages for each multi-response category for tables.
 ```{r}
 # OAH 1: Reach
 # Convert MR Dummy to categorical variables:
@@ -575,16 +590,17 @@ names(grade) <- c("Demographics","Count")
 
 reach <- rbind.data.frame(gender,race,age,grade)
 
-mrdumlastsex <- data.frame(Freq=colSums(experiences.df[10:23]))
+mrdumlastsex <- data.frame(Freq=colSums(expermrd.df[10:23])) #need chart for this in 6.
+
 #OAH 2: Dosage
 
-#OAH 3: Fidelity
+#OAH 3: Fidelity for MPC Lessons; use sjPlot::tab_xtab instead?
 fidelity1 <- data.frame(table(fidelity.df$`MPC1 how`))
-names(fidelity1) <- c("Implementation", "Freq")
+names(fidelity1) <- c("Implementation", "Count")
 fidelity2 <- data.frame(table(fidelity.df$`MPC2 how`))
-names(fidelity1) <- c("Implementation", "Freq")
+names(fidelity2) <- c("Implementation", "Count")
 fidelity3 <- data.frame(table(fidelity.df$`MPC3 how`))
-names(fidelity1) <- c("Implementation", "Freq")
+names(fidelity3) <- c("Implementation", "Count")
 
 fidelity <- rbind.data.frame(fidelity1,fidelity2,fidelity3)
 
@@ -621,10 +637,10 @@ freq(experlkt.df)
 freq(thoughts.df)
 
 tab_df(fidelity,
-       title = "Lessons completed for Group PAYC022521",
+       title = "Lessons completed for: PAYC021821",
        file = "FL Fidelity Table.doc")
 tab_df(referrals,
-       title = "Referrals for Group PAYC022521",
+       title = "Referrals for: PAYC021821",
        file = "FL Referrals Table.doc")
 ```
 # 6. Plot and save diverging bar charts for each set of Likert statements.
