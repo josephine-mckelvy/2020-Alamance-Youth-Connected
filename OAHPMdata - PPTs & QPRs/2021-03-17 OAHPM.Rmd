@@ -51,7 +51,7 @@ rawobs.df <- read.csv("OAH Program Observation Form for TPP Grantees.csv", strin
 ```{r}
 ppt.df <- rawppt.df[2:nrow(rawppt.df),c(12:19,20:69,77:115)] #97 variables
 flqpr.df <- rawflqpr.df[2:nrow(rawflqpr.df),c(10:30,32:36,38:47,49:53,55:64,66:70,72:81,83:87,89:93,95:99,101:106,114:132,134:145,147:158,160:174)] #145 variables
-obs.df <- rawobs.df[2:nrow(rawobs.df),c(10,14:16,34)]
+obs.df <- rawobs.df[2:nrow(rawobs.df),c(10,21:23,34)]
 
 # Confirm the number of obs and variables in the environment with the survey codebooks.
 
