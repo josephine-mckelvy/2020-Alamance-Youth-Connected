@@ -51,7 +51,7 @@ rawobs.df <- read.csv("OAH Program Observation Form for TPP Grantees.csv", strin
 ```{r}
 ppt.df <- rawppt.df[2:nrow(rawppt.df),c(12:19,20:69,77:115)] #97 variables
 flqpr.df <- rawflqpr.df[2:nrow(rawflqpr.df),c(10:30,32:36,38:47,49:53,55:64,66:70,72:81,83:87,89:93,95:99,101:106,114:132,134:145,147:158,160:174)] #145 variables
-obs.df <- rawobs.df[2:nrow(rawobs.df),c(10,21:23,34)]
+obs.df <- rawobs.df[2:nrow(rawobs.df),c(11,21:23,34)]
 
 # Confirm the number of obs and variables in the environment with the survey codebooks.
 
@@ -87,7 +87,7 @@ names(ppt.df) <- c("Group Name", "Participant", "Time",
                    "Sex using alcohol",
                    "Sex using drugs",
                    "Never had sex",
-                   "(Duplicate)",
+                   "(Duplicate hidden category)",
                    "Sex with no barrier method",
                    "Sex with no birth control",
                    "EC",
@@ -191,10 +191,10 @@ names(flqpr.df) <- c("tool",
                     "QPR4 name","QPR4 start","QPR4 end","QPR4 change","QPR4 reach","QPR4 attend","QPR4 retent","QPR4 eval-none","QPR4 eval-pre","QPR4 eval-FL","QPR4 eval-obs","QPR4 eval-post",
                     "add'l info","TA concerns","AL upload")
 
-names(obs.df) <- c("Obs io",
-                   "# lessons obs",
+names(obs.df) <- c("Group observed",
+                   "# lessons observed",
                    "# activities total",
-                   "# activities implemented",
+                   "# activities observed",
                    "Quality")
 ```
 - Recode missing data:
@@ -523,10 +523,6 @@ flqpr.df$`QPR period` <- factor(flqpr.df$`QPR period`,
 flqpr.df$`QPR ebp` <- factor(flqpr.df$`QPR ebp`,
                            levels = c(1,2,3,4,5,6,7),
                            labels = labelepb)
-
-obs.df$`Obs io` <- factor(obs.df$`Obs io`,
-                          levels = c(1,2,3,4,5,6,7,8),
-                          labels = labelio)
 ```
 # 4. Select/subset specific variables/columns or observations/rows.
 ```{r}
@@ -534,22 +530,61 @@ obs.df$`Obs io` <- factor(obs.df$`Obs io`,
 library(data.table)
 ppt.df$`Group Name` <- tolower(ppt.df$`Group Name`) 
 flqpr.df$`FL grp`<- tolower(flqpr.df$`FL grp`) 
+obs.df$`Group observed` <- tolower(obs.df$`Group observed`)
 
 #Pre/Post Test by group if group name is exact (Update group name):
-demographics.df <- ppt.df [ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before",c(1:25,98)] #9 Demographic variables
-experlkt.df <- ppt.df [ppt.df$`Group Name`=="dreamcenter032421",c(26:31)] #6 Experience variables (likert)
-expermrd.df <- ppt.df [ppt.df$`Group Name`=="dreamcenter032421",c(1,32:46)] #15 Experience options (MR dummy)
-thoughts.df <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1,3,93:97)] #5 Thought variables (likert)
-ksa.df <- ppt.df [ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1:3,61:92)] #16 KSA variables with 32 options
-satisfaction.df <- ppt.df [ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="After",c(1,47:57)] #11 Group variables on Post
+ptdemographics.df <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before",c(1,2,4:25,98)] #9 Demographic variables
+ptexperlkt.df     <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before",c(26:31)] #6 Experience variables (likert)
+ptexpermrd.df     <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before",c(1,32,34:46)] #14 Experience options (MR dummy)
+ptthoughts.df     <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1,3,93:97)] #5 Thought variables (likert)
+ptksa.df          <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1:3,61:92)] #16 KSA variables with 32 options
+ptsatisfaction.df <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="After",c(1,47:57)] #11 Group variables on Post
 
+#Sessions completed as planned  
+#2021-01-01 to 2021-03-31: flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31”
+#2021-04-01 to 2021-06-30
+
+#2021-07-01 to 2021-09-31
+#2021-10-01 to 2021-12-31
+#2022-01-01 to 2022-03-31
+#2022-04-01 to 2022-06-30
+
+#2022-07-01 to 2022-09-31
+#2022-10-01 to 2022-12-31
+#2023-01-01 to 2023-03-31
+#2023-04-01 to 2023-06-30
+
+table(flqpr.df$`FL grp`,flqpr.df$`FL ebp`) #How many sections/groups have fidelity logs? How many logs per section/group? For which EBP? Technically, this is the lessons completed.
+
+#Append the MPC lesson logs into a long form fidelity log, by group/section:
+mpc1 <- flqpr.df[flqpr.df$`FL grp`=="payc022521",c(3,32:36)]
+mpc2 <- flqpr.df[flqpr.df$`FL grp`=="payc022521",c(3,37:41)]
+mpc3 <- flqpr.df[flqpr.df$`FL grp`=="payc022521",c(3,42:46)]
+
+names(mpc1) <- c("FL Group", "Lesson Name", "Start Date", "MPC Implementation", "Changes Made","Incomplete")
+names(mpc2) <- c("FL Group", "Lesson Name", "Start Date", "MPC Implementation", "Changes Made","Incomplete")
+names(mpc3) <- c("FL Group", "Lesson Name", "Start Date", "MPC Implementation", "Changes Made","Incomplete")
+
+mpcfl <- rbind.data.frame(mpc1,mpc2,mpc3)
+mpcfl <- na.omit(mpcfl)
+
+#Append the IN-clued lesson logs into a long form fidelity log, by group/section:
+inc1 <- flqpr.df[flqpr.df$`FL grp`=="payc022521",c(3,47:51)]
+inc2 <- flqpr.df[flqpr.df$`FL grp`=="payc022521",c(3,52:56)]
+inc3 <- flqpr.df[flqpr.df$`FL grp`=="payc022521",c(3,57:61)]
+
+names(inc1) <- c("FL Group", "Lesson Name", "Start Date", "IN-clued Implementation", "Changes Made","Incomplete")
+names(inc2) <- c("FL Group", "Lesson Name", "Start Date", "IN-clued Implementation", "Changes Made","Incomplete")
+names(inc3) <- c("FL Group", "Lesson Name", "Start Date", "IN-clued Implementation", "Changes Made","Incomplete")
+
+incfl <- rbind.data.frame(inc1,inc2,inc3)
+incfl <- na.omit(incfl)
 
 #IO's referrals for every group in the reporting period (change values of the EBP dates):
 referrals.df <- flqpr.df[flqpr.df$`FL io` %like% "PAYC" & flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31",c(3,9:15,33)] 
 referrals.df <- na.omit(referrals.df)
 
-#Sessions completed as planned in the reporting period (change values of the EBP dates):
-fidelity.df <- flqpr.df[flqpr.df$`FL io` %like% "PAYC" & flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31",c(3,34,39,44)]
+
 
 #all Love Notes Fidelity Logs across groups
 FLLN.df <- flqpr.df[flqpr.df$tool=="FL" & flqpr.df$`FL ebp` =="Love Notes",c(3:15,17:31)]
@@ -574,35 +609,36 @@ dosage.df <- flqpr.df[flqpr.df$`QPR period` %like% "Y1",c(95,99:101)] #change va
 # OAH 1: Reach
 # Convert MR Dummy to categorical variables:
 
-demographics.df$gender_cat <- apply(demographics.df[18:22], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
-gender <- data.frame(table(demographics.df$gender_cat))
+ptdemographics.df$gender_cat <- apply(ptdemographics.df[18:22], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
+gender <- data.frame(table(ptdemographics.df$gender_cat))
 names(gender) <- c("Demographics","Count")
 
-demographics.df$race_cat <- apply(demographics.df[8:13], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
-race <- data.frame(table(demographics.df$race_cat))
+ptdemographics.df$race_cat <- apply(ptdemographics.df[8:13], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
+race <- data.frame(table(ptdemographics.df$race_cat))
 names(race) <- c("Demographics","Count")
 
-age <- data.frame(table(demographics.df$Age))
+age <- data.frame(table(ptdemographics.df$Age))
 names(age) <- c("Demographics","Count")
 
-grade <- data.frame(table(demographics.df$Grade))
+grade <- data.frame(table(ptdemographics.df$Grade))
 names(grade) <- c("Demographics","Count")
 
 reach <- rbind.data.frame(gender,race,age,grade)
 
-mrdumlastsex <- data.frame(Freq=colSums(expermrd.df[10:23])) #need chart for this in 6.
+#https://www.youtube.com/watch?v=vQsdJBm0fLw
+mrdumlastsex <- data.frame(Freq=colSums(ptexpermrd.df[2:14]),
+                           Percent=(colSums(ptexpermrd.df[2:14])/nrow(ptexpermrd.df[2:14]))*100) 
+mrdumlastsex <- mrdumlastsex[order(-mrdumlastsex$Freq),] #sorted, but won't plot in this order
 
 #OAH 2: Dosage
 
-#OAH 3: Fidelity for MPC Lessons; use sjPlot::tab_xtab instead?
-fidelity1 <- data.frame(table(fidelity.df$`MPC1 how`))
-names(fidelity1) <- c("Implementation", "Count")
-fidelity2 <- data.frame(table(fidelity.df$`MPC2 how`))
-names(fidelity2) <- c("Implementation", "Count")
-fidelity3 <- data.frame(table(fidelity.df$`MPC3 how`))
-names(fidelity3) <- c("Implementation", "Count")
+#OAH 3: Fidelity & Quality (for one section of MPC Lessons)#start here
+fidelity <- data.frame(complete=colSums(mpcfl$`MPC Implementation`),)
+observed <- table
+adherence <- 
+quality <- 
 
-fidelity <- rbind.data.frame(fidelity1,fidelity2,fidelity3)
+
 
 #OAH OBS SM
 
@@ -646,15 +682,33 @@ tab_df(referrals,
 # 6. Plot and save diverging bar charts for each set of Likert statements.
 ```{r}
 #remove non-answers from ordinal scales
-experlkt.df <- na.omit(experlkt.df)
-thoughts.df <- na.omit(thoughts.df)
+ptexperlkt.df <- na.omit(ptexperlkt.df)
+ptthoughts.df <- na.omit(ptthoughts.df)
 
 library(likert)
-experiencelkt <- likert(items=experlkt.df)
+experiencelkt <- likert(items=ptexperlkt.df)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
 ggsave("DreamCenter032421 - Experiences - Pre.png", width = 9, height = 2.5)
 
-thoughtlkt <- likert(thoughts.df[,3:7], grouping = thoughts.df$Time)
+dotchart(as.matrix(mrdumlastsex,labels = row.names(mrdumlastsex)))
+
+install.packages("ggpubr")
+library(ggpubr)
+ggballoonplot(mrdumlastsex, fill = "value") + scale_fill_viridis_c(option = "C")
+
+ggplot(mrdumlastsex, aes(x=Percent, y=rownames(mrdumlastsex))) +
+  geom_point(size = 1.5, alpha = .3) +
+  labs(title = "Contraception Use at Last Sexual Activity") +
+         theme_minimal() +
+  theme(axis.title = element_blank(),
+              panel.grid.major.x = element_blank(),
+              panel.grid.minor = element_blank(),
+              plot.title = element_text(size = 20, margin = margin(b = 10)),
+              plot.subtitle = element_text(size = 10, color = "darkslategrey", margin = margin(b = 25)),
+              plot.caption = element_text(size = 8, margin = margin(t = 10), color = "grey70", hjust = 0))
+ggsave("Test.png")
+
+thoughtlkt <- likert(ptthoughts.df[,3:7], grouping = ptthoughts.df$Time)
 plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
 ggsave("DreamCenter032421 - Thoughts over time.png", width = 9, height = 4.5)
 ```
