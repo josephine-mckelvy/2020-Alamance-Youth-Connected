@@ -58,8 +58,8 @@ obs.df <- rawobs.df[2:nrow(rawobs.df),c(11,21:23,34)]
 # Rename the variables/columns:
 
 names(ppt.df) <- c("Group Name", "Participant", "Time",
-                   "Live in County",
-                   "Home County",
+                   "Alamance County",
+                   "Other County (text)",
                    "Birthdate",
                    "Grade",
                    "Race not reported",
@@ -274,6 +274,9 @@ flqpr.df[138:142] <- lapply(flqpr.df[138:142], cleanIt) #QPR4 eval
 ppt.df$Time <- factor(ppt.df$Time,
                     levels = c(1,2),
                     labels = c("Before", "After"))
+ppt.df$`Alamance County` <- factor(ppt.df$`Alamance County`,
+                                   levels = c(1,0),
+                                   labels = c("Yes","No/Not Reported"))
 ppt.df$Grade <- factor(ppt.df$Grade,
                    levels = c(1,2,3,4,5,6,7,9,10,11,12),
                    labels = c("6th Grade",
@@ -579,6 +582,8 @@ names(inc3) <- c("FL Group", "Lesson Name", "Start Date", "IN-clued Implementati
 
 incfl <- rbind.data.frame(inc1,inc2,inc3)
 incfl <- na.omit(incfl)
+
+table(flqpr.df$`FL grp`,flqpr.df$`FL ebp`) #How many sections/groups have fidelity logs? How many logs per section/group? For which EBP? Technically, this is the lessons completed.
 
 #IO's referrals for every group in the reporting period (change values of the EBP dates):
 referrals.df <- flqpr.df[flqpr.df$`FL io` %like% "PAYC" & flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31",c(3,9:15,33)] 
