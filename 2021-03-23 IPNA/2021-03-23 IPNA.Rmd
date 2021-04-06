@@ -144,9 +144,11 @@ ipna.df[ipna.df==""] <- NA
 # Convert date column/variable to "date" class (%m = 2-digit month; %d = 2-digit day; %[capital]Y = 4-digit year)(https://www.statmethods.net/input/dates.html; https://www.statology.org/subset-by-date-range-in-r/)
 
 ipna.df$Date <- as.Date(ipna.df$Date,"%m/%d/%Y")
-ipna.df$Time <- ifelse((ipna.df$Date <= "2021-03-31"), 1,
-                ifelse((ipna.df$Date >= "2021-04-01") & (ipna.df$Date <= "2023-03-31"), 2,
-                ifelse((ipna.df$Date >= "2023-04-01"), 3, NA))) #may need to reset time points
+
+#may need to reset time points
+ipna.df$Time <- ifelse((ipna.df$Date <= "2021-04-15"), 1,
+                ifelse((ipna.df$Date >= "2021-04-15") & (ipna.df$Date <= "2023-03-31"), 2,
+                ifelse((ipna.df$Date >= "2023-04-01"), 3, NA))) 
 ipna.df$Time <- factor(ipna.df$Time,
                        levels = c(1,2,3),
                        labels = c("Before","Middle","After"),
@@ -477,17 +479,19 @@ ipna.df$`SF-YAC` <- factor(ipna.df$`SF-YAC`,
                                levels = c(1,2,3),
                                labels = labellight,
                                ordered = TRUE)
+
+table(ipna.df$IO,ipna.df$Role) #is the IPNA filled out correctly (i.e., one leadership, one supervisor/facilitator) per IO?
 ```
 # 4. Select/subset specific variables/columns or observations/rows.
 ```{r}
-#IPNA by IO across time:
-     acdss.df <- ipna.df[ipna.df$IO=="AC DSS",c(1:2,4:14,16:75,77)]
-       chs.df <- ipna.df[ipna.df$IO=="CHS",c(1:2,4:14,16:75,77)]
-      cgdc.df <- ipna.df[ipna.df$IO=="CGDC",c(1:2,4:14,16:75,77)]
-crossroads.df <- ipna.df[ipna.df$IO=="CrossRoads",c(1:2,4:14,16:75,77)]
-      elon.df <- ipna.df[ipna.df$IO=="Elon",c(1:2,4:14,16:75,77)]
-      payc.df <- ipna.df[ipna.df$IO=="PAYC",c(1:2,4:14,16:75,77)]
-     sabgc.df <- ipna.df[ipna.df$IO=="SA B&GC",c(1:2,4:14,16:75,77)]
+#Lead/Staff Likerts by IO across time:
+     ACDSS.df <- ipna.df[ipna.df$IO=="AC DSS",c(1:2,4:13,16:75,77)]
+     # CHS.df <- ipna.df[ipna.df$IO=="CHS",c(1:2,4:13,16:75,77)]
+      CGDC.df <- ipna.df[ipna.df$IO=="CGDC",c(1:2,4:13,16:75,77)]
+CROSSROADS.df <- ipna.df[ipna.df$IO=="CrossRoads",c(1:2,4:13,16:75,77)]
+      ELON.df <- ipna.df[ipna.df$IO=="Elon",c(1:2,4:13,16:75,77)]
+      PAYC.df <- ipna.df[ipna.df$IO=="PAYC",c(1:2,4:13,16:75,77)]
+     SABGC.df <- ipna.df[ipna.df$IO=="SA B&GC",c(1:2,4:13,16:75,77)]
 ```
 # 5. Compute frequencies and percentages for each multi-response category; categorical variable.
 ```{r}
@@ -496,61 +500,64 @@ crossroads.df <- ipna.df[ipna.df$IO=="CrossRoads",c(1:2,4:14,16:75,77)]
 # 6. Plot and save diverging bar charts for each set of Likert statements.
 ```{r}
 #remove non-answers from ordinal scales
-elon1 <- elon.df[c(74,5:45)]
-elon1 <- na.omit(elon1)
+#CTRL + F the IO name (14 changes)
 
-elon2 <- elon.df[c(74,46:73)]
-elon2 <- na.omit(elon2)
+#wrap around the missing Qs
+lead <- ELON.df[c(73,5:44)] #time, leadership scales 5:44
+lead <- na.omit(lead)
+
+staff <- ELON.df[c(73,45:72)] #time, sup/fac scales 45:72
+staff <- na.omit(staff)
 
 library(likert)
 #leadership
-elon1policy <- likert(elon1[,2:5], grouping = elon1$Time)
-plot(elon1policy, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Policies")
-ggsave("IPNA-Elon Leadership (Policy).png", height = 5)
+leadpolicy <- likert(lead[,2:5], grouping = lead$Time) #2:5
+plot(leadpolicy, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Policies")
+ggsave("Policy (Leadership) - ELON.png", height = 5)
 
-elon1partner <- likert(elon1[,6:9], grouping = elon1$Time)
-plot(elon1partner, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Partnerships")
-ggsave("IPNA-Elon Leadership (Partnerships).png", height = 5)
+leadpartner <- likert(lead[,6:9], grouping = lead$Time) #6:9
+plot(leadpartner, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Partnerships")
+ggsave("Partnerships (Leadership) - ELON.png", height = 5)
 
-elon1sustain <- likert(elon1[,11:14], grouping = elon1$Time)
-plot(elon1sustain, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Sustainability")
-ggsave("IPNA-Elon Leadership (Sustainability).png", height = 5)
+leadsustain <- likert(lead[,10:13], grouping = lead$Time) #10:13
+plot(leadsustain, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Sustainability")
+ggsave("Sustainability (Leadership) - ELON.png", height = 5)
 
-elon1impl <- likert(elon1[,15:19], grouping = elon1$Time)
-plot(elon1impl, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Implementation")
-ggsave("IPNA-Elon Leadership (Implementation).png", height = 6)
+leadimpl <- likert(lead[,14:18], grouping = lead$Time) #14:18
+plot(leadimpl, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Implementation")
+ggsave("Implementation (Leadership) - ELON.png", height = 6)
 
-elon1eval <- likert(elon1[,20:24], grouping = elon1$Time)
-plot(elon1eval, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Evaluation")
-ggsave("IPNA-Elon Leadership (Evaluation).png", height = 6)
+leadeval <- likert(lead[,19:23], grouping = lead$Time) #19:23
+plot(leadeval, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Evaluation")
+ggsave("Evaluation (Leadership) - ELON.png", height = 6)
 
-elon1tia <- likert(elon1[,25:30], grouping = elon1$Time)
-plot(elon1tia, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Trauma-Informed Approaches")
-ggsave("IPNA-Elon Leadership (TIA).png", height = 7)
+leadtia <- likert(lead[,24:29], grouping = lead$Time) #24:29
+plot(leadtia, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Trauma-Informed Approaches")
+ggsave("TIA (Leadership) - ELON.png", height = 7)
 
-elon1pyd <- likert(elon1[,31:33], grouping = elon1$Time)
-plot(elon1pyd, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Positive Youth Development")
-ggsave("IPNA-Elon Leadership (PYD).png", height = 4)
+leadpyd <- likert(lead[,30:32], grouping = lead$Time) #30:32
+plot(leadpyd, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Positive Youth Development")
+ggsave("PYD (Leadership) - ELON.png", height = 4)
 
-elon1lgbt <- likert(elon1[,34:42], grouping = elon1$Time)
-plot(elon1lgbt, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - LGBTQ+ Inclusivity")
-ggsave("IPNA-Elon Leadership (LGBTQ).png", height = 10)
+leadlgbt <- likert(lead[,33:41], grouping = lead$Time) #33:41
+plot(leadlgbt, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - LGBTQ+ Inclusivity")
+ggsave("LGBTQ (Leadership) - ELON.png", height = 10)
 
 #Supervisors/Facilitators
-elon2impl <- likert(elon2[,2:13], grouping = elon2$Time)
-plot(elon2impl, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Implementation")
-ggsave("IPNA-Elon Staff (Implementation).png", height = 12)
+staffimpl <- likert(staff[,2:13], grouping = staff$Time) #2:13
+plot(staffimpl, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Implementation")
+ggsave("Implementation (Staff) - ELON.png", height = 12)
 
-elon2tia <- likert(elon2[,14:17], grouping = elon2$Time)
-plot(elon2tia, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Trauma-Informed Approaches")
-ggsave("IPNA-Elon Staff (TIA).png", height = 5)
+stafftia <- likert(staff[,14:17], grouping = staff$Time) #14:17
+plot(stafftia, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Trauma-Informed Approaches")
+ggsave("TIA (Staff) - ELON.png", height = 5)
 
-elon2lgbt <- likert(elon2[,18:24], grouping = elon2$Time)
-plot(elon2lgbt, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - LGBTQ+ Inclusivity")
-ggsave("IPNA-Elon Staff (LGBTQ).png", height = 9)
+stafflgbt <- likert(staff[,18:24], grouping = staff$Time) #18:24
+plot(stafflgbt, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - LGBTQ+ Inclusivity")
+ggsave("LGBTQ (Staff) - ELON.png", height = 5) 
 
-elon2pyd <- likert(elon2[,25:29], grouping = elon2$Time)
-plot(elon2pyd, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Positive Youth Development")
-ggsave("IPNA-Elon Staff (PYD).png", height = 6)
+staffpyd <- likert(staff[,25:29], grouping = staff$Time) #25:29
+plot(staffpyd, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Positive Youth Development")
+ggsave("PYD (Staff) - ELON.png", height = 6)
 
 ```
