@@ -45,7 +45,7 @@ raw.df <- read.csv("AYC Implementation Partner Needs Assessment.csv", stringsAsF
 # Make sure filters are turned on or off. 
 ```
 # 3. Clean the analytic dataset.
-- I created analytic datasets ("ppt.df" for the pre/post test, "flqpr.df" for the fidelity logs and quarterly program reports) that will select/subset the data columns and remove informational header rows that are not survey responses.
+- I created an analytic dataset, named "ipna.df", that will select/subset the data columns and remove informational header rows that are not survey responses.
 - **1-based index**: R starts with the first row of obs. being "1"; 2:nrow means that your responses/obs. start on row 3 until the Nth row. Check your dataset to see which row the actual observations start.)
 ```{r}
 ipna.df <- raw.df[2:nrow(raw.df),c(10:85)] #76 variables
@@ -503,61 +503,61 @@ CROSSROADS.df <- ipna.df[ipna.df$IO=="CrossRoads",c(1:2,4:13,16:75,77)]
 #CTRL + F the IO name (14 changes)
 
 #wrap around the missing Qs
-lead <- ELON.df[c(73,5:44)] #time, leadership scales 5:44
+lead <- ACDSS.df[c(2,73,5:44)] #time, IO, leadership scales 5:44
 lead <- na.omit(lead)
 
-staff <- ELON.df[c(73,45:72)] #time, sup/fac scales 45:72
+staff <- CROSSROADS.df[c(2,73,45:72)] #time, IO, sup/fac scales 45:72
 staff <- na.omit(staff)
 
 library(likert)
 #leadership
-leadpolicy <- likert(lead[,2:5], grouping = lead$Time) #2:5
+leadpolicy <- likert(lead[,3:6], grouping = lead$Time) 
 plot(leadpolicy, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Policies")
 ggsave("Policy (Leadership) - ELON.png", height = 5)
 
-leadpartner <- likert(lead[,6:9], grouping = lead$Time) #6:9
+leadpartner <- likert(lead[,7:10], grouping = lead$Time) 
 plot(leadpartner, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Partnerships")
 ggsave("Partnerships (Leadership) - ELON.png", height = 5)
 
-leadsustain <- likert(lead[,10:13], grouping = lead$Time) #10:13
+leadsustain <- likert(lead[,11:14], grouping = lead$Time) 
 plot(leadsustain, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Sustainability")
 ggsave("Sustainability (Leadership) - ELON.png", height = 5)
 
-leadimpl <- likert(lead[,14:18], grouping = lead$Time) #14:18
+leadimpl <- likert(lead[,15:19], grouping = lead$Time) 
 plot(leadimpl, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Implementation")
 ggsave("Implementation (Leadership) - ELON.png", height = 6)
 
-leadeval <- likert(lead[,19:23], grouping = lead$Time) #19:23
+leadeval <- likert(lead[,20:24], grouping = lead$Time) 
 plot(leadeval, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Evaluation")
 ggsave("Evaluation (Leadership) - ELON.png", height = 6)
 
-leadtia <- likert(lead[,24:29], grouping = lead$Time) #24:29
+leadtia <- likert(lead[,25:30], grouping = lead$Time) 
 plot(leadtia, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Trauma-Informed Approaches")
 ggsave("TIA (Leadership) - ELON.png", height = 7)
 
-leadpyd <- likert(lead[,30:32], grouping = lead$Time) #30:32
+leadpyd <- likert(lead[,31:33], grouping = lead$Time) 
 plot(leadpyd, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Positive Youth Development")
 ggsave("PYD (Leadership) - ELON.png", height = 4)
 
-leadlgbt <- likert(lead[,33:41], grouping = lead$Time) #33:41
+leadlgbt <- likert(lead[,34:42], grouping = lead$Time) 
 plot(leadlgbt, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - LGBTQ+ Inclusivity")
 ggsave("LGBTQ (Leadership) - ELON.png", height = 10)
 
 #Supervisors/Facilitators
-staffimpl <- likert(staff[,2:13], grouping = staff$Time) #2:13
+staffimpl <- likert(staff[,3:14], grouping = staff$Time) 
 plot(staffimpl, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Implementation")
-ggsave("Implementation (Staff) - ELON.png", height = 12)
+ggsave("Implementation (Staff) - ACDSS.png", height = 12)
 
-stafftia <- likert(staff[,14:17], grouping = staff$Time) #14:17
+stafftia <- likert(staff[,15:18], grouping = staff$Time) 
 plot(stafftia, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Trauma-Informed Approaches")
-ggsave("TIA (Staff) - ELON.png", height = 5)
+ggsave("TIA (Staff) - ACDSS.png", height = 5)
 
-stafflgbt <- likert(staff[,18:24], grouping = staff$Time) #18:24
+stafflgbt <- likert(staff[,19:25], grouping = staff$Time) 
 plot(stafflgbt, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - LGBTQ+ Inclusivity")
-ggsave("LGBTQ (Staff) - ELON.png", height = 5) 
+ggsave("LGBTQ (Staff) - ACDSS.png", height = 5) 
 
-staffpyd <- likert(staff[,25:29], grouping = staff$Time) #25:29
+staffpyd <- likert(staff[,26:30], grouping = staff$Time) 
 plot(staffpyd, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Positive Youth Development")
-ggsave("PYD (Staff) - ELON.png", height = 6)
+ggsave("PYD (Staff) - ACDSS.png", height = 6)
 
 ```
