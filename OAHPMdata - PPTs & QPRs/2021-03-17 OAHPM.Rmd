@@ -49,7 +49,9 @@ rawobs.df <- read.csv("OAH Program Observation Form for TPP Grantees.csv", strin
 - I created analytic datasets ("ppt.df" for the pre/post test, "flqpr.df" for the fidelity logs and quarterly program reports) that will select/subset the data columns and remove informational header rows that are not survey responses.
 - **1-based index**: R starts with the first row of obs. being "1"; 2:nrow means that your responses/obs. start on row 3 until the Nth row. Check your dataset to see which row the actual observations start.)
 ```{r}
-ppt.df <- rawppt.df[2:nrow(rawppt.df),c(12:19,20:69,77:115)] #97 variables
+ppt.df <- rawppt.df[2:nrow(rawppt.df),c(12:69,77:115)] #97 variables
+pre.df <- rawppt.df[2:nrow(rawobs.df),c(12:57,79:115)] #demographics, pre-test
+post.df <- rawppt.df[2:nrow(rawobs.df),c(12:14,58:69,77:115)]#identifiers, satisfaction, contact info to post-test
 flqpr.df <- rawflqpr.df[2:nrow(rawflqpr.df),c(10:30,32:36,38:47,49:53,55:64,66:70,72:81,83:87,89:93,95:99,101:106,114:132,134:145,147:158,160:174)] #145 variables
 obs.df <- rawobs.df[2:nrow(rawobs.df),c(11,21:23,34)]
 
@@ -255,9 +257,9 @@ cleanIt <- function(vec){
 - Use list apply (lapply) to repeat the "cleanIt" function to those columns, i.e., your vectors.  
 ```{r}
 #Pre/Post Tests
-ppt.df[8:13] <- lapply(ppt.df[8:13], cleanIt) #racial identity options
-ppt.df[18:22] <- lapply(ppt.df[18:22], cleanIt) #gender identity options
-ppt.df[32:45] <- lapply(ppt.df[32:45], cleanIt) #last time sex options
+ppt.df[8:13] <- lapply(ppt.df[8:13], cleanIt) #pre: racial identity options
+ppt.df[18:22] <- lapply(ppt.df[18:22], cleanIt) #pre: gender identity options
+ppt.df[32:45] <- lapply(ppt.df[32:45], cleanIt) #pre: last time sex options
 ppt.df[66:83] <- lapply(ppt.df[66:83], cleanIt) #if used correctly Qs
 
 #Quarterly Program Report
@@ -308,7 +310,7 @@ ppt.df$`Sexual Identity` <- factor(ppt.df$`Sexual Identity`,
 
 # Convert birthdate column/variable to "date" class (%m = 2-digit month; %d = 2-digit day; %[capital]Y = 4-digit year)(https://www.statmethods.net/input/dates.html; https://www.statology.org/subset-by-date-range-in-r/)
 
-ppt.df$Birthdate <- as.Date(ppt.df$Birthdate, "%m/%d/%Y")
+ppt.df$Birthdate <- as.Date(ppt.df$Birthdate, "%m/%d/%Y") #pre-test only
 
 flqpr.df$`MPC1 start` <- as.Date(flqpr.df$`MPC1 start`,"%m/%d/%Y")
 flqpr.df$`MPC2 start` <- as.Date(flqpr.df$`MPC2 start`,"%m/%d/%Y")
@@ -324,7 +326,7 @@ flqpr.df$`IN3 start` <- as.Date(flqpr.df$`IN3 start`,"%m/%d/%Y")
 library(eeptools)
 ppt.df$Age <- floor(age_calc(ppt.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
 
-# P/PT Experiences: The labels and levels are re-ordered to how I want them to appear in the legend with "prefer not to answer" on one end or the other of the Likert scale, as opposed to the sequence in the paper survey/codebook: 1=last 30 days; 2=more than 30 days ago; 3=not sure; 4=never; 5=prefer not to answer (replaced with NA)
+# Pre-Test Experiences: The labels and levels are re-ordered to how I want them to appear in the legend with "prefer not to answer" on one end or the other of the Likert scale, as opposed to the sequence in the paper survey/codebook: 1=last 30 days; 2=more than 30 days ago; 3=not sure; 4=never; 5=prefer not to answer (replaced with NA)
 
 labelfreq <- c("Never",
                "Not sure",
@@ -383,7 +385,7 @@ ppt.df$`Prepared to go to a doctor for birth control` <- factor(ppt.df$`Prepared
                       labels = labellikert,
                       ordered = FALSE)
 
-# P/PT Group satisfaction codebook: 1=disagree; 2=not sure; 3=agree; 4=prefer not to answer (replaced with NA)
+# Post-Test Group satisfaction codebook: 1=disagree; 2=not sure; 3=agree; 4=prefer not to answer (replaced with NA)
 
 ppt.df$`Group leader understood me` <- factor(ppt.df$`Group leader understood me`,
                                               levels = c(1,2,3),
@@ -539,9 +541,9 @@ obs.df$`Group observed` <- tolower(obs.df$`Group observed`)
 ptdemographics.df <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before",c(1,2,4:25,98)] #9 Demographic variables
 ptexperlkt.df     <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before",c(26:31)] #6 Experience variables (likert)
 ptexpermrd.df     <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before",c(1,32,34:46)] #14 Experience options (MR dummy)
-ptthoughts.df     <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1,3,93:97)] #5 Thought variables (likert)
+ptthoughts.df     <- ppt.df[ppt.df$`Group Name`=="payc021821" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1,3,93:97)] #5 Thought variables (likert)
 ptksa.df          <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1:3,61:92)] #16 KSA variables with 32 options
-ptsatisfaction.df <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="After",c(1,47:57)] #11 Group variables on Post
+ptsatisfaction.df <- ppt.df[ppt.df$`Group Name`=="payc021821" & ppt.df$Time=="After",c(1,47:57)] #11 Group variables on Post
 
 #Sessions completed as planned  
 #2021-01-01 to 2021-03-31: flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31”
@@ -689,6 +691,7 @@ tab_df(referrals,
 #remove non-answers from ordinal scales
 ptexperlkt.df <- na.omit(ptexperlkt.df)
 ptthoughts.df <- na.omit(ptthoughts.df)
+ptsatisfaction.df <- na.omit(ptsatisfaction.df)
 
 library(likert)
 experiencelkt <- likert(items=ptexperlkt.df)
@@ -715,5 +718,9 @@ ggsave("Test.png")
 
 thoughtlkt <- likert(ptthoughts.df[,3:7], grouping = ptthoughts.df$Time)
 plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
-ggsave("DreamCenter032421 - Thoughts over time.png", width = 9, height = 4.5)
+ggsave("PAYC021821 - Thoughts over time.png", width = 9, height = 4.5)
+
+satisflkt <- likert(ptsatisfaction.df[,2:9])
+plot(satisflkt) + ggtitle("Participants' Satisfaction with the Group")
+ggsave("PAYC021821 - Satisfaction.png", width = 9, height = 3.5)
 ```
