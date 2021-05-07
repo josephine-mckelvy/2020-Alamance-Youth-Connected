@@ -50,8 +50,8 @@ rawobs.df <- read.csv("OAH Program Observation Form for TPP Grantees.csv", strin
 - **1-based index**: R starts with the first row of obs. being "1"; 2:nrow means that your responses/obs. start on row 3 until the Nth row. Check your dataset to see which row the actual observations start.)
 ```{r}
 ppt.df <- rawppt.df[2:nrow(rawppt.df),c(12:69,77:115)] #97 variables
-pre.df <- rawppt.df[2:nrow(rawobs.df),c(12:57,79:115)] #demographics, pre-test
-post.df <- rawppt.df[2:nrow(rawobs.df),c(12:14,58:69,77:115)]#identifiers, satisfaction, contact info to post-test
+pre.df <- rawppt.df[2:nrow(rawobs.df),c(12:57,79:115)] #optional subset of demographics, pre-test
+post.df <- rawppt.df[2:nrow(rawobs.df),c(12:14,58:69,77:115)]# optional subset of identifiers, satisfaction, contact info to post-test
 flqpr.df <- rawflqpr.df[2:nrow(rawflqpr.df),c(10:30,32:36,38:47,49:53,55:64,66:70,72:81,83:87,89:93,95:99,101:106,114:132,134:145,147:158,160:174)] #145 variables
 obs.df <- rawobs.df[2:nrow(rawobs.df),c(11,21:23,34)]
 
@@ -201,7 +201,7 @@ names(obs.df) <- c("Group observed",
 ```
 - Recode missing data:
 ```{r}
-# Recode "prefer not to answer" as missing in Pre/Post Test:
+# Optional: Recode "prefer not to answer" as missing in Pre/Post Test (may drop too many cases in listwise deletion):
 library(naniar)
 
 replace_with_na_at(data = ppt.df,
@@ -260,7 +260,7 @@ cleanIt <- function(vec){
 ppt.df[8:13] <- lapply(ppt.df[8:13], cleanIt) #pre: racial identity options
 ppt.df[18:22] <- lapply(ppt.df[18:22], cleanIt) #pre: gender identity options
 ppt.df[32:45] <- lapply(ppt.df[32:45], cleanIt) #pre: last time sex options
-ppt.df[66:83] <- lapply(ppt.df[66:83], cleanIt) #if used correctly Qs
+ppt.df[66:83] <- lapply(ppt.df[66:83], cleanIt) #both: if used correctly Qs
 
 #Quarterly Program Report
 flqpr.df[102:106] <- lapply(flqpr.df[102:106], cleanIt) #QPR1 eval
@@ -272,7 +272,7 @@ flqpr.df[138:142] <- lapply(flqpr.df[138:142], cleanIt) #QPR4 eval
 - For each multiple choice statement, change the response values to factor, specify sequence & values of levels, and rename the value labels, based on the survey/codebook. (Open both the dataset and the codebook/survey with question numbers and recode values to make sure the labels and levels are correct.)
 - Optional: name the sets of labels for each categorical response that you'll reuse
 ```{r}
-# P/PT Demographics
+# P/PT Demographics: pre-test only
 ppt.df$Time <- factor(ppt.df$Time,
                     levels = c(1,2),
                     labels = c("Before", "After"))
