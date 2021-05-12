@@ -50,8 +50,6 @@ rawobs.df <- read.csv("OAH Program Observation Form for TPP Grantees.csv", strin
 - **1-based index**: R starts with the first row of obs. being "1"; 2:nrow means that your responses/obs. start on row 3 until the Nth row. Check your dataset to see which row the actual observations start.)
 ```{r}
 ppt.df <- rawppt.df[2:nrow(rawppt.df),c(12:69,77:115)] #97 variables
-pre.df <- rawppt.df[2:nrow(rawobs.df),c(12:57,79:115)] #optional subset of demographics, pre-test
-post.df <- rawppt.df[2:nrow(rawobs.df),c(12:14,58:69,77:115)]# optional subset of identifiers, satisfaction, contact info to post-test
 flqpr.df <- rawflqpr.df[2:nrow(rawflqpr.df),c(10:30,32:36,38:47,49:53,55:64,66:70,72:81,83:87,89:93,95:99,101:106,114:132,134:145,147:158,160:174)] #145 variables
 obs.df <- rawobs.df[2:nrow(rawobs.df),c(11,21:23,34)]
 
@@ -70,18 +68,18 @@ names(ppt.df) <- c("Group Name", "Participant", "Time",
                    "Asian",
                    "Pacific Islander",
                    "Native American",
-                   "Other Race",
+                   "Other Race (text)",
                    "Hispanic",
                    "Language",
-                   "Other Language",
+                   "Other Language (text)",
                    "Gender not reported",
                    "Woman",
                    "Man",
                    "Transgender",
                    "Nonbinary/Does not identify",
-                   "Other Gender",
+                   "Other Gender (text)",
                    "Sexual Identity",
-                   "Other Sexual Identity",
+                   "Other Sexual Identity (text)",
                    "Oral Sex",
                    "Vaginal Sex",
                    "Anal Sex",
@@ -102,7 +100,7 @@ names(ppt.df) <- c("Group Name", "Participant", "Time",
                    "Barrier Method",
                    "Not sure",
                    "Prefer not to answer",
-                   "Other Method",
+                   "Other Method (text)",
                    "Group leader understood me",
                    "Group mates respect each other",
                    "I felt judged*",
@@ -204,14 +202,14 @@ names(obs.df) <- c("Group observed",
 # Optional: Recode "prefer not to answer" as missing in Pre/Post Test (may drop too many cases in listwise deletion):
 library(naniar)
 
-replace_with_na_at(data = ppt.df,
-                   .vars = c( "Oral Sex",
-                   "Vaginal Sex",
-                   "Anal Sex",
-                   "Pregnancy",
-                   "Sex using alcohol",
-                   "Sex using drugs"),
-                   condition = ~.x == 5) #"prefer not to answer"
+#replace_with_na_at(data = ppt.df,
+#                   .vars = c( "Oral Sex",
+#                   "Vaginal Sex",
+#                   "Anal Sex",
+#                   "Pregnancy",
+#                   "Sex using alcohol",
+#                   "Sex using drugs"),
+#                   condition = ~.x == 5) #"prefer not to answer"
 replace_with_na_at(data = ppt.df,
                    .vars = c("Prepared to say no if not ready",
                    "Prepared to use a barrier method",
@@ -219,23 +217,23 @@ replace_with_na_at(data = ppt.df,
                    "Prepared to use birth control",
                    "Prepared to go to a doctor for birth control"),
                    condition = ~.x == 4) #"not applicable to me"
-replace_with_na_at(data = ppt.df,
-                   .vars = c("Prepared to say no if not ready",
-                   "Prepared to use a barrier method",
-                   "Prepared to say no if no barrier method",
-                   "Prepared to use birth control",
-                   "Prepared to go to a doctor for birth control"),
-                   condition = ~.x == 5) #"prefer not to answer"
-replace_with_na_at(data = ppt.df,
-                   .vars = c( "Group leader understood me",
-                   "Group mates respect each other",
-                   "I felt judged*",
-                   "Group leader knew the material",
-                   "I understood the material",
-                   "Group leader made the activities fun",
-                   "I felt free to speak",
-                   "I felt uncomfortable participating*"),
-                   condition = ~.x == 4) #"prefer not to answer"
+#replace_with_na_at(data = ppt.df,
+#                   .vars = c("Prepared to say no if not ready",
+#                   "Prepared to use a barrier method",
+#                   "Prepared to say no if no barrier method",
+#                   "Prepared to use birth control",
+#                   "Prepared to go to a doctor for birth control"),
+#                   condition = ~.x == 5) #"prefer not to answer"
+#replace_with_na_at(data = ppt.df,
+#                   .vars = c( "Group leader understood me",
+#                   "Group mates respect each other",
+#                   "I felt judged*",
+#                   "Group leader knew the material",
+#                   "I understood the material",
+#                   "Group leader made the activities fun",
+#                   "I felt free to speak",
+#                   "I felt uncomfortable participating*"),
+#                   condition = ~.x == 4) #"prefer not to answer"
 
 ppt.df[ppt.df==""] <- NA
 flqpr.df[flqpr.df==""] <- NA
@@ -273,6 +271,7 @@ flqpr.df[138:142] <- lapply(flqpr.df[138:142], cleanIt) #QPR4 eval
 - Optional: name the sets of labels for each categorical response that you'll reuse
 ```{r}
 # P/PT Demographics: pre-test only
+
 ppt.df$Time <- factor(ppt.df$Time,
                     levels = c(1,2),
                     labels = c("Before", "After"))
@@ -320,103 +319,99 @@ flqpr.df$`IN1 start` <- as.Date(flqpr.df$`IN1 start`,"%m/%d/%Y")
 flqpr.df$`IN2 start` <- as.Date(flqpr.df$`IN2 start`,"%m/%d/%Y")
 flqpr.df$`IN3 start` <- as.Date(flqpr.df$`IN3 start`,"%m/%d/%Y")
 
-# Create a variable, called "age" in the dataframe "ppt.df" that is a calculated age in years, based on Q5 (P's DOB), using the age_calc function in the eeptools library
-# install.packages("eeptools")
-
-library(eeptools)
-ppt.df$Age <- floor(age_calc(ppt.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
-
 # Pre-Test Experiences: The labels and levels are re-ordered to how I want them to appear in the legend with "prefer not to answer" on one end or the other of the Likert scale, as opposed to the sequence in the paper survey/codebook: 1=last 30 days; 2=more than 30 days ago; 3=not sure; 4=never; 5=prefer not to answer (replaced with NA)
 
 labelfreq <- c("Never",
                "Not sure",
+               "Prefer not to answer",
                "Within the last 30 days",
                "Ever (more than 30 days ago")
 
 ppt.df$`Oral Sex` <- factor(ppt.df$`Oral Sex`,
-                         levels = c(4,3,1,2),
+                         levels = c(4,3,5,1,2),
                          labels = labelfreq,
                          ordered = FALSE)
 ppt.df$`Vaginal Sex` <- factor(ppt.df$`Vaginal Sex`,
-                         levels = c(4,3,1,2),
+                         levels = c(4,3,5,1,2),
                          labels = labelfreq,
                          ordered = FALSE)
 ppt.df$`Anal Sex` <- factor(ppt.df$`Anal Sex`,
-                         levels = c(4,3,1,2),
+                         levels = c(4,3,5,1,2),
                          labels = labelfreq,
                          ordered = FALSE)
 ppt.df$Pregnancy <- factor(ppt.df$Pregnancy,
-                         levels = c(4,3,1,2),
+                         levels = c(4,3,5,1,2),
                          labels = labelfreq,
                          ordered = FALSE)
 ppt.df$`Sex using alcohol` <- factor(ppt.df$`Sex using alcohol`,
-                         levels = c(4,3,1,2),
+                         levels = c(4,3,5,1,2),
                          labels = labelfreq,
                          ordered = FALSE)
 ppt.df$`Sex using drugs` <- factor(ppt.df$`Sex using drugs`,
-                         levels = c(4,3,1,2),
+                         levels = c(4,3,5,1,2),
                          labels = labelfreq,
                          ordered = FALSE)
 
-# P/PT Thoughts codebook: 1=disagree; 2=not sure; 3=agree; 4=not applicable to me (replaced with NA); 5=prefer not to answer (replaced with NA)
+# P/PT Thoughts codebook: 1=disagree; 2=not sure; 3=agree; 4=not applicable to me (replaced with NA);
 
 labellikert <- c("Disagree",
+                 "Prefer not to answer",
                  "Not Sure",
                  "Agree")
 
 ppt.df$`Prepared to say no if not ready` <- factor(ppt.df$`Prepared to say no if not ready`,
-                      levels = c(1,2,3),
+                      levels = c(1,5,2,3),
                       labels = labellikert,
                       ordered = FALSE)
 ppt.df$`Prepared to use a barrier method` <- factor(ppt.df$`Prepared to use a barrier method`,
-                      levels = c(1,2,3),
+                      levels = c(1,5,2,3),
                       labels = labellikert,
                       ordered = FALSE)
 ppt.df$`Prepared to say no if no barrier method` <- factor(ppt.df$`Prepared to say no if no barrier method`,
-                      levels = c(1,2,3),
+                      levels = c(1,5,2,3),
                       labels = labellikert,
                       ordered = FALSE)
 ppt.df$`Prepared to use birth control` <- factor(ppt.df$`Prepared to use birth control`,
-                      levels = c(1,2,3),
+                      levels = c(1,5,2,3),
                       labels = labellikert,
                       ordered = FALSE)
 ppt.df$`Prepared to go to a doctor for birth control` <- factor(ppt.df$`Prepared to go to a doctor for birth control`,
-                      levels = c(1,2,3),
+                      levels = c(1,5,2,3),
                       labels = labellikert,
                       ordered = FALSE)
 
-# Post-Test Group satisfaction codebook: 1=disagree; 2=not sure; 3=agree; 4=prefer not to answer (replaced with NA)
+# Post-Test Group satisfaction codebook: 1=disagree; 2=not sure; 3=agree; 4=prefer not to answer 
 
 ppt.df$`Group leader understood me` <- factor(ppt.df$`Group leader understood me`,
-                                              levels = c(1,2,3),
+                                              levels = c(1,4,2,3),
                                               labels = labellikert,
                                               ordered = FALSE)
 ppt.df$`Group mates respect each other` <- factor(ppt.df$`Group mates respect each other`,
-                                              levels = c(1,2,3),
+                                              levels = c(1,4,2,3),
                                               labels = labellikert,
                                               ordered = FALSE)
 ppt.df$`I felt judged*` <- factor(ppt.df$`I felt judged`,
-                                 levels = c(3,2,1), # reverse-coded
+                                 levels = c(3,2,4,1), # reverse-coded
                                  labels = labellikert,
                                  ordered = FALSE)
 ppt.df$`Group leader knew the material` <- factor(ppt.df$`Group leader knew the material`,
-                                                  levels = c(1,2,3),
+                                                  levels = c(1,4,2,3),
                                                   labels = labellikert,
                                                   ordered = FALSE)
 ppt.df$`I understood the material` <- factor(ppt.df$`I understood the material`,
-                                             levels = c(1,2,3),
+                                             levels = c(1,4,2,3),
                                              labels = labellikert,
                                              ordered = FALSE )
 ppt.df$`Group leader made the activities fun` <- factor(ppt.df$`Group leader made the activities fun`,
-                                                        levels = c(1,2,3),
+                                                        levels = c(1,4,2,3),
                                                         labels = labellikert,
                                                         ordered = FALSE)
 ppt.df$`I felt free to speak` <- factor(ppt.df$`I felt free to speak`,
-                                        levels = c(1,2,3),
+                                        levels = c(1,4,2,3),
                                         labels = labellikert,
                                         ordered = FALSE)
 ppt.df$`I felt uncomfortable participating*` <- factor(ppt.df$`I felt uncomfortable participating`,
-                                                      levels = c(3,2,1), # reverse-coded
+                                                      levels = c(3,2,4,1), # reverse-coded
                                                       labels = labellikert,
                                                       ordered = FALSE)
 # Fidelity Logs 
@@ -538,7 +533,16 @@ flqpr.df$`FL grp`<- tolower(flqpr.df$`FL grp`)
 obs.df$`Group observed` <- tolower(obs.df$`Group observed`)
 
 #Pre/Post Test by group if group name is exact (Update group name):
-ptdemographics.df <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before",c(1,2,4:25,98)] #9 Demographic variables
+ptdemographics.df <- ppt.df[ppt.df$`Group Name`=="sabgc042021" & ppt.df$Time=="Before",c(1,3,4,6:13,15,16,18:22,24,26:45)] #9 Demographic variables
+
+# Create a variable, called "age" in the dataframe "ptdemographics.df" that is a calculated age in years, based on Q5 (P's DOB), using the age_calc function in the eeptools library
+# install.packages("eeptools")
+library(eeptools)
+#post.df <- ppt.df[ppt.df$Time=="After", c(1:3,47:60,61:97)]# optional subset of identifiers, satisfaction, contact info to post-test
+#pre.df <- ppt.df[ppt.df$Time=="Before", c(1,3,4,6:13,15,16,18:22,24,26:45)] #optional subset of demographics, experiences
+#pre.df <- na.omit(pre.df)
+ptdemographics.df$Age <- floor(age_calc(ptdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
+
 ptexperlkt.df     <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before",c(26:31)] #6 Experience variables (likert)
 ptexpermrd.df     <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before",c(1,32,34:46)] #14 Experience options (MR dummy)
 ptthoughts.df     <- ppt.df[ppt.df$`Group Name`=="payc021821" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1,3,93:97)] #5 Thought variables (likert)
