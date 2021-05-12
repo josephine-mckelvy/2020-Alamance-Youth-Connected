@@ -533,7 +533,7 @@ flqpr.df$`FL grp`<- tolower(flqpr.df$`FL grp`)
 obs.df$`Group observed` <- tolower(obs.df$`Group observed`)
 
 #Pre/Post Test by group if group name is exact (Update group name):
-ptdemographics.df <- ppt.df[ppt.df$`Group Name`=="sabgc042021" & ppt.df$Time=="Before",c(1,3,4,6:13,15,16,18:22,24,26:45)] #9 Demographic variables
+ptdemographics.df <- ppt.df[ppt.df$`Group Name`=="sabgc042021" & ppt.df$Time=="Before",c(1,3,4,6:13,15,16,18:22,24)] #8 Demographic variables 
 
 # Create a variable, called "age" in the dataframe "ptdemographics.df" that is a calculated age in years, based on Q5 (P's DOB), using the age_calc function in the eeptools library
 # install.packages("eeptools")
@@ -543,9 +543,10 @@ library(eeptools)
 #pre.df <- na.omit(pre.df)
 ptdemographics.df$Age <- floor(age_calc(ptdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
 
-ptexperlkt.df     <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before",c(26:31)] #6 Experience variables (likert)
-ptexpermrd.df     <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before",c(1,32,34:46)] #14 Experience options (MR dummy)
-ptthoughts.df     <- ppt.df[ppt.df$`Group Name`=="payc021821" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1,3,93:97)] #5 Thought variables (likert)
+ptexperlkt.df     <- ppt.df[ppt.df$`Group Name`=="sabgc042021" & ppt.df$Time=="Before",c(26:31)] #6 Experience variables (likert)
+ptexpermrd.df     <- ppt.df[ppt.df$`Group Name`=="sabgc042021" & ppt.df$Time=="Before",c(32,34:45)] #13 Experience options (MR dummy excluding "Other method" (text))
+ptthoughts.df     <- ppt.df[ppt.df$`Group Name`=="sabgc042021",c(1,3,93:97)] #5 Thought variables (likert) for Pre AND Post
+
 ptksa.df          <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1:3,61:92)] #16 KSA variables with 32 options
 ptsatisfaction.df <- ppt.df[ppt.df$`Group Name`=="payc021821" & ppt.df$Time=="After",c(1,47:57)] #11 Group variables on Post
 
@@ -595,8 +596,6 @@ table(flqpr.df$`FL grp`,flqpr.df$`FL ebp`) #How many sections/groups have fideli
 referrals.df <- flqpr.df[flqpr.df$`FL io` %like% "PAYC" & flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31",c(3,9:15,33)] 
 referrals.df <- na.omit(referrals.df)
 
-
-
 #all Love Notes Fidelity Logs across groups
 FLLN.df <- flqpr.df[flqpr.df$tool=="FL" & flqpr.df$`FL ebp` =="Love Notes",c(3:15,17:31)]
 
@@ -620,11 +619,11 @@ dosage.df <- flqpr.df[flqpr.df$`QPR period` %like% "Y1",c(95,99:101)] #change va
 # OAH 1: Reach
 # Convert MR Dummy to categorical variables:
 
-ptdemographics.df$gender_cat <- apply(ptdemographics.df[18:22], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
+ptdemographics.df$gender_cat <- apply(ptdemographics.df[14:18], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
 gender <- data.frame(table(ptdemographics.df$gender_cat))
 names(gender) <- c("Demographics","Count")
 
-ptdemographics.df$race_cat <- apply(ptdemographics.df[8:13], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
+ptdemographics.df$race_cat <- apply(ptdemographics.df[6:11], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
 race <- data.frame(table(ptdemographics.df$race_cat))
 names(race) <- c("Demographics","Count")
 
@@ -641,15 +640,13 @@ mrdumlastsex <- data.frame(Freq=colSums(ptexpermrd.df[2:14]),
                            Percent=(colSums(ptexpermrd.df[2:14])/nrow(ptexpermrd.df[2:14]))*100) 
 mrdumlastsex <- mrdumlastsex[order(-mrdumlastsex$Freq),] #sorted, but won't plot in this order
 
-#OAH 2: Dosage
+#OAH 2: Dosage (attendance & retention from QPR)
 
 #OAH 3: Fidelity & Quality (for one section of MPC Lessons)#start here
 fidelity <- data.frame(complete=colSums(mpcfl$`MPC Implementation`),)
 observed <- table
 adherence <- 
 quality <- 
-
-
 
 #OAH OBS SM
 
@@ -674,14 +671,14 @@ referrals <- data.frame(referral=c("SRH","MH","SA","PCP","EDU","VOC","VIOL"),cou
 
 library(sjPlot)
 tab_df(reach,
-       title = "Reach for: PAYC022521",
-       file = "DreamCenter032421 - Demographics Table.doc")
-tab_xtab(var.row = demographics.df$race_cat, var.col = demographics.df$Hispanic,
-         title = "Race by Ethnicity for: DreamCenter032421",
-         file = "DreamCenter032421 - OAH Race by Ethnicity Table.doc")
+       title = "Reach for: SABGC042021",
+       file = "SABGC042021 - Demographics Table.doc")
+tab_xtab(var.row = ptdemographics.df$race_cat, var.col = ptdemographics.df$Hispanic,
+         title = "Race by Ethnicity for: SABGC042021",
+         file = "SABGC042021 - OAH Race by Ethnicity Table.doc")
 
-freq(experlkt.df)
-freq(thoughts.df)
+#freq(experlkt.df)
+#freq(thoughts.df)
 
 tab_df(fidelity,
        title = "Lessons completed for: PAYC021821",
@@ -693,16 +690,16 @@ tab_df(referrals,
 # 6. Plot and save diverging bar charts for each set of Likert statements.
 ```{r}
 #remove non-answers from ordinal scales
-ptexperlkt.df <- na.omit(ptexperlkt.df)
-ptthoughts.df <- na.omit(ptthoughts.df)
-ptsatisfaction.df <- na.omit(ptsatisfaction.df)
+ptexperlkt.df <- na.omit(ptexperlkt.df) #pre-test
+ptthoughts.df <- na.omit(ptthoughts.df) #pre AND post
+ptsatisfaction.df <- na.omit(ptsatisfaction.df) #post-test
 
 library(likert)
 experiencelkt <- likert(items=ptexperlkt.df)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
-ggsave("DreamCenter032421 - Experiences - Pre.png", width = 9, height = 2.5)
+ggsave("SABGC042021 - Experiences - Pre.png", width = 9, height = 2.5)
 
-dotchart(as.matrix(mrdumlastsex,labels = row.names(mrdumlastsex)))
+#dotchart(as.matrix(mrdumlastsex,labels = row.names(mrdumlastsex)))
 
 install.packages("ggpubr")
 library(ggpubr)
@@ -722,7 +719,7 @@ ggsave("Test.png")
 
 thoughtlkt <- likert(ptthoughts.df[,3:7], grouping = ptthoughts.df$Time)
 plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
-ggsave("PAYC021821 - Thoughts over time.png", width = 9, height = 4.5)
+ggsave("SABGC042021 - Thoughts over time.png", width = 9, height = 4.5)
 
 satisflkt <- likert(ptsatisfaction.df[,2:9])
 plot(satisflkt) + ggtitle("Participants' Satisfaction with the Group")
