@@ -133,7 +133,6 @@ names(ipna.df) <- c("Date",
 ```
 - Recode missing data:
 ```{r}
-# Recode "prefer not to answer" as missing in Pre/Post Test:
 ipna.df[ipna.df==""] <- NA
 ```
 # 3. Clean the nominal (categorical, ordinal) variables:
@@ -473,7 +472,7 @@ table(ipna.df$IO,ipna.df$Role) #is the IPNA filled out correctly (i.e., one lead
 # 4. Select/subset specific variables/columns or observations/rows.
 ```{r}
 #Lead/Staff Likerts by IO across time:
-     ACDSS.df <- ipna.df[ipna.df$IO=="AC DSS",c(1:2,4:13,16:75,77)]
+  # ACDSS.df <- ipna.df[ipna.df$IO=="AC DSS",c(1:2,4:13,16:75,77)]
      # CHS.df <- ipna.df[ipna.df$IO=="CHS",c(1:2,4:13,16:75,77)]
       CGDC.df <- ipna.df[ipna.df$IO=="CGDC",c(1:2,4:13,16:75,77)]
 CROSSROADS.df <- ipna.df[ipna.df$IO=="CrossRoads",c(1:2,4:13,16:75,77)]
@@ -497,35 +496,113 @@ CROSSROADS.df <- ipna.df[ipna.df$IO=="CrossRoads",c(1:2,4:13,16:75,77)]
 lead <- Likert.df[c(2,73,5:44)] #IO, time, leadership scales 5:44
 lead <- na.omit(lead)
 
+names(lead) <- c(   "IO",
+                    "Time",
+                    "Lead: identify champions for TPP",
+                    "Lead: prioritize TPP programs",
+                    "Lead: seek feedback from TPP educators",
+                    "Lead: address barriers to TPP programs",
+                    "Partner: work with grassroots orgs",
+                    "Partner: work with EBPs",
+                    "Partner: link young people to SRH services",
+                    "Partner: foster relationships with TPP partners",
+                    "Sustain: develop resource plan",
+                    "Sustain: write grants",
+                    "Sustain: has trained staff",
+                    "Sustain: has a team in place",
+                    "Implement: has effective onboarding",
+                    "Implement: provide EBP training",
+                    "Implement: evaluate trainings",
+                    "Implement: provide time for staff to practice",
+                    "Implement: make observations of educators",
+                    "Evaluate: use results to improve programs",
+                    "Evaluate: employ staff",
+                    "Evaluate: develop  tools",
+                    "Evaluate: ask sensitive questions",
+                    "Evaluate: obtain resources",
+                    "TIA: set policies",
+                    "TIA: review policy",
+                    "TIA: inform about confidentiality",
+                    "TIA: update referral directory",
+                    "TIA: provide training",
+                    "TIA: provide support",
+                    "PYD: present opportunities to achieve goals",
+                    "PYD: provide staff training on safe environments",
+                    "PYD: provide training on confidentiality",
+                    "LGBTQ: set policies",
+                    "LGBTQ: post policies",
+                    "LGBTQ: recruit from org",
+                    "LGBTQ: provide training on safe environment",
+                    "LGBTQ: provide training on risk factors",
+                    "LGBTQ: provide staff with feedback",
+                    "LGBTQ: use forms with multiple options for gender",
+                    "LGBTQ: use forms for participants' name",
+                    "LGBTQ: use forms for participants' pronouns")
+
 staff <- Likert.df[c(2,73,45:72)] #IO, time, sup/fac scales 45:72
 staff <- na.omit(staff)
+names(staff) <- c(  "IO",
+                    "Time",
+                    "Implement: understand social causes",
+                    "Implement: comfortable with sexual health ed",
+                    "Implement: TIA to TPP",
+                    "Implement: LGBTQ+ ally",
+                    "Implement: to LGBTQ+ young people",
+                    "Implement: with cultural sensitivity",
+                    "Implement: make referrals",
+                    "Implement: create logic models",
+                    "Implement: create work plans",
+                    "Implement: create budgets",
+                    "Implement: measure fidelity",
+                    "Implement: assess EBP to improve delivery",
+                    "TIA: recognize influence of ACES",
+                    "TIA: provide nonjudgmental interaction",
+                    "TIA: facilitate in a safe environment",
+                    "TIA: provide information on confidentiality",
+                    "LGBTQ: create a safe environment",
+                    "LGBTQ: enforce anti-bullying group norms",
+                    "LGBTQ: respond receptively to accountability",
+                    "LGBTQ: discuss LGBTQ+ people positively",
+                    "LGBTQ: expose to role models",
+                    "LGBTQ: refer to inclusive programs",
+                    "LGBTQ: supported in adddressing personal biases",
+                    "PYD: discuss sexuality nonjudgmentally",
+                    "PYD: build communication skills",
+                    "PYD: teach critical thinking",
+                    "PYD: TPP is culturally inclusive",
+                    "PYD: use YAC recommendations")
 
 library(likert)
-# this time
+# all IOs, cross-sectional
+
 # Leadership
+leadall <- likert(lead[,3:42])
+plot(leadall) + ggtitle ("Leadership's Perceptions of Needs")
+ggsave ("All IPNA (Leadership).png", width = 8, height = 10)
+
 leadpolicy <- likert(lead[,3:6]) 
 plot(leadpolicy) + ggtitle ("Leadership's Perceptions - Policies")
-ggsave("Policy (Leadership).png", height = 2.5)
+ggsave("Policy (Leadership).png", height = 2)
 
 leadpartner <- likert(lead[,7:10]) 
 plot(leadpartner) + ggtitle ("Leadership's Perceptions - Partnerships")
-ggsave("Partnerships (Leadership).png", height = 2.5)
+ggsave("Partnerships (Leadership).png", height = 2)
 
 leadsustain <- likert(lead[,11:14]) 
 plot(leadsustain) + ggtitle ("Leadership's Perceptions - Sustainability")
-ggsave("Sustainability (Leadership).png", height = 2.5)
+ggsave("Sustainability (Leadership).png", height = 2)
 
 leadimpl <- likert(lead[,15:19]) 
 plot(leadimpl) + ggtitle ("Leadership's Perceptions - Implementation")
-ggsave("Implementation (Leadership).png", height = 3)
+ggsave("Implementation (Leadership).png", height = 2.5)
 
 leadeval <- likert(lead[,20:24]) 
 plot(leadeval) + ggtitle ("Leadership's Perceptions - Evaluation")
-ggsave("Evaluation (Leadership).png", height = 3)
+ggsave("Evaluation (Leadership).png", height = 2.25)
 
 leadtia <- likert(lead[,25:30]) 
 plot(leadtia) + ggtitle ("Leadership's Perceptions - Trauma-Informed Approaches")
-ggsave("TIA (Leadership).png", height = 3.5)
+ggsave("TIA (Leadership).png", height = 3)
 
 leadpyd <- likert(lead[,31:33]) 
 plot(leadpyd) + ggtitle ("Leadership's Perceptions - Positive Youth Development")
@@ -533,20 +610,25 @@ ggsave("PYD (Leadership).png", height = 2)
 
 leadlgbt <- likert(lead[,34:42]) 
 plot(leadlgbt) + ggtitle ("Leadership's Perceptions - LGBTQ+ Inclusivity")
-ggsave("LGBTQ (Leadership).png", height = 5)
+ggsave("LGBTQ (Leadership).png", height = 4)
 
 #Supervisors/Facilitators
+
+staffall <- likert(staff[,3:30])
+plot(staffall) + ggtitle ("Supervisors/Facilitators' Perceptions of Needs")
+ggsave ("All IPNA (Staff).png", width = 9, height = 8)
+
 staffimpl <- likert(staff[,3:14]) 
 plot(staffimpl) + ggtitle ("Supervisors/Facilitators' Perceptions - Implementation")
-ggsave("Implementation (Staff).png", height = 6)
+ggsave("Implementation (Staff).png", height = 5)
 
 stafftia <- likert(staff[,15:18]) 
-#plot(stafftia) + ggtitle ("Supervisors/Facilitators' Perceptions - Trauma-Informed Approaches")
+plot(stafftia) + ggtitle ("Supervisors/Facilitators' Perceptions - Trauma-Informed Approaches")
 ggsave("TIA (Staff).png", height =2.5)
 
 stafflgbt <- likert(staff[,19:25]) 
 plot(stafflgbt) + ggtitle ("Supervisors/Facilitators' Perceptions - LGBTQ+ Inclusivity")
-ggsave("LGBTQ (Staff).png", height = 2.5) 
+ggsave("LGBTQ (Staff).png", height = 3.5) 
 
 staffpyd <- likert(staff[,26:30]) 
 plot(staffpyd) + ggtitle ("Supervisors/Facilitators' Perceptions - Positive Youth Development")
