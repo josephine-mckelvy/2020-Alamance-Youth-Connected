@@ -594,7 +594,7 @@ ggsave("Sustainability (Leadership).png", height = 2)
 
 leadimpl <- likert(lead[,15:19]) 
 plot(leadimpl) + ggtitle ("Leadership's Perceptions - Implementation")
-ggsave("Implementation (Leadership).png", height = 2.5)
+ggsave("Implementation (Leadership).png", height = 2.25)
 
 leadeval <- likert(lead[,20:24]) 
 plot(leadeval) + ggtitle ("Leadership's Perceptions - Evaluation")
@@ -602,15 +602,15 @@ ggsave("Evaluation (Leadership).png", height = 2.25)
 
 leadtia <- likert(lead[,25:30]) 
 plot(leadtia) + ggtitle ("Leadership's Perceptions - Trauma-Informed Approaches")
-ggsave("TIA (Leadership).png", height = 3)
+ggsave("TIA (Leadership).png", height = 2.5)
 
 leadpyd <- likert(lead[,31:33]) 
 plot(leadpyd) + ggtitle ("Leadership's Perceptions - Positive Youth Development")
-ggsave("PYD (Leadership).png", height = 2)
+ggsave("PYD (Leadership).png", width = 9, height = 2)
 
 leadlgbt <- likert(lead[,34:42]) 
 plot(leadlgbt) + ggtitle ("Leadership's Perceptions - LGBTQ+ Inclusivity")
-ggsave("LGBTQ (Leadership).png", height = 4)
+ggsave("LGBTQ (Leadership).png", width = 9, height = 3.25)
 
 #Supervisors/Facilitators
 
@@ -620,19 +620,19 @@ ggsave ("All IPNA (Staff).png", width = 9, height = 8)
 
 staffimpl <- likert(staff[,3:14]) 
 plot(staffimpl) + ggtitle ("Supervisors/Facilitators' Perceptions - Implementation")
-ggsave("Implementation (Staff).png", height = 5)
+ggsave("Implementation (Staff).png", width = 9, height = 3.75)
 
 stafftia <- likert(staff[,15:18]) 
 plot(stafftia) + ggtitle ("Supervisors/Facilitators' Perceptions - Trauma-Informed Approaches")
-ggsave("TIA (Staff).png", height =2.5)
+ggsave("TIA (Staff).png", width = 9, height = 2.25)
 
 stafflgbt <- likert(staff[,19:25]) 
 plot(stafflgbt) + ggtitle ("Supervisors/Facilitators' Perceptions - LGBTQ+ Inclusivity")
-ggsave("LGBTQ (Staff).png", height = 3.5) 
+ggsave("LGBTQ (Staff).png", width = 9, height = 2.5) 
 
 staffpyd <- likert(staff[,26:30]) 
 plot(staffpyd) + ggtitle ("Supervisors/Facilitators' Perceptions - Positive Youth Development")
-ggsave("PYD (Staff).png", height = 3)
+ggsave("PYD (Staff).png", width = 9, height = 2.25)
 
 # over time
 
@@ -659,7 +659,7 @@ ggsave("Evaluation (Leadership) - 12.png", height = 6)
 
 leadtia <- likert(lead[,25:30], grouping = lead$Time) 
 plot(leadtia, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Trauma-Informed Approaches")
-ggsave("TIA (Leadership) - 12.png", height = 7)
+ggsave("TIA (Leadership) - 12.png", height = 6.5)
 
 leadpyd <- likert(lead[,31:33], grouping = lead$Time) 
 plot(leadpyd, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Positive Youth Development")
