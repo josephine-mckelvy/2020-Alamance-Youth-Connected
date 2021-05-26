@@ -210,13 +210,13 @@ library(naniar)
 #                   "Sex using alcohol",
 #                   "Sex using drugs"),
 #                   condition = ~.x == 5) #"prefer not to answer"
-replace_with_na_at(data = ppt.df,
-                   .vars = c("Prepared to say no if not ready",
-                   "Prepared to use a barrier method",
-                   "Prepared to say no if no barrier method",
-                   "Prepared to use birth control",
-                   "Prepared to go to a doctor for birth control"),
-                   condition = ~.x == 4) #"not applicable to me"
+#replace_with_na_at(data = ppt.df,
+#                   .vars = c("Prepared to say no if not ready",
+#                   "Prepared to use a barrier method",
+#                   "Prepared to say no if no barrier method",
+#                   "Prepared to use birth control",
+#                   "Prepared to go to a doctor for birth control"),
+#                   condition = ~.x == 4) #"not applicable to me"
 #replace_with_na_at(data = ppt.df,
 #                   .vars = c("Prepared to say no if not ready",
 #                   "Prepared to use a barrier method",
@@ -545,10 +545,10 @@ ptdemographics.df$Age <- floor(age_calc(ptdemographics.df$Birthdate, units = "ye
 
 ptexperlkt.df     <- ppt.df[ppt.df$`Group Name`=="sabgc042021" & ppt.df$Time=="Before",c(26:31)] #6 Experience variables (likert)
 ptexpermrd.df     <- ppt.df[ppt.df$`Group Name`=="sabgc042021" & ppt.df$Time=="Before",c(32,34:45)] #13 Experience options (MR dummy excluding "Other method" (text))
-ptthoughts.df     <- ppt.df[ppt.df$`Group Name`=="sabgc042021",c(1,3,93:97)] #5 Thought variables (likert) for Pre AND Post
+ptthoughts.df     <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421",c(1,3,93:97)] #5 Thought variables (likert) for Pre AND Post
 
 ptksa.df          <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1:3,61:92)] #16 KSA variables with 32 options
-ptsatisfaction.df <- ppt.df[ppt.df$`Group Name`=="payc021821" & ppt.df$Time=="After",c(1,47:57)] #11 Group variables on Post
+ptsatisfaction.df <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="After",c(1,47:57)] #11 Group variables on Post
 
 #Sessions completed as planned  
 #2021-01-01 to 2021-03-31: flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31”
@@ -719,9 +719,9 @@ ggsave("Test.png")
 
 thoughtlkt <- likert(ptthoughts.df[,3:7], grouping = ptthoughts.df$Time)
 plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
-ggsave("SABGC042021 - Thoughts over time.png", width = 9, height = 4.5)
+ggsave("DreamCenter032421 - Thoughts over time.png", width = 9, height = 4.5)
 
 satisflkt <- likert(ptsatisfaction.df[,2:9])
 plot(satisflkt) + ggtitle("Participants' Satisfaction with the Group")
-ggsave("PAYC021821 - Satisfaction.png", width = 9, height = 3.5)
+ggsave("DreamCenter032421 - Satisfaction.png", width = 9, height = 3.25)
 ```
