@@ -41,8 +41,8 @@ raw.df <- read.csv("AYC TA Log 2020-2021.csv", stringsAsFactors = TRUE)
 
 (**1-based index**: R starts with the first row of obs. being "1"; 3:nrow means that your responses/obs. start on row 4 until the Nth row. Check your dataset to see which row the actual observations start.)
 ```{r}
-ta.df <- raw.df[3:nrow(raw.df),] #17 obs
-# Confirm the number of obs and variables.
+ta.df <- raw.df[2:nrow(raw.df),] 
+# Confirm the number of obs and variables on SurveyMonkey.
 ```
 - Recode missing data:
 ```{r}
@@ -64,26 +64,38 @@ labelmode <- c("Phone",
                "In-person for one organization",
                "In-person for multiple organizations",
                "Web-based for multiple organizations")
-labelorg <- c("Alamance Achieves",
-              "Alamance County Health Dept",
-              "CityGate Dream Center",
-              "CrossRoads",
-              "Alamance County Dept of Social Srvs",
-              "Children's Home Society",
-              "Positive Attitude Youth Center",
-              "Elon University",
-              "Exchange Club",
-              "Salvation Army Boys & Girls Club")
+#labelorg <- c("Alamance Achieves",
+#              "Alamance County Health Dept",
+#              "CityGate Dream Center",
+#              "CrossRoads",
+#              "Alamance County Dept of Social Srvs",
+#              "Children's Home Society",
+#              "Positive Attitude Youth Center",
+#              "Elon University",
+#              "Exchange Club",
+#              "Salvation Army Boys & Girls Club")
 
-ta.df$Q1 <- factor(ta.df$Q1,
+ta.df$Program.Specialist.TA.Provider.Name <- factor(ta.df$Program.Specialist.TA.Provider.Name,
                    levels = c(1,2,3,4,5),
                    labels = labelspec)
-ta.df$Q3 <- factor(ta.df$Q3,
+ta.df$Training.or.Technical.Assistance..TA. <- factor(ta.df$Training.or.Technical.Assistance..TA.,
                    levels = c(1,2),
                    labels = labeltta)
-ta.df$Q6 <- factor(ta.df$Q6,
+ta.df$Mode.of.Training.or.TA <- factor(ta.df$Mode.of.Training.or.TA,
                    levels = c(1,2,3,4,5),
                    labels = labelmode)
+```
+# 3b. Convert continuous variables from factor to numeric.
+(Factor variables are stored as integer codes--not numeric value--to create levels (e.g., responses ranging from 10 to 12 are three levels). (https://stackoverflow.com/questions/6328771/changing-values-when-converting-column-type-to-numeric; https://www.geeksforgeeks.org/convert-factor-to-numeric-and-numeric-to-factor-in-r-programming/) Convert to character and then numeric.)
+```{r}
+#ta.df$adult <- as.numeric(as.character(ta.df$How.many.adults.attended.this.training.))
+ta.df$How.many.adults.attended.this.training. <- as.numeric(ta.df$How.many.adults.attended.this.training.)
+sum(ta.df$How.many.adults.attended.this.training.) #will contain duplicates and across time
+
+#ta.df$minutes <- as.numeric(as.character(ta.df$Length.of.Training.or.TA))
+ta.df$Length.of.Training.or.TA <- as.numeric(ta.df$Length.of.Training.or.TA)
+#Optional: Convert to hours
+ta.df$hours <- ta.df$Length.of.Training.or.TA/60
 ```
 - Reverse-coded columns/variables:
 https://www.theanalysisfactor.com/easy-reverse-code/
@@ -93,6 +105,12 @@ Convert the factor variable to numeric so that you can subtract it from a value 
 # Example:
 # chrsap.df$Q2.1_3 <- as.numeric(as.character(chrsap.df$Q2.1_3))
 # chrsap.df$Q2.1_3 <- 8-chrsap.df$Q2.1_3 #on a scale of 1 to 7
+```
+- Compute frequencies and percentages for each response category for each question.
+```{r}
+#mrdumdisc <- data.frame(Freq=colSums(ta.df[17:25]),
+#                  Pct.of.Answ = (colSums(ta.df[17:25])/sum(ta.df[17:25]))*100,
+#                  Pct.of.Case = (colSums(ta.df[17:25])/nrow(ta.df[17:25]))*100)
 ```
 - Create an object (called "cleanIt") that performs a function to a vector, which serves as a placeholder for something like a column. In that function, convert the vector to a character variable. You have to convert this factor variable to a character variable first because you may see two types of labels (e.g., "1" and "NA"), but there could be more than 2 hidden levels in your factor variable. Where the variable is "NA" or a blank, replace with zero (0). Then convert the vector to a numeric variable that can be summed.
 ```{r}
@@ -106,58 +124,60 @@ cleanIt <- function(vec){
 ```
 - There is a multiple-response item/column with varying numbers of options for each implementing organization (IO): columns 16-25 of the ta.df. Use list apply (lapply) to repeat the "cleanIt" function to those columns, i.e., your vectors.  
 ```{r}
-ta.df[16:25] <- lapply(ta.df[16:25], cleanIt) # IOs
+ta.df[17:25] <- lapply(ta.df[17:25], cleanIt) # IOs
 ta.df[30:82] <- lapply(ta.df[30:82], cleanIt) # GTO
-```
-- Compute frequencies and percentages for each response category for each question.
-```{r}
-mrdumdisc <- data.frame(Freq=colSums(ta.df[16:25]),
-                  Pct.of.Answ = (colSums(ta.df[16:25])/sum(ta.df[16:25]))*100,
-                  Pct.of.Case = (colSums(ta.df[16:25])/nrow(ta.df[16:25]))*100)
 
 
-# Plot and save bar charts for these percentages of cases/obs.
-# library(ggplot2)
-```
-# 3e. Convert continuous variables from factor to numeric.
-(Factor variables are stored as integer codes--not numeric value--to create levels (e.g., responses ranging from 10 to 12 are three levels). (https://stackoverflow.com/questions/6328771/changing-values-when-converting-column-type-to-numeric; https://www.geeksforgeeks.org/convert-factor-to-numeric-and-numeric-to-factor-in-r-programming/) Convert to character and then numeric.)
-```{r}
-ta.df$adult <- as.numeric(as.character(ta.df$Q17))
-sum(ta.df$adult)
+#If more than one applied, then sum > 1, or "Multiple"
+ta.df$setting <- apply(ta.df[17:25], 1, function(x) {ifelse(sum(x) > 1, "Multiple settings", names(x[x != 0]))})
 
-ta.df$minutes <- as.numeric(as.character(ta.df$Q5))
-#Optional: Convert to hours
-ta.df$hours <- ta.df$minutes/60
-```
+#If only one applied, re-categorize IO into setting: Clinic, Foster Care, Community, Higher Ed, or Multiple (probably training)
+ta.df$setting <- ifelse(ta.df$setting %in% c("X.1"), 1, #ACHD = Clinic
+           ifelse(ta.df$setting %in% c("X.4","X.5"), 2, #ACDSS, CHS = Foster Care
+           ifelse(ta.df$setting %in% c("X.2","X.3","X.6","X.8","X.9"), 3, #CGDS, CrossRoads, PAYC, Exchange, SABGC = Community
+           ifelse(ta.df$setting %in% c("X.7"), 4, #Elon = Higher Ed
+           ifelse(ta.df$setting %in% c("Multiple settings"), 5, NA)))))
+
+ta.df$setting <- factor(ta.df$setting,
+                   levels = c(1,2,3,4,5),
+                   labels = c("Clinic TA","Foster Care TA","Community TA","Higher Ed TA","Multiple Settings Training"))
+
+#mertsetting <- data.frame(table(ta.df$setting))
+#names(mertsetting) <- c("Setting","Count") #counted logs submitted
+
+#library(sjPlot)
+#tab_df(mertsetting,
+#       title = "TTA logs for AYC",
+#       file = "MERT - TTA Logs Table.doc")
+#tab_xtab(var.row = ta.df$setting, var.col = ta.df$Mode.of.Training.or.TA,
+#         title = "TTA logs by mode",
+#         file = "MERT - TTA Mode Table.doc")
+```              
 # 4. Subset data by date ranges (e.g., quarters)
 ```{r}
 # Convert column/variable to "date" class (%m = 2-digit month; %d = 2-digit day; %[capital]Y = 4-digit year)(https://www.statmethods.net/input/dates.html; https://www.statology.org/subset-by-date-range-in-r/)
-ta.df$Q4 <- as.Date(ta.df$Q4,"%m/%d/%Y")
+ta.df$Date.of.Training.or.TA <- as.Date(ta.df$Date.of.Training.or.TA,"%m/%d/%Y")
 
 # Subset data between two dates, inclusive
-# qtr1 <- ta.df[ta.df$Q4 >="2020-07-01" & ta.df$Q4 <="2020-09-30",]
-qtr2 <- ta.df[ta.df$Q4 >="2020-10-01" & ta.df$Q4 <="2020-12-31",]
-qtr3 <- ta.df[ta.df$Q4 >="2021-01-01" & ta.df$Q4 <="2021-03-31",]
-# qtr4 <- ta.df[ta.df$Q4 >="2021-04-01" & ta.df$Q4 <="2021-06-30",]
+qtr1 <- ta.df[ta.df$Q4 >="2021-07-01" & ta.df$Q4 <="2021-09-30",]
+# qtr2 <- ta.df[ta.df$Q4 >="2021-10-01" & ta.df$Q4 <="2021-12-31",]
+# qtr3 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-01-01" & ta.df$Date.of.Training.or.TA <="2022-03-31",]
+# qtr4 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-04-01" & ta.df$Date.of.Training.or.TA <="2022-06-30",]
 ```
 - How many adults (from IOs, CAG) were trained this quarter (by T vs TA)?
 ```{r}
 # https://www.datasciencemadesimple.com/sum-function-in-r/
-aggregate(x= qtr2$adult,
-          by= list(qtr2$Q3),
-          FUN=sum)
-
-aggregate(x = qtr3$adult,
-          by= list(qtr3$Q3),
-          FUN=sum)
+aggregate(x = qtr4$How.many.adults.attended.this.training.,
+          by= list(qtr4$Training.or.Technical.Assistance..TA.),
+          FUN=sum) #will contain duplicates
 ```
-- How many hours of T/TA were provided this quarter?
+- How many hours of T/TA were provided this quarter? (for SAPR) by setting? (for MERT)
 ```{r}
-aggregate(x=qtr2$hours,
-          by= list(qtr2$Q3),
+aggregate(x=qtr4$hours,
+          by= list(qtr4$Training.or.Technical.Assistance..TA.),
           FUN=sum)
 
-aggregate(x=qtr3$hours,
-          by= list(qtr3$Q3),
-          FUN=sum)
+aggregate(x=qtr4$hours,
+          by= list(qtr4$setting),
+          FUN=sum) #TA by setting
 ```
