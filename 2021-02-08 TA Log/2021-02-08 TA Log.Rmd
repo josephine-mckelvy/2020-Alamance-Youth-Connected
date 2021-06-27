@@ -1,6 +1,6 @@
 ---
-title: "AYC TA Log - 2020-Q2: Oct to Dec 2020"
-subtitle: "Summarizing Counts (MRDum) by Date"
+title: "AYC TA Log - SAPR & MERT data"
+subtitle: "Summarizing Counts by Date & Setting"
 author: "Josephine McKelvy"
 date: "February 08, 2021"
 output: word_document
@@ -159,10 +159,10 @@ ta.df$setting <- factor(ta.df$setting,
 ta.df$Date.of.Training.or.TA <- as.Date(ta.df$Date.of.Training.or.TA,"%m/%d/%Y")
 
 # Subset data between two dates, inclusive
-qtr1 <- ta.df[ta.df$Q4 >="2021-07-01" & ta.df$Q4 <="2021-09-30",]
+# qtr1 <- ta.df[ta.df$Q4 >="2021-07-01" & ta.df$Q4 <="2021-09-30",]
 # qtr2 <- ta.df[ta.df$Q4 >="2021-10-01" & ta.df$Q4 <="2021-12-31",]
 # qtr3 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-01-01" & ta.df$Date.of.Training.or.TA <="2022-03-31",]
-# qtr4 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-04-01" & ta.df$Date.of.Training.or.TA <="2022-06-30",]
+ qtr4 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-04-01" & ta.df$Date.of.Training.or.TA <="2021-06-30",]
 ```
 - How many adults (from IOs, CAG) were trained this quarter (by T vs TA)?
 ```{r}
