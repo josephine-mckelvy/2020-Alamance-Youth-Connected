@@ -352,7 +352,7 @@ ppt.df$`Sex using drugs` <- factor(ppt.df$`Sex using drugs`,
                          labels = labelfreq,
                          ordered = FALSE)
 
-# P/PT Thoughts codebook: 1=disagree; 2=not sure; 3=agree; 4=not applicable to me (replaced with NA);
+# P/PT Thoughts codebook: 1=disagree; 2=not sure; 3=agree; 4=not applicable to me (replaced with NA); 5=prefer not to answer
 
 labellikert <- c("Disagree",
                  "Prefer not to answer",
@@ -527,13 +527,14 @@ flqpr.df$`QPR ebp` <- factor(flqpr.df$`QPR ebp`,
 # 4. Select/subset specific variables/columns or observations/rows.
 ```{r}
 # Lowercase that group name to standardize it
+#install.packages("data.table")
 library(data.table)
 ppt.df$`Group Name` <- tolower(ppt.df$`Group Name`) 
 flqpr.df$`FL grp`<- tolower(flqpr.df$`FL grp`) 
 obs.df$`Group observed` <- tolower(obs.df$`Group observed`)
 
 #Pre/Post Test by group if group name is exact (Update group name):
-ptdemographics.df <- ppt.df[ppt.df$`Group Name`=="sabgc042021" & ppt.df$Time=="Before",c(1,3,4,6:13,15,16,18:22,24)] #8 Demographic variables 
+ptdemographics.df <- ppt.df[ppt.df$`Group Name`=="sabgc050121" & ppt.df$Time=="Before",c(1,3,4,6:13,15,16,18:22,24)] #8 Demographic variables 
 
 # Create a variable, called "age" in the dataframe "ptdemographics.df" that is a calculated age in years, based on Q5 (P's DOB), using the age_calc function in the eeptools library
 # install.packages("eeptools")
@@ -541,14 +542,17 @@ library(eeptools)
 #post.df <- ppt.df[ppt.df$Time=="After", c(1:3,47:60,61:97)]# optional subset of identifiers, satisfaction, contact info to post-test
 #pre.df <- ppt.df[ppt.df$Time=="Before", c(1,3,4,6:13,15,16,18:22,24,26:45)] #optional subset of demographics, experiences
 #pre.df <- na.omit(pre.df)
+ptdemographics.df <- na.omit(ptdemographics.df)
 ptdemographics.df$Age <- floor(age_calc(ptdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
 
-ptexperlkt.df     <- ppt.df[ppt.df$`Group Name`=="sabgc042021" & ppt.df$Time=="Before",c(26:31)] #6 Experience variables (likert)
-ptexpermrd.df     <- ppt.df[ppt.df$`Group Name`=="sabgc042021" & ppt.df$Time=="Before",c(32,34:45)] #13 Experience options (MR dummy excluding "Other method" (text))
-ptthoughts.df     <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421",c(1,3,93:97)] #5 Thought variables (likert) for Pre AND Post
+ptexperlkt.df     <- ppt.df[ppt.df$`Group Name`=="sabgc050121" & ppt.df$Time=="Before",c(26:31)] #6 Experience variables (likert)
+ptexpermrd.df     <- ppt.df[ppt.df$`Group Name`=="sabgc050121" & ppt.df$Time=="Before",c(32,34:45)] #13 Experience options (MR dummy excluding "Other method" (text))
+#how to make a frequency table of mrd?
 
-ptksa.df          <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1:3,61:92)] #16 KSA variables with 32 options
-ptsatisfaction.df <- ppt.df[ppt.df$`Group Name`=="dreamcenter032421" & ppt.df$Time=="After",c(1,47:57)] #11 Group variables on Post
+ptthoughts.df     <- ppt.df[ppt.df$`Group Name`=="sabgc050121",c(1,3,93:97)] #5 Thought variables (likert) for Pre AND Post
+
+ptksa.df          <- ppt.df[ppt.df$`Group Name`=="sabgc050121" & ppt.df$Time=="Before" | ppt.df$Time=="After",c(1:3,61:92)] #16 KSA variables with 32 options
+ptsatisfaction.df <- ppt.df[ppt.df$`Group Name`=="sabgc050121" & ppt.df$Time=="After",c(1,47:57)] #11 Group variables on Post
 
 #Sessions completed as planned  
 #2021-01-01 to 2021-03-31: flqpr.df$`MPC1 start` >="2021-01-01" & flqpr.df$`MPC1 start` <="2021-03-31”
@@ -672,10 +676,10 @@ referrals <- data.frame(referral=c("SRH","MH","SA","PCP","EDU","VOC","VIOL"),cou
 library(sjPlot)
 tab_df(reach,
        title = "Reach for: SABGC042021",
-       file = "SABGC042021 - Demographics Table.doc")
+       file = "SABGC050121 - Demographics Table.doc")
 tab_xtab(var.row = ptdemographics.df$race_cat, var.col = ptdemographics.df$Hispanic,
          title = "Race by Ethnicity for: SABGC042021",
-         file = "SABGC042021 - OAH Race by Ethnicity Table.doc")
+         file = "SABGC050121 - OAH Race by Ethnicity Table.doc")
 
 #freq(experlkt.df)
 #freq(thoughts.df)
@@ -694,14 +698,17 @@ ptexperlkt.df <- na.omit(ptexperlkt.df) #pre-test
 ptthoughts.df <- na.omit(ptthoughts.df) #pre AND post
 ptsatisfaction.df <- na.omit(ptsatisfaction.df) #post-test
 
+#install.packages("ggpbr")
 library(likert)
 experiencelkt <- likert(items=ptexperlkt.df)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
-ggsave("SABGC042021 - Experiences - Pre.png", width = 9, height = 2.5)
+ggsave("SABGC050121 - Experiences - Pre.png", width = 9, height = 2.5)
+#ggpubr::ggsummarystats(ptexperlkt.df)
+#experct <- summary(experiencelkt)
 
 #dotchart(as.matrix(mrdumlastsex,labels = row.names(mrdumlastsex)))
 
-install.packages("ggpubr")
+#install.packages("ggpubr")
 library(ggpubr)
 ggballoonplot(mrdumlastsex, fill = "value") + scale_fill_viridis_c(option = "C")
 
@@ -719,9 +726,9 @@ ggsave("Test.png")
 
 thoughtlkt <- likert(ptthoughts.df[,3:7], grouping = ptthoughts.df$Time)
 plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
-ggsave("DreamCenter032421 - Thoughts over time.png", width = 9, height = 4.5)
+ggsave("SABGC050121 - Thoughts over time.png", width = 9, height = 4.5)
 
 satisflkt <- likert(ptsatisfaction.df[,2:9])
 plot(satisflkt) + ggtitle("Participants' Satisfaction with the Group")
-ggsave("DreamCenter032421 - Satisfaction.png", width = 9, height = 3.25)
+ggsave("SABCG050121 - Satisfaction.png", width = 9, height = 3.25)
 ```

@@ -86,14 +86,13 @@ ta.df$Mode.of.Training.or.TA <- factor(ta.df$Mode.of.Training.or.TA,
                    labels = labelmode)
 ```
 # 3b. Convert continuous variables from factor to numeric.
-(Factor variables are stored as integer codes--not numeric value--to create levels (e.g., responses ranging from 10 to 12 are three levels). (https://stackoverflow.com/questions/6328771/changing-values-when-converting-column-type-to-numeric; https://www.geeksforgeeks.org/convert-factor-to-numeric-and-numeric-to-factor-in-r-programming/) Convert to character and then numeric.)
+(Factor variables are stored as integer codes--not numeric value--to create levels (e.g., responses ranging from 10 to 12 are three levels). Skipping "as.character" will save the level, not the label, as the value.
+(https://stackoverflow.com/questions/6328771/changing-values-when-converting-column-type-to-numeric; https://www.geeksforgeeks.org/convert-factor-to-numeric-and-numeric-to-factor-in-r-programming/) Convert to character and then numeric.)
 ```{r}
-#ta.df$adult <- as.numeric(as.character(ta.df$How.many.adults.attended.this.training.))
-ta.df$How.many.adults.attended.this.training. <- as.numeric(ta.df$How.many.adults.attended.this.training.)
+ta.df$How.many.adults.attended.this.training. <- as.numeric(as.character(ta.df$How.many.adults.attended.this.training.))
 sum(ta.df$How.many.adults.attended.this.training.) #will contain duplicates and across time
 
-#ta.df$minutes <- as.numeric(as.character(ta.df$Length.of.Training.or.TA))
-ta.df$Length.of.Training.or.TA <- as.numeric(ta.df$Length.of.Training.or.TA)
+ta.df$Length.of.Training.or.TA <- as.numeric(as.character(ta.df$Length.of.Training.or.TA))
 #Optional: Convert to hours
 ta.df$hours <- ta.df$Length.of.Training.or.TA/60
 ```
@@ -126,7 +125,6 @@ cleanIt <- function(vec){
 ```{r}
 ta.df[17:25] <- lapply(ta.df[17:25], cleanIt) # IOs
 ta.df[30:82] <- lapply(ta.df[30:82], cleanIt) # GTO
-
 
 #If more than one applied, then sum > 1, or "Multiple"
 ta.df$setting <- apply(ta.df[17:25], 1, function(x) {ifelse(sum(x) > 1, "Multiple settings", names(x[x != 0]))})
@@ -161,7 +159,7 @@ ta.df$Date.of.Training.or.TA <- as.Date(ta.df$Date.of.Training.or.TA,"%m/%d/%Y")
 # Subset data between two dates, inclusive
 # qtr1 <- ta.df[ta.df$Q4 >="2021-07-01" & ta.df$Q4 <="2021-09-30",]
 # qtr2 <- ta.df[ta.df$Q4 >="2021-10-01" & ta.df$Q4 <="2021-12-31",]
-# qtr3 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-01-01" & ta.df$Date.of.Training.or.TA <="2022-03-31",]
+ qtr3 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-01-01" & ta.df$Date.of.Training.or.TA <="2021-03-31",]
  qtr4 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-04-01" & ta.df$Date.of.Training.or.TA <="2021-06-30",]
 ```
 - How many adults (from IOs, CAG) were trained this quarter (by T vs TA)?

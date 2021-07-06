@@ -1,0 +1,41 @@
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">Race by Ethnicity for: SABGC042021</caption>
+ <tr>
+ <th style="border-top:double; text-align:center; font-style:italic; font-weight:normal; border-bottom:1px solid;" rowspan="2">race_cat</th>
+ <th style="border-top:double; text-align:center; font-style:italic; font-weight:normal;" colspan="3">Hispanic</th>
+ <th style="border-top:double; text-align:center; font-style:italic; font-weight:normal; font-weight:bolder; font-style:italic; border-bottom:1px solid; " rowspan="2">Total</th>
+ </tr>
+ 
+<tr>
+ <td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">Hispanic/Latinx</td>
+ <td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">Non-Hispanic/Latinx</td>
+ <td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">Prefer not to answer</td>
+ </tr>
+ 
+<tr> 
+<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">Black</td>
+<td style="padding:0.2cm; text-align:center; "><span style="color:black;">0</span></td>
+<td style="padding:0.2cm; text-align:center; "><span style="color:black;">4</span></td>
+<td style="padding:0.2cm; text-align:center; "><span style="color:black;">0</span></td>
+<td style="padding:0.2cm; text-align:center;  "><span style="color:black;">4</span></td> 
+</tr>
+ 
+<tr> 
+<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">Race not reported</td>
+<td style="padding:0.2cm; text-align:center; "><span style="color:black;">0</span></td>
+<td style="padding:0.2cm; text-align:center; "><span style="color:black;">0</span></td>
+<td style="padding:0.2cm; text-align:center; "><span style="color:black;">1</span></td>
+<td style="padding:0.2cm; text-align:center;  "><span style="color:black;">1</span></td> 
+</tr>
+ 
+<tr> 
+<td style="padding:0.2cm;  border-bottom:double; font-weight:bolder; font-style:italic; text-align:left; vertical-align:middle;">Total</td>
+<td style="padding:0.2cm; text-align:center;   border-bottom:double;"><span style="color:black;">0</span></td>
+<td style="padding:0.2cm; text-align:center;   border-bottom:double;"><span style="color:black;">4</span></td>
+<td style="padding:0.2cm; text-align:center;   border-bottom:double;"><span style="color:black;">1</span></td>
+<td style="padding:0.2cm; text-align:center;   border-bottom:double;"><span style="color:black;">5</span></td> 
+</tr>
+ <td style="text-align:right; font-size:0.9em; font-style:italic; padding:0.2cm;" colspan="5">&chi;<sup>2</sup>=NaN &middot; df=2 &middot; Cramer's V=NaN &middot; Fisher's p=0.210</td> 
+</tr>
+ 
+</table>
