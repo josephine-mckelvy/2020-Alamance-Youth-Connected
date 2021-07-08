@@ -42,6 +42,7 @@ getwd()
 rawppt.df <- read.csv("Participant Pre-  Post-Test Survey.csv", stringsAsFactors = TRUE)
 rawflqpr.df <- read.csv("Facilitators Evaluation Tools.csv", stringsAsFactors = TRUE)
 rawobs.df <- read.csv("OAH Program Observation Form for TPP Grantees.csv", stringsAsFactors = TRUE)
+
 # Export .CSV from your survey platform and confirm numeric values, NOT choice text. 
 # Make sure filters are turned on or off. 
 ```
@@ -196,11 +197,30 @@ names(obs.df) <- c("Group observed",
                    "# activities total",
                    "# activities observed",
                    "Quality")
+
+# Lowercase that group name to standardize it
+#install.packages("data.table")
+library(data.table)
+ppt.df$`Group Name` <- tolower(ppt.df$`Group Name`) 
+flqpr.df$`FL grp`<- tolower(flqpr.df$`FL grp`) 
+obs.df$`Group observed` <- tolower(obs.df$`Group observed`)
+
+# Convert birthdate column/variable to "date" class (%m = 2-digit month; %d = 2-digit day; %[capital]Y = 4-digit year)(https://www.statmethods.net/input/dates.html; https://www.statology.org/subset-by-date-range-in-r/)
+
+ppt.df$Birthdate <- as.Date(ppt.df$Birthdate, "%m/%d/%Y") #pre-test only
+
+flqpr.df$`MPC1 start` <- as.Date(flqpr.df$`MPC1 start`,"%m/%d/%Y")
+flqpr.df$`MPC2 start` <- as.Date(flqpr.df$`MPC2 start`,"%m/%d/%Y")
+flqpr.df$`MPC3 start` <- as.Date(flqpr.df$`MPC3 start`,"%m/%d/%Y")
+
+flqpr.df$`IN1 start` <- as.Date(flqpr.df$`IN1 start`,"%m/%d/%Y")
+flqpr.df$`IN2 start` <- as.Date(flqpr.df$`IN2 start`,"%m/%d/%Y")
+flqpr.df$`IN3 start` <- as.Date(flqpr.df$`IN3 start`,"%m/%d/%Y")
 ```
 - Recode missing data:
 ```{r}
 # Optional: Recode "prefer not to answer" as missing in Pre/Post Test (may drop too many cases in listwise deletion):
-library(naniar)
+#library(naniar)
 
 #replace_with_na_at(data = ppt.df,
 #                   .vars = c( "Oral Sex",
@@ -307,17 +327,7 @@ ppt.df$`Sexual Identity` <- factor(ppt.df$`Sexual Identity`,
                                     "Straight",
                                     "Prefer not to answer/Other"))
 
-# Convert birthdate column/variable to "date" class (%m = 2-digit month; %d = 2-digit day; %[capital]Y = 4-digit year)(https://www.statmethods.net/input/dates.html; https://www.statology.org/subset-by-date-range-in-r/)
 
-ppt.df$Birthdate <- as.Date(ppt.df$Birthdate, "%m/%d/%Y") #pre-test only
-
-flqpr.df$`MPC1 start` <- as.Date(flqpr.df$`MPC1 start`,"%m/%d/%Y")
-flqpr.df$`MPC2 start` <- as.Date(flqpr.df$`MPC2 start`,"%m/%d/%Y")
-flqpr.df$`MPC3 start` <- as.Date(flqpr.df$`MPC3 start`,"%m/%d/%Y")
-
-flqpr.df$`IN1 start` <- as.Date(flqpr.df$`IN1 start`,"%m/%d/%Y")
-flqpr.df$`IN2 start` <- as.Date(flqpr.df$`IN2 start`,"%m/%d/%Y")
-flqpr.df$`IN3 start` <- as.Date(flqpr.df$`IN3 start`,"%m/%d/%Y")
 
 # Pre-Test Experiences: The labels and levels are re-ordered to how I want them to appear in the legend with "prefer not to answer" on one end or the other of the Likert scale, as opposed to the sequence in the paper survey/codebook: 1=last 30 days; 2=more than 30 days ago; 3=not sure; 4=never; 5=prefer not to answer (replaced with NA)
 
@@ -352,7 +362,7 @@ ppt.df$`Sex using drugs` <- factor(ppt.df$`Sex using drugs`,
                          labels = labelfreq,
                          ordered = FALSE)
 
-# P/PT Thoughts codebook: 1=disagree; 2=not sure; 3=agree; 4=not applicable to me (replaced with NA); 5=prefer not to answer
+# P/PT Thoughts codebook: 1=disagree; 2=not sure; 3=agree; 4=not applicable to me (replaced with NA); 5=prefer not to answer; seemed to work by just omitting "prefer not to answer"
 
 labellikert <- c("Disagree",
                  "Prefer not to answer",
@@ -524,26 +534,22 @@ flqpr.df$`QPR ebp` <- factor(flqpr.df$`QPR ebp`,
                            levels = c(1,2,3,4,5,6,7),
                            labels = labelepb)
 ```
-# 4. Select/subset specific variables/columns or observations/rows.
+# 4. Create new variables. Select/subset specific variables/columns or observations/rows.
 ```{r}
-# Lowercase that group name to standardize it
-#install.packages("data.table")
-library(data.table)
-ppt.df$`Group Name` <- tolower(ppt.df$`Group Name`) 
-flqpr.df$`FL grp`<- tolower(flqpr.df$`FL grp`) 
-obs.df$`Group observed` <- tolower(obs.df$`Group observed`)
-
-#Pre/Post Test by group if group name is exact (Update group name):
-ptdemographics.df <- ppt.df[ppt.df$`Group Name`=="sabgc050121" & ppt.df$Time=="Before",c(1,3,4,6:13,15,16,18:22,24)] #8 Demographic variables 
-
 # Create a variable, called "age" in the dataframe "ptdemographics.df" that is a calculated age in years, based on Q5 (P's DOB), using the age_calc function in the eeptools library
+
+#Pre/Post Test by group if group name is exact (Update group name below):
+ptdemographics.df <- ppt.df[ppt.df$`Group Name`=="sabgc050121" & ppt.df$Time=="Before",c(1,3,4,6:13,15,16,18:22,24)] #8 Demographic variables 
+ptdemographics.df <- na.omit(ptdemographics.df)
+
 # install.packages("eeptools")
 library(eeptools)
+ptdemographics.df$Age <- floor(age_calc(ptdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
+
+# Optional subsets:
 #post.df <- ppt.df[ppt.df$Time=="After", c(1:3,47:60,61:97)]# optional subset of identifiers, satisfaction, contact info to post-test
 #pre.df <- ppt.df[ppt.df$Time=="Before", c(1,3,4,6:13,15,16,18:22,24,26:45)] #optional subset of demographics, experiences
 #pre.df <- na.omit(pre.df)
-ptdemographics.df <- na.omit(ptdemographics.df)
-ptdemographics.df$Age <- floor(age_calc(ptdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
 
 ptexperlkt.df     <- ppt.df[ppt.df$`Group Name`=="sabgc050121" & ppt.df$Time=="Before",c(26:31)] #6 Experience variables (likert)
 ptexpermrd.df     <- ppt.df[ppt.df$`Group Name`=="sabgc050121" & ppt.df$Time=="Before",c(32,34:45)] #13 Experience options (MR dummy excluding "Other method" (text))
@@ -675,10 +681,10 @@ referrals <- data.frame(referral=c("SRH","MH","SA","PCP","EDU","VOC","VIOL"),cou
 
 library(sjPlot)
 tab_df(reach,
-       title = "Reach for: SABGC042021",
+       title = "Reach for: SABGC050121",
        file = "SABGC050121 - Demographics Table.doc")
 tab_xtab(var.row = ptdemographics.df$race_cat, var.col = ptdemographics.df$Hispanic,
-         title = "Race by Ethnicity for: SABGC042021",
+         title = "Race by Ethnicity for: SABGC050121",
          file = "SABGC050121 - OAH Race by Ethnicity Table.doc")
 
 #freq(experlkt.df)
@@ -731,4 +737,50 @@ ggsave("SABGC050121 - Thoughts over time.png", width = 9, height = 4.5)
 satisflkt <- likert(ptsatisfaction.df[,2:9])
 plot(satisflkt) + ggtitle("Participants' Satisfaction with the Group")
 ggsave("SABCG050121 - Satisfaction.png", width = 9, height = 3.25)
+```
+# Alamance Cares
+```{r}
+# Alamance Cares: Supportive Services
+rawcares.df <- read.csv("Alamance Cares Testing Data.csv", stringsAsFactors = TRUE)
+rawcares.df <- rawcares.df[2:nrow(rawcares.df),c(10:54)]
+
+cleanCares <- function(vec){
+  chars <- as.character(vec)
+  chars[is.na(chars)] <- "0" #if missing, replace with zero
+  chars[chars==""] <- "0" #if blank, replace with zero
+  return(as.numeric(chars)) #convert values to numbers
+}
+
+rawcares.df[2:45] <- lapply(rawcares.df[2:45], cleanCares)
+
+rawcares.df$Month <- factor(rawcares.df$Month,
+                       levels = c(1,2,3,4,5,6,7,8,9,10,11,12),
+                       labels = c("2020-07-01","2020-08-01","2020-09-01","2020-10-01","2020-11-01","2020-12-01",
+                                  "2021-01-01","2021-02-01","2021-03-01","2021-04-01","2021-05-01","2021-06-01"))
+
+rawcares.df$Date <- as.Date(rawcares.df$Month, format = "%Y-%m-%d")
+
+younger.df <- rawcares.df[rawcares.df$Date >="2021-01-01" & rawcares.df$Date <="2021-06-30", c(2:23,46)]
+older.df   <- rawcares.df[rawcares.df$Date >="2021-01-01" & rawcares.df$Date <="2021-06-30", c(24:46)]
+
+younger.df$Age <- "14-17"
+older.df$Age <- "18-19"
+
+names(younger.df) <- c("Men","Women","F2M", "M2F","Other gender","White","Black","Native","Asian", "Pacific Islander","Multiracial","Race not specified","Race unknown","Hispanic","Non Hispanic","Ethnicity Unknown","Alamance Cares","ACC","ACHD","Elon","Maplebrook","SA","Date","Age")
+names(older.df) <- c("Men","Women","F2M", "M2F","Other gender","White","Black","Native","Asian", "Pacific Islander","Multiracial","Race not specified","Race unknown","Hispanic","Non Hispanic","Ethnicity Unknown","Alamance Cares","ACC","ACHD","Elon","Maplebrook","SA","Date","Age")
+
+cares.df <- rbind(younger.df,older.df)
+
+#haven't figured out how to output a pub-ready table
+women <- aggregate(x=cares.df$Women,
+                   by= list(cares.df$Age),
+                   FUN=sum)
+men <- aggregate(x=cares.df$Men,
+          by= list(cares.df$Age),
+          FUN=sum)
+other <- aggregate(x=cares.df$`Other gender`,
+                   by= list(cares.df$Age),
+                   FUN=sum)
+
+table1 <- rbind(women, men, other)
 ```
