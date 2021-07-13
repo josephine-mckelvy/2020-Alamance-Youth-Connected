@@ -30,7 +30,7 @@ getwd()
 # 2. Name & import your data frame, or set of information (like a .csv file of survey responses), as factor variables.
 - I created a dataframe object (which I named "raw.df") for each dataset that will read in the respective .csv files and convert categorical variables into factor variables. (Copy and paste the name of the file. There's a hidden character in the SurveyMonkey exports.)
 ```{r}
-raw.df <- read.csv("AYC TA Log 2020-2021.csv", stringsAsFactors = TRUE)
+raw.df <- read.csv("AYC TA Log 2020-2023.csv", stringsAsFactors = TRUE)
 
 # Export .CSV from your survey platform and confirm numeric values, NOT choice text. 
 
@@ -91,6 +91,8 @@ ta.df$Mode.of.Training.or.TA <- factor(ta.df$Mode.of.Training.or.TA,
 ```{r}
 ta.df$How.many.adults.attended.this.training. <- as.numeric(as.character(ta.df$How.many.adults.attended.this.training.))
 sum(ta.df$How.many.adults.attended.this.training.) #will contain duplicates and across time
+
+ta.df$X.10 <- as.numeric(as.character(ta.df$X.10))
 
 ta.df$Length.of.Training.or.TA <- as.numeric(as.character(ta.df$Length.of.Training.or.TA))
 #Optional: Convert to hours
@@ -157,10 +159,11 @@ ta.df$setting <- factor(ta.df$setting,
 ta.df$Date.of.Training.or.TA <- as.Date(ta.df$Date.of.Training.or.TA,"%m/%d/%Y")
 
 # Subset data between two dates, inclusive
-# qtr1 <- ta.df[ta.df$Q4 >="2021-07-01" & ta.df$Q4 <="2021-09-30",]
-# qtr2 <- ta.df[ta.df$Q4 >="2021-10-01" & ta.df$Q4 <="2021-12-31",]
- qtr3 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-01-01" & ta.df$Date.of.Training.or.TA <="2021-03-31",]
- qtr4 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-04-01" & ta.df$Date.of.Training.or.TA <="2021-06-30",]
+year <- ta.df[ta.df$Date.of.Training.or.TA >="2020-07-01" & ta.df$Date.of.Training.or.TA <="2021-06-30"]
+qtr1 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-07-01" & ta.df$Date.of.Training.or.TA <="2021-09-30",]
+qtr2 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-10-01" & ta.df$Date.of.Training.or.TA <="2021-12-31",]
+qtr3 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-01-01" & ta.df$Date.of.Training.or.TA <="2022-03-31",]
+qtr4 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-04-01" & ta.df$Date.of.Training.or.TA <="2022-06-30",]
 ```
 - How many adults (from IOs, CAG) were trained this quarter (by T vs TA)?
 ```{r}
@@ -171,11 +174,11 @@ aggregate(x = qtr4$How.many.adults.attended.this.training.,
 ```
 - How many hours of T/TA were provided this quarter? (for SAPR) by setting? (for MERT)
 ```{r}
-aggregate(x=qtr4$hours,
-          by= list(qtr4$Training.or.Technical.Assistance..TA.),
+aggregate(x=year$hours,
+          by= list(year$Training.or.Technical.Assistance..TA.),
           FUN=sum)
 
-aggregate(x=qtr4$hours,
-          by= list(qtr4$setting),
+aggregate(x=year$hours,
+          by= list(year$setting),
           FUN=sum) #TA by setting
 ```
