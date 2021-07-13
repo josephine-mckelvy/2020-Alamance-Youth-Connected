@@ -672,7 +672,7 @@ knit_print.data.frame <- lemon_print
 ##############################
 
 #IO's referrals for every group in the reporting period (change values of the IO):
-org <- "DreamCenter" #or "ACDSS", "CHS", "PAYC", "SA"
+org <- "SA" #options: "ACDSS", "CHS", "DreamCenter", PAYC", "SA"
 referrals.df <- flqpr.df[flqpr.df$`FL io` %like% org & flqpr.df$`MPC1 start` >=begin & flqpr.df$`MPC1 start` <=finish,c(3,9:15)] 
 referrals.df <- na.omit(referrals.df)
 
@@ -696,8 +696,8 @@ voc <- sum(referrals.df$`FL ref voc`)
 suppsrvs <- data.frame(referral=c("SRH","MH","SA","PCP","EDU","VOC","VIOL"),count=c(srh,mh,sa,pcp,edu,voc,viol))
 
 tab_df(suppsrvs,
-       title = "Referrals for: DreamCenter",
-       file = "DreamCenter - Referrals Table.doc")
+       title = "Y1 Referrals for: SA",
+       file = "SA - Y1 Referrals Table.doc")
 ```
 # Alamance Cares
 ```{r}
