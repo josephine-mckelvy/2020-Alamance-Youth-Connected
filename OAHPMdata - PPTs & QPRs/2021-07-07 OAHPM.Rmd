@@ -1,0 +1,747 @@
+---
+title: "Section Data: Pre-Test Summary; Reach (P/PT), Dosage & Fidelity (QPR)"
+subtitle: "Summarizing Data by Group"
+author: "Josephine McKelvy"
+date: "March 17, 2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Pre/Post Test
+```{r}
+rawppt.df <- read.csv("Participant Pre-  Post-Test Survey.csv", stringsAsFactors = TRUE)
+ppt.df <- rawppt.df[2:nrow(rawppt.df),c(12:69,77:115)] #97 variables
+names(ppt.df) <- c("Group Name", "Participant", "Time",
+                   "Alamance County",
+                   "Other County (text)",
+                   "Birthdate",
+                   "Grade",
+                   "Race not reported",
+                   "White",
+                   "Black",
+                   "Asian",
+                   "Pacific Islander",
+                   "Native American",
+                   "Other Race (text)",
+                   "Hispanic",
+                   "Language",
+                   "Other Language (text)",
+                   "Gender not reported",
+                   "Woman",
+                   "Man",
+                   "Transgender",
+                   "Nonbinary/Does not identify",
+                   "Other Gender (text)",
+                   "Sexual Identity",
+                   "Other Sexual Identity (text)",
+                   "Oral Sex",
+                   "Vaginal Sex",
+                   "Anal Sex",
+                   "Pregnancy",
+                   "Sex using alcohol",
+                   "Sex using drugs",
+                   "Never had sex",
+                   "(Duplicate hidden category)",
+                   "Sex with no barrier method",
+                   "Sex with no birth control",
+                   "EC",
+                   "IUD",
+                   "Implant",
+                   "Shot",
+                   "Ring",
+                   "Patch",
+                   "Pill",
+                   "Barrier Method",
+                   "Not sure",
+                   "Prefer not to answer",
+                   "Other Method (text)",
+                   "Group leader understood me",
+                   "Group mates respect each other",
+                   "I felt judged*",
+                   "Group leader knew the material",
+                   "I understood the material",
+                   "Group leader made the activities fun",
+                   "I felt free to speak",
+                   "I felt uncomfortable participating*",
+                   "Topics I will remember",
+                   "Group did this well",
+                   "Improvements",
+                   "First name",
+                   "Email address",
+                   "Phone number",
+                   "Future",
+                   "Healthy Relationship",
+                   "Dating Abuse",
+                   "Consent",
+                   "PrEP",
+                   "abstinence-neither",
+                   "abstinence-pregnancy",
+                   "abstinence-STI",
+                   "birth control-neither",
+                   "birth control-pregnancy",
+                   "birth control-STI",
+                   "external condom-neither",
+                   "external condom-pregnancy",
+                   "external condom-STI",
+                   "lambskin condom-neither",
+                   "lambskin condom-pregnancy",
+                   "lambskin condom-STI",
+                   "internal condom-neither",
+                   "internal condom-pregnancy",
+                   "internal condom-STI",
+                   "withdrawal-neither",
+                   "withdrawal-pregnancy",
+                   "withdrawal-STI",
+                   "Store the condom",
+                   "Open the package",
+                   "Pinch the tip",
+                   "Unroll the condom",
+                   "Hold the base",
+                   "STI infection",
+                   "Water-based lubricants",
+                   "EC up to 5 days",
+                   "EC without prescription",
+                   "Prepared to say no if not ready",
+                   "Prepared to use a barrier method",
+                   "Prepared to say no if no barrier method",
+                   "Prepared to use birth control",
+                   "Prepared to go to a doctor for birth control")
+
+ppt.df[ppt.df==""] <- NA
+
+library(data.table)
+ppt.df$`Group Name` <- tolower(ppt.df$`Group Name`) 
+
+ppt.df$Birthdate <- as.Date(ppt.df$Birthdate, "%m/%d/%Y") #pre-test only
+
+cleanIt <- function(vec){
+  chars <- as.character(vec)
+  chars[chars!=""] <- "1" #if not blank (including zeroes), replace with "one"
+  chars[is.na(chars)] <- "0" #if missing, replace with zero
+  chars[chars==""] <- "0" #if blank, replace with zero
+  return(as.numeric(chars)) #convert values to numbers
+}
+
+#Pre/Post Tests: Multiple Response Dummy Variables
+ppt.df[8:13]  <- lapply(ppt.df[8:13],  cleanIt) #pre: racial identity options
+ppt.df[18:22] <- lapply(ppt.df[18:22], cleanIt) #pre: gender identity options
+ppt.df[32:45] <- lapply(ppt.df[32:45], cleanIt) #pre: last time sex options
+ppt.df[66:83] <- lapply(ppt.df[66:83], cleanIt) #both: if used correctly Qs
+
+# Pre-Test Demographics
+
+ppt.df$Time <- factor(ppt.df$Time,
+                    levels = c(1,2),
+                    labels = c("Before", "After"))
+ppt.df$`Alamance County` <- factor(ppt.df$`Alamance County`,
+                                   levels = c(1,0),
+                                   labels = c("Yes","No/Not Reported"))
+ppt.df$Grade <- factor(ppt.df$Grade,
+                   levels = c(1,2,3,4,5,6,7,9,10,11,12),
+                   labels = c("6th Grade",
+                              "7th Grade",
+                              "8th Grade",
+                              "9th Grade",
+                              "10th Grade",
+                              "11th Grade",
+                              "12th Grade",
+                              "GED Program",
+                              "Technical Training or College",
+                              "Not in school",
+                              "Prefer not to answer"))
+ppt.df$Hispanic <- factor(ppt.df$Hispanic,
+                          levels = c(1,2,0),
+                          labels = c("Hispanic/Latinx",
+                                     "Non-Hispanic/Latinx",
+                                     "Prefer not to answer"))
+ppt.df$Language <- factor(ppt.df$Language,
+                         levels = c(1,3,0),
+                         labels = c("English",
+                                    "Spanish",
+                                    "Prefer not to answer/Other"))
+ppt.df$`Sexual Identity` <- factor(ppt.df$`Sexual Identity`,
+                         levels = c(1,2,0),
+                         labels = c("LGBQ",
+                                    "Straight",
+                                    "Prefer not to answer/Other"))
+
+# Pre-Test Experiences: The labels and levels are re-ordered to how I want them to appear in the legend with "prefer not to answer" on one end or the other of the Likert scale, as opposed to the sequence in the paper survey/codebook: 1=last 30 days; 2=more than 30 days ago; 3=not sure; 4=never; 5=prefer not to answer (replaced with NA)
+
+labelfreq <- c("Never",
+               "Not sure",
+               "Prefer not to answer",
+               "Within the last 30 days",
+               "Ever (more than 30 days ago")
+
+ppt.df$`Oral Sex` <- factor(ppt.df$`Oral Sex`,
+                         levels = c(4,3,5,1,2),
+                         labels = labelfreq,
+                         ordered = FALSE)
+ppt.df$`Vaginal Sex` <- factor(ppt.df$`Vaginal Sex`,
+                         levels = c(4,3,5,1,2),
+                         labels = labelfreq,
+                         ordered = FALSE)
+ppt.df$`Anal Sex` <- factor(ppt.df$`Anal Sex`,
+                         levels = c(4,3,5,1,2),
+                         labels = labelfreq,
+                         ordered = FALSE)
+ppt.df$Pregnancy <- factor(ppt.df$Pregnancy,
+                         levels = c(4,3,5,1,2),
+                         labels = labelfreq,
+                         ordered = FALSE)
+ppt.df$`Sex using alcohol` <- factor(ppt.df$`Sex using alcohol`,
+                         levels = c(4,3,5,1,2),
+                         labels = labelfreq,
+                         ordered = FALSE)
+ppt.df$`Sex using drugs` <- factor(ppt.df$`Sex using drugs`,
+                         levels = c(4,3,5,1,2),
+                         labels = labelfreq,
+                         ordered = FALSE)
+
+# Pre/Post-Test Thoughts codebook: 1=disagree; 2=not sure; 3=agree; 4=not applicable to me (replaced with NA); 5=prefer not to answer; seemed to work by just omitting "prefer not to answer"
+
+labellikert <- c("Disagree",
+                 "Prefer not to answer",
+                 "Not Sure",
+                 "Agree")
+
+ppt.df$`Prepared to say no if not ready` <- factor(ppt.df$`Prepared to say no if not ready`,
+                      levels = c(1,5,2,3),
+                      labels = labellikert,
+                      ordered = FALSE)
+ppt.df$`Prepared to use a barrier method` <- factor(ppt.df$`Prepared to use a barrier method`,
+                      levels = c(1,5,2,3),
+                      labels = labellikert,
+                      ordered = FALSE)
+ppt.df$`Prepared to say no if no barrier method` <- factor(ppt.df$`Prepared to say no if no barrier method`,
+                      levels = c(1,5,2,3),
+                      labels = labellikert,
+                      ordered = FALSE)
+ppt.df$`Prepared to use birth control` <- factor(ppt.df$`Prepared to use birth control`,
+                      levels = c(1,5,2,3),
+                      labels = labellikert,
+                      ordered = FALSE)
+ppt.df$`Prepared to go to a doctor for birth control` <- factor(ppt.df$`Prepared to go to a doctor for birth control`,
+                      levels = c(1,5,2,3),
+                      labels = labellikert,
+                      ordered = FALSE)
+
+# Post-Test Group satisfaction codebook: 1=disagree; 2=not sure; 3=agree; 4=prefer not to answer 
+
+ppt.df$`Group leader understood me` <- factor(ppt.df$`Group leader understood me`,
+                                              levels = c(1,4,2,3),
+                                              labels = labellikert,
+                                              ordered = FALSE)
+ppt.df$`Group mates respect each other` <- factor(ppt.df$`Group mates respect each other`,
+                                              levels = c(1,4,2,3),
+                                              labels = labellikert,
+                                              ordered = FALSE)
+ppt.df$`I felt judged*` <- factor(ppt.df$`I felt judged`,
+                                 levels = c(3,2,4,1), # reverse-coded
+                                 labels = labellikert,
+                                 ordered = FALSE)
+ppt.df$`Group leader knew the material` <- factor(ppt.df$`Group leader knew the material`,
+                                                  levels = c(1,4,2,3),
+                                                  labels = labellikert,
+                                                  ordered = FALSE)
+ppt.df$`I understood the material` <- factor(ppt.df$`I understood the material`,
+                                             levels = c(1,4,2,3),
+                                             labels = labellikert,
+                                             ordered = FALSE )
+ppt.df$`Group leader made the activities fun` <- factor(ppt.df$`Group leader made the activities fun`,
+                                                        levels = c(1,4,2,3),
+                                                        labels = labellikert,
+                                                        ordered = FALSE)
+ppt.df$`I felt free to speak` <- factor(ppt.df$`I felt free to speak`,
+                                        levels = c(1,4,2,3),
+                                        labels = labellikert,
+                                        ordered = FALSE)
+ppt.df$`I felt uncomfortable participating*` <- factor(ppt.df$`I felt uncomfortable participating`,
+                                                      levels = c(3,2,4,1), # reverse-coded
+                                                      labels = labellikert,
+                                                      ordered = FALSE)
+
+#Pre/Post Test by group if group name is exact (Update thisgroup name below):
+thisgroup <- "dreamcenter06"
+
+library(likert)
+
+########################
+# Pre-Test: Experience #
+########################
+
+ptexperlkt.df <- ppt.df[ppt.df$`Group Name`==thisgroup & ppt.df$Time=="Before",c(26:31)] #6 Experience variables (likert)
+ptexperlkt.df <- na.omit(ptexperlkt.df) 
+
+experiencelkt <- likert(items=ptexperlkt.df)
+plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
+ggsave("PAYC071221 - Experiences - Pre.png", width = 9, height = 2.5)
+
+########################
+
+ptexpermrd.df <- ppt.df[ppt.df$`Group Name`==thisgroup & ppt.df$Time=="Before",c(32,34:45)] #13 Experience options (MR dummy excluding "Other method" (text))
+#how to make a frequency table of mrd?
+
+#install.packages("ggpbr")
+#ggpubr::ggsummarystats(ptexperlkt.df)
+#experct <- summary(experiencelkt)
+
+#dotchart(as.matrix(mrdumlastsex,labels = row.names(mrdumlastsex)))
+
+#https://www.youtube.com/watch?v=vQsdJBm0fLw
+mrdumlastsex <- data.frame(Freq=colSums(ptexpermrd.df[2:14]),
+                           Percent=(colSums(ptexpermrd.df[2:14])/nrow(ptexpermrd.df[2:14]))*100) 
+mrdumlastsex <- mrdumlastsex[order(-mrdumlastsex$Freq),] #sorted, but won't plot in this order
+
+library(ggpubr)
+ggballoonplot(mrdumlastsex, fill = "value") + scale_fill_viridis_c(option = "C")
+
+ggplot(mrdumlastsex, aes(x=Percent, y=rownames(mrdumlastsex))) +
+  geom_point(size = 1.5, alpha = .3) +
+  labs(title = "Contraception Use at Last Sexual Activity") +
+         theme_minimal() +
+  theme(axis.title = element_blank(),
+              panel.grid.major.x = element_blank(),
+              panel.grid.minor = element_blank(),
+              plot.title = element_text(size = 20, margin = margin(b = 10)),
+              plot.subtitle = element_text(size = 10, color = "darkslategrey", margin = margin(b = 25)),
+              plot.caption = element_text(size = 8, margin = margin(t = 10), color = "grey70", hjust = 0))
+ggsave("Test.png")
+
+###########################
+# Pre/Post-Test: Thoughts #
+###########################
+ptthoughts.df <- ppt.df[ppt.df$`Group Name`==thisgroup,c(1,3,93:97)] #5 Thought variables (likert) for Pre AND Post
+ptthoughts.df <- na.omit(ptthoughts.df) 
+
+thoughtlkt <- likert(ptthoughts.df[,3:7], grouping = ptthoughts.df$Time)
+plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
+ggsave("PAYC071221 - Thoughts over time.png", width = 9, height = 4.5)
+#may not plot if too many listwise deletions
+
+######################
+# SurveyMonkey Stats #
+######################
+
+# Optional subsets:
+#post.df <- ppt.df[ppt.df$Time=="After", c(1:3,47:60,61:97)]# optional subset of identifiers, satisfaction, contact info to post-test
+#pre.df  <- ppt.df[ppt.df$Time=="Before", c(1,3,4,6:13,15,16,18:22,24,26:45)] #optional subset of demographics, experiences
+#pre.df  <- na.omit(pre.df)
+ptksa.df <- ppt.df[ppt.df$`Group Name`==thisgroup,c(1:3,61:92)] #16 KSA variables with 32 options
+
+################
+# OAH 1: Reach #
+################
+
+ptdemographics.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(1,3,4,6:13,15,16,18:22,24)] #8 Demographic variables 
+ptdemographics.df <- na.omit(ptdemographics.df)
+
+# install.packages("eeptools")
+library(eeptools)
+ptdemographics.df$Age <- floor(age_calc(ptdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
+
+ptdemographics.df$gender_cat <- apply(ptdemographics.df[14:18], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
+gender <- data.frame(table(ptdemographics.df$gender_cat))
+names(gender) <- c("Demographics","Count")
+
+ptdemographics.df$race_cat <- apply(ptdemographics.df[6:11], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
+race <- data.frame(table(ptdemographics.df$race_cat))
+names(race) <- c("Demographics","Count")
+
+age <- data.frame(table(ptdemographics.df$Age))
+names(age) <- c("Demographics","Count")
+
+grade <- data.frame(table(ptdemographics.df$Grade))
+names(grade) <- c("Demographics","Count")
+
+reach <- rbind.data.frame(gender,race,age,grade)
+
+library(sjPlot)
+tab_df(reach,
+       title = "Reach for: DreamCenter062121",
+       file = "DreamCenter062121 - Demographics Table.doc")
+tab_xtab(var.row = ptdemographics.df$race_cat, var.col = ptdemographics.df$Hispanic,
+         title = "Race by Ethnicity for: DreamCenter062121",
+         file = "DreamCenter062121 - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
+
+###########################
+# Post-Test: Satisfaction #
+###########################
+
+ptsatisfaction.df <- ppt.df[ppt.df$`Group Name`==thisgroup & ppt.df$Time=="After",c(1,47:57)] #11 Group variables on Post
+ptsatisfaction.df <- na.omit(ptsatisfaction.df)
+
+satisflkt <- likert(ptsatisfaction.df[,2:9])
+plot(satisflkt) + ggtitle("Participants' Satisfaction with the Group")
+ggsave("PAYC071221 - Satisfaction.png", width = 9, height = 3.25)
+```
+# Quarterly Program Reports
+```{r}
+rawflqpr.df <- read.csv("Facilitators Evaluation Tools.csv", stringsAsFactors = TRUE)
+flqpr.df <- rawflqpr.df[2:nrow(rawflqpr.df),c(10:30,32:36,38:47,49:53,55:64,66:70,72:81,83:87,89:93,95:99,101:105,107,115:121,141:153,155:167,169:181,183:195, 196)] #145 variables
+names(flqpr.df) <- c("tool",
+                    "FL io",
+                    "FL grp",
+                    "FL fac1", "FL fac2", "FL fac3", "FL TA topic",
+                    "FL success",
+                    "FL ref srh","FL ref mh","FL ref sa","FL ref pcp","FL ref edu","FL ref voc","FL ref viol",
+                    "FL ebp",
+                    "LN1 name","LN1 start","LN1 how","LN1 change","LN1 incomp",
+                    "LN2 name","LN2 start","LN2 how","LN2 change","LN2 incomp",
+                    "LN3 name","LN3 start","LN3 how","LN3 change","LN3 incomp",
+                    "MPC1 name","MPC1 start","MPC1 how","MPC1 change","MPC1 incomp",
+                    "MPC2 name","MPC2 start","MPC2 how","MPC2 change","MPC2 incomp",
+                    "MPC3 name","MPC3 start","MPC3 how","MPC3 change","MPC3 incomp",
+                    "IN1 name","IN1 start","IN1 how","IN1 change","IN1 incomp",
+                    "IN2 name","IN2 start","IN2 how","IN2 change","IN2 incomp",
+                    "IN3 name","IN3 start","IN3 how","IN3 change","IN3 incomp",
+                    "SL1 name","SL1 start","SL1 how","SL1 change","SL1 incomp",
+                    "SL2 name","SL2 start","SL2 how","SL2 change","SL2 incomp",
+                    "SL3 name","SL3 start","SL3 how","SL3 change","SL3 incomp",
+                    "SL4 name","SL4 start","SL4 how","SL4 change","SL4 incomp",
+                    "SL5 name","SL5 start","SL5 how","SL5 change","SL5 incomp",
+                    "QPR fac", "QPR email", "QPR phone", "QPR io", "QPR setting", "QPR prog spec", "QPR period", "QPR ebp",
+                    "QPR1 name","# meetings","QPR1 start","QPR1 end","QPR1 change","QPR1 reach","QPR1 attend","QPR1 retent","QPR1 eval-none","QPR1 eval-pre","QPR1 eval-FL","QPR1 eval-obs","QPR1 eval-post",
+                    "QPR2 name","# meetings","QPR2 start","QPR2 end","QPR2 change","QPR2 reach","QPR2 attend","QPR2 retent","QPR2 eval-none","QPR2 eval-pre","QPR2 eval-FL","QPR2 eval-obs","QPR2 eval-post",
+                    "QPR3 name","# meetings","QPR3 start","QPR3 end","QPR3 change","QPR3 reach","QPR3 attend","QPR3 retent","QPR3 eval-none","QPR3 eval-pre","QPR3 eval-FL","QPR3 eval-obs","QPR3 eval-post",
+                    "QPR4 name","# meetings","QPR4 start","QPR4 end","QPR4 change","QPR4 reach","QPR4 attend","QPR4 retent","QPR4 eval-none","QPR4 eval-pre","QPR4 eval-FL","QPR4 eval-obs","QPR4 eval-post",
+                    "add'l info")
+flqpr.df[flqpr.df==""] <- NA
+
+library(data.table)
+flqpr.df$`FL grp`<- tolower(flqpr.df$`FL grp`)
+flqpr.df$`QPR1 name` <- tolower(flqpr.df$`QPR1 name`)
+flqpr.df$`QPR2 name` <- tolower(flqpr.df$`QPR2 name`)
+flqpr.df$`QPR3 name` <- tolower(flqpr.df$`QPR3 name`)
+flqpr.df$`QPR4 name` <- tolower(flqpr.df$`QPR4 name`)
+
+flqpr.df$`MPC1 start` <- as.Date(flqpr.df$`MPC1 start`,"%m/%d/%Y")
+flqpr.df$`MPC2 start` <- as.Date(flqpr.df$`MPC2 start`,"%m/%d/%Y")
+flqpr.df$`MPC3 start` <- as.Date(flqpr.df$`MPC3 start`,"%m/%d/%Y")
+
+flqpr.df$`IN1 start` <- as.Date(flqpr.df$`IN1 start`,"%m/%d/%Y")
+flqpr.df$`IN2 start` <- as.Date(flqpr.df$`IN2 start`,"%m/%d/%Y")
+flqpr.df$`IN3 start` <- as.Date(flqpr.df$`IN3 start`,"%m/%d/%Y")
+
+flqpr.df$`SL1 start` <- as.Date(flqpr.df$`SL1 start`,"%m/%d/%Y")
+flqpr.df$`SL2 start` <- as.Date(flqpr.df$`SL2 start`,"%m/%d/%Y")
+flqpr.df$`SL3 start` <- as.Date(flqpr.df$`SL3 start`,"%m/%d/%Y")
+flqpr.df$`SL4 start` <- as.Date(flqpr.df$`SL4 start`,"%m/%d/%Y")
+flqpr.df$`SL5 start` <- as.Date(flqpr.df$`SL5 start`,"%m/%d/%Y")
+
+flqpr.df$`QPR1 start` <- as.Date(flqpr.df$`QPR1 start`,"%m/%d/%Y")
+flqpr.df$`QPR2 start` <- as.Date(flqpr.df$`QPR2 start`,"%m/%d/%Y")
+flqpr.df$`QPR3 start` <- as.Date(flqpr.df$`QPR3 start`,"%m/%d/%Y")
+flqpr.df$`QPR4 start` <- as.Date(flqpr.df$`QPR4 start`,"%m/%d/%Y")
+
+flqpr.df$`QPR1 end` <- as.Date(flqpr.df$`QPR1 end`,"%m/%d/%Y")
+flqpr.df$`QPR2 end` <- as.Date(flqpr.df$`QPR2 end`,"%m/%d/%Y")
+flqpr.df$`QPR3 end` <- as.Date(flqpr.df$`QPR3 end`,"%m/%d/%Y")
+flqpr.df$`QPR4 end` <- as.Date(flqpr.df$`QPR4 end`,"%m/%d/%Y")
+
+cleanIt <- function(vec){
+  chars <- as.character(vec)
+  chars[chars!=""] <- "1" #if not blank (including zeroes), replace with "one"
+  chars[is.na(chars)] <- "0" #if missing, replace with zero
+  chars[chars==""] <- "0" #if blank, replace with zero
+  return(as.numeric(chars)) #convert values to numbers
+}
+
+flqpr.df[103:107] <- lapply(flqpr.df[103:107], cleanIt) #QPR1 eval
+flqpr.df[116:120] <- lapply(flqpr.df[116:120], cleanIt) #QPR2 eval
+flqpr.df[129:133] <- lapply(flqpr.df[129:133], cleanIt) #QPR3 eval
+flqpr.df[142:146] <- lapply(flqpr.df[142:146], cleanIt) #QPR4 eval
+
+labelio <- c("ACDSS","ACHD","CHS","DreamCenter","CrossRoads","Elon","PAYC","SA")
+labelepb <- c("HF-NC","IN-clued","Love Notes","MPC","PPP","SSI","Supplementals")
+labelln <- c("N&B","1","2","3","4","5","6","7","8","9","10","11","12","13","KTA")
+labelmpc <- c("N&B","1","2","3","EC","TMHYLI","4","5","6","7","8","9","10","KTA")
+labelinc <- c("N&B1-2","1","N&B3","2","3","KTA")
+labelsl <- c("KTA1","KTA2","KTA3","TMHYLI1","TMHYLI2","TMHYLI3","TMHYLI4","TMHYLI5")
+labelhow <- c("as written","with changes","incomplete")
+labelset <- c("school","other CBO","out-of-home","homeless","juvenile justice","clinic","faith-based")
+labelperiod <- c("Y1-Q1","Y1-Q2","Y1-Q3","Y1-Q4","Y2-Q1","Y2-Q2","Y2-Q3","Y2-Q4","Y3-Q1","Y3-Q2","Y3-Q3","Y3-Q4")
+
+flqpr.df$tool <- factor(flqpr.df$tool,
+                       levels = c(1,2,3),
+                       labels = c("P/PT","FL","QPR"))
+
+flqpr.df$`FL io` <- factor(flqpr.df$`FL io`,
+                          levels = c(1,2,3,4,5,6,7,8),
+                          labels = labelio)
+
+flqpr.df$`FL ebp` <- factor(flqpr.df$`FL ebp`,
+                           levels = c(1,2,3,4,5,6,7),
+                           labels = labelepb)
+
+#lesson names for MPC & IN-clued only
+flqpr.df$`MPC1 name` <- factor(flqpr.df$`MPC1 name`,
+                              levels = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14),
+                              labels = labelmpc)
+flqpr.df$`MPC2 name` <- factor(flqpr.df$`MPC2 name`,
+                              levels = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14),
+                              labels = labelmpc)
+flqpr.df$`MPC3 name` <- factor(flqpr.df$`MPC3 name`,
+                              levels = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14),
+                              labels = labelmpc)
+
+flqpr.df$`IN1 name` <- factor(flqpr.df$`IN1 name`,
+                             levels = c(1,2,3,4,5,6),
+                             labels = labelinc)
+flqpr.df$`IN2 name` <- factor(flqpr.df$`IN2 name`,
+                             levels = c(1,2,3,4,5,6),
+                             labels = labelinc)
+flqpr.df$`IN3 name` <- factor(flqpr.df$`IN3 name`,
+                             levels = c(1,2,3,4,5,6),
+                             labels = labelinc)
+
+#lesson implementation for all EBPs with Fidelity Logs
+flqpr.df$`LN1 how` <- factor(flqpr.df$`LN1 how`,
+                            levels = c(1,2,3),
+                            labels = labelhow)
+flqpr.df$`LN2 how` <- factor(flqpr.df$`LN2 how`,
+                            levels = c(1,2,3),
+                            labels = labelhow)
+flqpr.df$`LN3 how` <- factor(flqpr.df$`LN3 how`,
+                            levels = c(1,2,3),
+                            labels = labelhow)
+
+flqpr.df$`MPC1 how` <- factor(flqpr.df$`MPC1 how`,
+                             levels = c(1,2,3),
+                             labels = labelhow)
+flqpr.df$`MPC2 how` <- factor(flqpr.df$`MPC2 how`,
+                             levels = c(1,2,3),
+                             labels = labelhow)
+flqpr.df$`MPC3 how` <- factor(flqpr.df$`MPC3 how`,
+                             levels = c(1,2,3),
+                             labels = labelhow)
+
+flqpr.df$`IN1 how` <- factor(flqpr.df$`IN1 how`,
+                            levels = c(1,2,3),
+                            labels = labelhow)
+flqpr.df$`IN2 how` <- factor(flqpr.df$`IN2 how`,
+                            levels = c(1,2,3),
+                            labels = labelhow)
+flqpr.df$`IN3 how` <- factor(flqpr.df$`IN3 how`,
+                            levels = c(1,2,3),
+                            labels = labelhow)
+
+flqpr.df$`SL1 how` <- factor(flqpr.df$`SL1 how`,
+                            levels = c(1,2,3),
+                            labels = labelhow)
+flqpr.df$`SL2 how` <- factor(flqpr.df$`SL2 how`,
+                            levels = c(1,2,3),
+                            labels = labelhow)
+flqpr.df$`SL3 how` <- factor(flqpr.df$`SL3 how`,
+                            levels = c(1,2,3),
+                            labels = labelhow)
+flqpr.df$`SL4 how` <- factor(flqpr.df$`SL4 how`,
+                            levels = c(1,2,3),
+                            labels = labelhow)
+flqpr.df$`SL5 how` <- factor(flqpr.df$`SL5 how`,
+                            levels = c(1,2,3),
+                            labels = labelhow)
+
+# Quarterly Program Reports
+
+flqpr.df$`QPR io` <- factor(flqpr.df$`QPR io`,
+                           levels = c(1,2,3,4,5,6,7,8),
+                           labels = labelio)
+flqpr.df$`QPR setting` <- factor(flqpr.df$`QPR setting`,
+                                levels = c(1,2,3,4,5,6,7),
+                                labels = labelset)
+flqpr.df$`QPR prog spec` <- factor(flqpr.df$`QPR prog spec`,
+                                  levels = c(1,2),
+                                  labels = c("Lisa","Caro"))
+flqpr.df$`QPR period` <- factor(flqpr.df$`QPR period`,
+                               levels = c(1,2,3,4,5,6,7,8,9,10,11,12),
+                               labels = labelperiod)
+flqpr.df$`QPR ebp` <- factor(flqpr.df$`QPR ebp`,
+                           levels = c(1,2,3,4,5,6,7),
+                           labels = labelepb)
+
+begin  <- "2020-07-01" #options: "2020-07-01", "2021-07-01", "2022-07-01"
+finish <- "2021-06-30" #options: "2021-06-30", "2022-06-30", "2023-06-30"
+
+y1.df <- flqpr.df[flqpr.df$`MPC1 start` >=begin & flqpr.df$`MPC1 start` <=finish, c(1:147)]
+y2.df <- flqpr.df[flqpr.df$`MPC1 start` >=begin & flqpr.df$`MPC1 start` <=finish, c(1:147)]
+y3.df <- flqpr.df[flqpr.df$`MPC1 start` >=begin & flqpr.df$`MPC1 start` <=finish, c(1:147)]
+
+#######################
+# OAH 2: Dosage (all) #
+#######################
+year <- "Y1"  #options: "Y2", "Y2", "Y3"
+curr <- "MPC" #options:" "MPC", "IN-clued"
+
+qpr1 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(95,100:102)]
+qpr2 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(108,113:115)]
+qpr3 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(121,126:128)]
+qpr4 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(134,139:141)]
+
+names(qpr1) <- c("Group Name","Reach", "Average Attendance","Retention")
+names(qpr2) <- c("Group Name","Reach", "Average Attendance","Retention")
+names(qpr3) <- c("Group Name","Reach", "Average Attendance","Retention")
+names(qpr4) <- c("Group Name","Reach", "Average Attendance","Retention")
+
+dosage <- rbind.data.frame(qpr1,qpr2,qpr3,qpr4)
+dosage <- na.omit(dosage)
+
+library(sjPlot)
+tab_df(dosage,
+       title = "Dosage for MPC: 2020-2021",
+       file = "MPC 2020-2021 - Dosage Table.doc")
+
+#repeat for IN-clued
+
+#############################
+# OAH 3: Fidelity & Quality #
+#############################
+
+table(y1.df$`FL grp`,y1.df$`FL ebp`) 
+#How many sections/groups have fidelity logs? How many logs per section/group? For which EBP? Technically, this is the lessons completed. 
+#Double check by group, using the appended logs below by EBP:
+
+#Append the MPC lesson logs into a long form fidelity log, by group/section:
+mpcgrp <- "dreamcenter062121"
+
+mpc1 <- flqpr.df[flqpr.df$`FL grp`==mpcgrp,c(3,32:36)]
+mpc2 <- flqpr.df[flqpr.df$`FL grp`==mpcgrp,c(3,37:41)]
+mpc3 <- flqpr.df[flqpr.df$`FL grp`==mpcgrp,c(3,42:46)]
+
+names(mpc1) <- c("FL Group", "Lesson Name", "Start Date", "MPC Implementation", "Changes Made","Incomplete")
+names(mpc2) <- c("FL Group", "Lesson Name", "Start Date", "MPC Implementation", "Changes Made","Incomplete")
+names(mpc3) <- c("FL Group", "Lesson Name", "Start Date", "MPC Implementation", "Changes Made","Incomplete")
+
+mpcfl <- rbind.data.frame(mpc1,mpc2,mpc3)
+mpcfl <- na.omit(mpcfl)
+
+#Append the IN-clued lesson logs into a long form fidelity log, by group/section:
+incgrp <- "dreamcenter062121"
+
+inc1 <- flqpr.df[flqpr.df$`FL grp`==incgrp,c(3,47:51)]
+inc2 <- flqpr.df[flqpr.df$`FL grp`==incgrp,c(3,52:56)]
+inc3 <- flqpr.df[flqpr.df$`FL grp`==incgrp,c(3,57:61)]
+
+names(inc1) <- c("FL Group", "Lesson Name", "Start Date", "IN-clued Implementation", "Changes Made","Incomplete")
+names(inc2) <- c("FL Group", "Lesson Name", "Start Date", "IN-clued Implementation", "Changes Made","Incomplete")
+names(inc3) <- c("FL Group", "Lesson Name", "Start Date", "IN-clued Implementation", "Changes Made","Incomplete")
+
+incfl <- rbind.data.frame(inc1,inc2,inc3)
+incfl <- na.omit(incfl)
+
+########################
+
+rawobs.df <- read.csv("OAH Program Observation Form for TPP Grantees.csv", stringsAsFactors = TRUE)
+obs.df <- rawobs.df[2:nrow(rawobs.df),c(11,20,23,22,21,34)]
+names(obs.df) <- c("Group observed",
+                   "Date observed",
+                   "observed_activities",
+                   "total_activities",
+                   "# Lessons observed",
+                   "Observation Quality")
+obs.df[obs.df==""] <- NA
+
+library(data.table)
+obs.df$`Group observed`<- tolower(obs.df$`Group observed`)
+
+obs.df$`Date observed` <- as.Date(obs.df$`Date observed`,"%m/%d/%Y")
+
+cleanCares <- function(vec){
+  chars <- as.character(vec)
+  chars[is.na(chars)] <- "0" #if missing, replace with zero
+  chars[chars==""] <- "0" #if blank, replace with zero
+  return(as.numeric(chars)) #convert values to numbers
+}
+
+obs.df[3:6] <- lapply(obs.df[3:6], cleanCares)
+
+obs.df$adherence <- obs.df$observed_activities / obs.df$total_activities *100
+
+obs.df <- obs.df[obs.df$`Date observed` >=begin & obs.df$`Date observed` <=finish, c(1:7)]
+
+install.packages("lemon")
+library(lemon)
+knit_print.data.frame <- lemon_print
+
+#need to figure out table
+
+##############################
+# OAH 4: Supportive Services #
+##############################
+
+#IO's referrals for every group in the reporting period (change values of the IO):
+org <- "DreamCenter" #or "ACDSS", "CHS", "PAYC", "SA"
+referrals.df <- flqpr.df[flqpr.df$`FL io` %like% org & flqpr.df$`MPC1 start` >=begin & flqpr.df$`MPC1 start` <=finish,c(3,9:15)] 
+referrals.df <- na.omit(referrals.df)
+
+#OAH 4: Referrals
+referrals.df$`FL ref edu` <- as.numeric(as.character(referrals.df$`FL ref edu`))
+referrals.df$`FL ref mh` <- as.numeric(as.character(referrals.df$`FL ref mh`))
+referrals.df$`FL ref pcp` <- as.numeric(as.character(referrals.df$`FL ref pcp`))
+referrals.df$`FL ref sa` <- as.numeric(as.character(referrals.df$`FL ref sa`))
+referrals.df$`FL ref srh` <- as.numeric(as.character(referrals.df$`FL ref srh`))
+referrals.df$`FL ref viol` <- as.numeric(as.character(referrals.df$`FL ref viol`))
+referrals.df$`FL ref voc` <- as.numeric(as.character(referrals.df$`FL ref voc`))
+
+edu <- sum(referrals.df$`FL ref edu`)
+mh <- sum(referrals.df$`FL ref mh`)
+pcp <- sum(referrals.df$`FL ref pcp`)
+sa <- sum(referrals.df$`FL ref sa`)
+srh <- sum(referrals.df$`FL ref srh`)
+viol <- sum(referrals.df$`FL ref viol`)
+voc <- sum(referrals.df$`FL ref voc`)
+
+suppsrvs <- data.frame(referral=c("SRH","MH","SA","PCP","EDU","VOC","VIOL"),count=c(srh,mh,sa,pcp,edu,voc,viol))
+
+tab_df(suppsrvs,
+       title = "Referrals for: DreamCenter",
+       file = "DreamCenter - Referrals Table.doc")
+```
+# Alamance Cares
+```{r}
+# Alamance Cares: Supportive Services
+rawcares.df <- read.csv("Alamance Cares Testing Data.csv", stringsAsFactors = TRUE)
+rawcares.df <- rawcares.df[2:nrow(rawcares.df),c(10:54)]
+
+cleanCares <- function(vec){
+  chars <- as.character(vec)
+  chars[is.na(chars)] <- "0" #if missing, replace with zero
+  chars[chars==""] <- "0" #if blank, replace with zero
+  return(as.numeric(chars)) #convert values to numbers
+}
+
+rawcares.df[2:45] <- lapply(rawcares.df[2:45], cleanCares)
+
+rawcares.df$Month <- factor(rawcares.df$Month,
+                       levels = c(1,2,3,4,5,6,7,8,9,10,11,12),
+                       labels = c("2020-07-01","2020-08-01","2020-09-01","2020-10-01","2020-11-01","2020-12-01",
+                                  "2021-01-01","2021-02-01","2021-03-01","2021-04-01","2021-05-01","2021-06-01"))
+
+rawcares.df$Date <- as.Date(rawcares.df$Month, format = "%Y-%m-%d")
+
+younger.df <- rawcares.df[rawcares.df$Date >="2021-01-01" & rawcares.df$Date <="2021-06-30", c(2:23,46)]
+older.df   <- rawcares.df[rawcares.df$Date >="2021-01-01" & rawcares.df$Date <="2021-06-30", c(24:46)]
+
+younger.df$Age <- "14-17"
+older.df$Age <- "18-19"
+
+names(younger.df) <- c("Men","Women","F2M", "M2F","Other gender","White","Black","Native","Asian", "Pacific Islander","Multiracial","Race not specified","Race unknown","Hispanic","Non Hispanic","Ethnicity Unknown","Alamance Cares","ACC","ACHD","Elon","Maplebrook","SA","Date","Age")
+names(older.df) <- c("Men","Women","F2M", "M2F","Other gender","White","Black","Native","Asian", "Pacific Islander","Multiracial","Race not specified","Race unknown","Hispanic","Non Hispanic","Ethnicity Unknown","Alamance Cares","ACC","ACHD","Elon","Maplebrook","SA","Date","Age")
+
+cares.df <- rbind(younger.df,older.df)
+
+#haven't figured out how to output a pub-ready table
+women <- aggregate(x=cares.df$Women,
+                   by= list(cares.df$Age),
+                   FUN=sum)
+men <- aggregate(x=cares.df$Men,
+          by= list(cares.df$Age),
+          FUN=sum)
+other <- aggregate(x=cares.df$`Other gender`,
+                   by= list(cares.df$Age),
+                   FUN=sum)
+
+table1 <- rbind(women, men, other)
+```

@@ -1,0 +1,52 @@
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">Dosage for MPC: 2020-2021</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black; text-align:left; ">Group.Name</th>
+<th style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black; ">Reach</th>
+<th style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black; ">Average.Attendance</th>
+<th style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black; ">Retention</th>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">pyac021621</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">5</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">30</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">3</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">dreamcenter032421</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">8</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">48</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">3</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">alamance04062021</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">crossroads</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">payc021821</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">12</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">85</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">12</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">dreamcenter032421</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; border-bottom: double; ">dreamcenter062121</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; border-bottom: double; ">8</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; border-bottom: double; ">83</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; border-bottom: double; ">6</td>
+</tr>
+</table>
+
