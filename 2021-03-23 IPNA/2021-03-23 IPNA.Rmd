@@ -569,11 +569,67 @@ names(staff.df) <- c(  "IO",
                     "PYD: use YAC recommendations")
 
 library(likert)
-###################################
-# all IOs, all responses together #
-###################################
+#####################################
+# all IOs, by area, over 3 time pts #
+#####################################
 
-# Leadership (all IOs, cross-sectional, by area)
+#Leadership (all IOs, by area, longitudinal)
+
+leadpolicy <- likert(lead.df[,3:6], grouping = lead.df$Time) 
+plot(leadpolicy, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Policies")
+ggsave("Policy (Leadership) - over time.png", height = 5)
+
+leadpartner <- likert(lead.df[,7:10], grouping = lead.df$Time) 
+plot(leadpartner, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Partnerships")
+ggsave("Partnerships (Leadership) - over time.png", height = 5)
+
+leadsustain <- likert(lead.df[,11:14], grouping = lead.df$Time) 
+plot(leadsustain, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Sustainability")
+ggsave("Sustainability (Leadership) - over time.png", height = 5)
+
+leadimpl <- likert(lead.df[,15:19], grouping = lead.df$Time) 
+plot(leadimpl, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Implementation")
+ggsave("Implementation (Leadership) - over time.png", height = 6)
+
+leadeval <- likert(lead.df[,20:24], grouping = lead.df$Time) 
+plot(leadeval, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Evaluation")
+ggsave("Evaluation (Leadership) - over time.png", height = 6)
+
+leadtia <- likert(lead.df[,25:30], grouping = lead.df$Time) 
+plot(leadtia, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Trauma-Informed Approaches")
+ggsave("TIA (Leadership) - over time.png", height = 7)
+
+leadpyd <- likert(lead.df[,31:33], grouping = lead.df$Time) 
+plot(leadpyd, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Positive Youth Development")
+ggsave("PYD (Leadership) - over time.png", height = 3)
+
+leadlgbt <- likert(lead.df[,34:42], grouping = lead.df$Time) 
+plot(leadlgbt, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - LGBTQ+ Inclusivity")
+ggsave("LGBTQ (Leadership) - over time.png", height = 12)
+
+#Supervisors/Facilitators (all IOs, by area, longitudinal)
+
+staffimpl <- likert(staff.df[,3:14], grouping = staff.df$Time) 
+plot(staffimpl, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Implementation")
+ggsave("Implementation (Staff) - over time.png", height = 15)
+
+stafftia <- likert(staff.df[,15:18], grouping = staff.df$Time) 
+#plot(stafftia, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Trauma-Informed Approaches")
+ggsave("TIA (Staff) - over time.png", height = 15)
+
+stafflgbt <- likert(staff.df[,19:25], grouping = staff.df$Time) 
+plot(stafflgbt, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - LGBTQ+ Inclusivity")
+ggsave("LGBTQ (Staff) - over time.png", height = 9) 
+
+staffpyd <- likert(staff.df[,26:30], grouping = staff.df$Time) 
+plot(staffpyd, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Positive Youth Development")
+ggsave("PYD (Staff) - over time.png", height = 6.5)
+
+########################################################
+# all IOs, by area, all responses across time together #
+########################################################
+
+# Leadership (all IOs, by area, cross-sectional)
 
 leadall <- likert(lead.df[,3:42])
 plot(leadall) + ggtitle ("Leadership's Perceptions of Needs")
@@ -611,7 +667,7 @@ leadlgbt <- likert(lead.df[,34:42])
 plot(leadlgbt) + ggtitle ("Leadership's Perceptions - LGBTQ+ Inclusivity")
 ggsave("LGBTQ (Leadership).png", width = 9, height = 3.25)
 
-#Supervisors/Facilitators (all IOs, cross-sectional, by area)
+#Supervisors/Facilitators (all IOs, by area, cross-sectional)
 
 staffall <- likert(staff.df[,3:30])
 plot(staffall) + ggtitle ("Supervisors/Facilitators' Perceptions of Needs")
@@ -633,65 +689,9 @@ staffpyd <- likert(staff.df[,26:30])
 plot(staffpyd) + ggtitle ("Supervisors/Facilitators' Perceptions - Positive Youth Development")
 ggsave("PYD (Staff).png", width = 9, height = 2.25)
 
-######################
-# all IOs, over time #
-######################
-
-#Leadership (all IOs, longitudinal, by area)
-
-leadpolicy <- likert(lead.df[,3:6], grouping = lead.df$Time) 
-plot(leadpolicy, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Policies")
-ggsave("Policy (Leadership) - 12.png", height = 5)
-
-leadpartner <- likert(lead.df[,7:10], grouping = lead.df$Time) 
-plot(leadpartner, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Partnerships")
-ggsave("Partnerships (Leadership) - 12.png", height = 5)
-
-leadsustain <- likert(lead.df[,11:14], grouping = lead.df$Time) 
-plot(leadsustain, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Sustainability")
-ggsave("Sustainability (Leadership) - 12.png", height = 5)
-
-leadimpl <- likert(lead.df[,15:19], grouping = lead.df$Time) 
-plot(leadimpl, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Implementation")
-ggsave("Implementation (Leadership) - 12.png", height = 6)
-
-leadeval <- likert(lead.df[,20:24], grouping = lead.df$Time) 
-plot(leadeval, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Evaluation")
-ggsave("Evaluation (Leadership) - 12.png", height = 6)
-
-leadtia <- likert(lead.df[,25:30], grouping = lead.df$Time) 
-plot(leadtia, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Trauma-Informed Approaches")
-ggsave("TIA (Leadership) - 12.png", height = 7)
-
-leadpyd <- likert(lead.df[,31:33], grouping = lead.df$Time) 
-plot(leadpyd, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Positive Youth Development")
-ggsave("PYD (Leadership) - 12.png", height = 3)
-
-leadlgbt <- likert(lead.df[,34:42], grouping = lead.df$Time) 
-plot(leadlgbt, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - LGBTQ+ Inclusivity")
-ggsave("LGBTQ (Leadership) - 12.png", height = 12)
-
-#Supervisors/Facilitators (all IOs, longitudinal, by area)
-
-staffimpl <- likert(staff.df[,3:14], grouping = staff.df$Time) 
-plot(staffimpl, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Implementation")
-ggsave("Implementation (Staff) - 12.png", height = 15)
-
-stafftia <- likert(staff.df[,15:18], grouping = staff.df$Time) 
-#plot(stafftia, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Trauma-Informed Approaches")
-ggsave("TIA (Staff) - 12.png", height = 7)
-
-stafflgbt <- likert(staff.df[,19:25], grouping = staff.df$Time) 
-plot(stafflgbt, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - LGBTQ+ Inclusivity")
-ggsave("LGBTQ (Staff) - 12.png", height = 7) 
-
-staffpyd <- likert(staff.df[,26:30], grouping = staff.df$Time) 
-plot(staffpyd, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Positive Youth Development")
-ggsave("PYD (Staff) - 12.png", height = 6.5)
-
-##################################
-# by IOs, all responses together #
-##################################
+#########################################################
+# by IOs, all items, all responses across time together #
+#########################################################
 
   # ACDSS.df <- ipna.df[ipna.df$IO=="AC DSS",c(1:2,4:13,16:75,77)]
      # CHS.df <- ipna.df[ipna.df$IO=="CHS",c(1:2,4:13,16:75,77)]
