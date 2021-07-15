@@ -584,15 +584,15 @@ y3.df <- flqpr.df[flqpr.df$`MPC1 start` >=begin & flqpr.df$`MPC1 start` <=finish
 year <- "Y1"  #options: "Y2", "Y2", "Y3"
 curr <- "MPC" #options:" "MPC", "IN-clued"
 
-qpr1 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(95,100:102)]
-qpr2 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(108,113:115)]
-qpr3 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(121,126:128)]
-qpr4 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(134,139:141)]
+qpr1 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(95,96,100:102)]
+qpr2 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(108,109,113:115)]
+qpr3 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(121,122,126:128)]
+qpr4 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(134,135,139:141)]
 
-names(qpr1) <- c("Group Name","Reach", "Average Attendance","Retention")
-names(qpr2) <- c("Group Name","Reach", "Average Attendance","Retention")
-names(qpr3) <- c("Group Name","Reach", "Average Attendance","Retention")
-names(qpr4) <- c("Group Name","Reach", "Average Attendance","Retention")
+names(qpr1) <- c("Group Name","# Sessions/Meetings","Reach","Average Attendance","Retention")
+names(qpr2) <- c("Group Name","# Sessions/Meetings","Reach","Average Attendance","Retention")
+names(qpr3) <- c("Group Name","# Sessions/Meetings","Reach","Average Attendance","Retention")
+names(qpr4) <- c("Group Name","# Sessions/Meetings","Reach","Average Attendance","Retention")
 
 dosage <- rbind.data.frame(qpr1,qpr2,qpr3,qpr4)
 dosage <- na.omit(dosage)
@@ -681,7 +681,6 @@ obs.df[3:6] <- lapply(obs.df[3:6], cleanCares)
 obs.df$adherence <- obs.df$observed_activities / obs.df$total_activities *100
 
 obs.df <- obs.df[obs.df$`Date observed` >=begin & obs.df$`Date observed` <=finish, c(1:7)]
-
 
 library(knitr)
 kable(obs.df)
