@@ -1,9 +1,11 @@
 ---
 title: "Implementation Partners Needs Assessment (IPNA)"
-subtitle: "Summarizing capacity by IO"
 author: "Josephine McKelvy"
 date: "March 23, 2021"
-output: word_document
+output:
+  html_document:
+    df_print: paged
+subtitle: Summarizing capacity by IO
 ---
 
 ```{r setup, include=FALSE}
@@ -144,9 +146,9 @@ ipna.df[ipna.df==""] <- NA
 
 ipna.df$Date <- as.Date(ipna.df$Date,"%m/%d/%Y")
 
-#may need to reset time points
+#reset time points?:
 ipna.df$Time <- ifelse((ipna.df$Date <= "2021-04-15"), 1,
-                ifelse((ipna.df$Date >= "2021-04-15") & (ipna.df$Date <= "2023-03-31"), 2,
+                ifelse((ipna.df$Date >= "2021-04-16") & (ipna.df$Date <= "2023-03-31"), 2,
                 ifelse((ipna.df$Date >= "2023-04-01"), 3, NA))) 
 ipna.df$Time <- factor(ipna.df$Time,
                        levels = c(1,2,3),
@@ -471,15 +473,9 @@ table(ipna.df$IO,ipna.df$Role) #is the IPNA filled out correctly (i.e., one lead
 ```
 # 4. Select/subset specific variables/columns or observations/rows.
 ```{r}
-#Lead/Staff Likerts by IO across time:
-  # ACDSS.df <- ipna.df[ipna.df$IO=="AC DSS",c(1:2,4:13,16:75,77)]
-     # CHS.df <- ipna.df[ipna.df$IO=="CHS",c(1:2,4:13,16:75,77)]
-      CGDC.df <- ipna.df[ipna.df$IO=="CGDC",c(1:2,4:13,16:75,77)]
-CROSSROADS.df <- ipna.df[ipna.df$IO=="CrossRoads",c(1:2,4:13,16:75,77)]
-      ELON.df <- ipna.df[ipna.df$IO=="Elon",c(1:2,4:13,16:75,77)]
-      PAYC.df <- ipna.df[ipna.df$IO=="PAYC",c(1:2,4:13,16:75,77)]
-     SABGC.df <- ipna.df[ipna.df$IO=="SA B&GC",c(1:2,4:13,16:75,77)]
-    Likert.df <- ipna.df[c(1:2,4:13,16:75,77)]
+    #Likert.df <- ipna.df[c(1:2,4:13,16:75,77)]
+      lead.df <- ipna.df[ipna.df$Role=="Leadership", c(2,77,6:13,16:47)]
+     staff.df <- ipna.df[ipna.df$Role=="Supervisor" | ipna.df$Role=="Facilitator",c(2,77,48:75)]
      
 # 73 variables = 5 demography + 40 Lead Likert + 28 Staff Likert
 ```
@@ -493,10 +489,10 @@ CROSSROADS.df <- ipna.df[ipna.df$IO=="CrossRoads",c(1:2,4:13,16:75,77)]
 #CTRL + F the IO name (14 changes)
 
 #wrap around the missing Qs
-lead <- Likert.df[c(2,73,5:44)] #IO, time, leadership scales 5:44
-lead <- na.omit(lead)
+#lead <- Likert.df[c(2,73,5:44)] #IO, time, leadership scales 5:44
+lead.df <- na.omit(lead.df)
 
-names(lead) <- c(   "IO",
+names(lead.df) <- c(   "IO",
                     "Time",
                     "Lead: identify champions for TPP",
                     "Lead: prioritize TPP programs",
@@ -539,9 +535,9 @@ names(lead) <- c(   "IO",
                     "LGBTQ: use forms for participants' name",
                     "LGBTQ: use forms for participants' pronouns")
 
-staff <- Likert.df[c(2,73,45:72)] #IO, time, sup/fac scales 45:72
-staff <- na.omit(staff)
-names(staff) <- c(  "IO",
+#staff <- Likert.df[c(2,73,45:72)] #IO, time, sup/fac scales 45:72
+staff.df <- na.omit(staff.df)
+names(staff.df) <- c(  "IO",
                     "Time",
                     "Implement: understand social causes",
                     "Implement: comfortable with sexual health ed",
@@ -573,117 +569,181 @@ names(staff) <- c(  "IO",
                     "PYD: use YAC recommendations")
 
 library(likert)
-# all IOs, cross-sectional
+###################################
+# all IOs, all responses together #
+###################################
 
-# Leadership
-leadall <- likert(lead[,3:42])
+# Leadership (all IOs, cross-sectional, by area)
+
+leadall <- likert(lead.df[,3:42])
 plot(leadall) + ggtitle ("Leadership's Perceptions of Needs")
 ggsave ("All IPNA (Leadership).png", width = 8, height = 10)
 
-leadpolicy <- likert(lead[,3:6]) 
+leadpolicy <- likert(lead.df[,3:6]) 
 plot(leadpolicy) + ggtitle ("Leadership's Perceptions - Policies")
 ggsave("Policy (Leadership).png", height = 2)
 
-leadpartner <- likert(lead[,7:10]) 
+leadpartner <- likert(lead.df[,7:10]) 
 plot(leadpartner) + ggtitle ("Leadership's Perceptions - Partnerships")
 ggsave("Partnerships (Leadership).png", height = 2)
 
-leadsustain <- likert(lead[,11:14]) 
+leadsustain <- likert(lead.df[,11:14]) 
 plot(leadsustain) + ggtitle ("Leadership's Perceptions - Sustainability")
 ggsave("Sustainability (Leadership).png", height = 2)
 
-leadimpl <- likert(lead[,15:19]) 
+leadimpl <- likert(lead.df[,15:19]) 
 plot(leadimpl) + ggtitle ("Leadership's Perceptions - Implementation")
 ggsave("Implementation (Leadership).png", height = 2.25)
 
-leadeval <- likert(lead[,20:24]) 
+leadeval <- likert(lead.df[,20:24]) 
 plot(leadeval) + ggtitle ("Leadership's Perceptions - Evaluation")
 ggsave("Evaluation (Leadership).png", height = 2.25)
 
-leadtia <- likert(lead[,25:30]) 
+leadtia <- likert(lead.df[,25:30]) 
 plot(leadtia) + ggtitle ("Leadership's Perceptions - Trauma-Informed Approaches")
 ggsave("TIA (Leadership).png", height = 2.5)
 
-leadpyd <- likert(lead[,31:33]) 
+leadpyd <- likert(lead.df[,31:33]) 
 plot(leadpyd) + ggtitle ("Leadership's Perceptions - Positive Youth Development")
 ggsave("PYD (Leadership).png", width = 9, height = 2)
 
-leadlgbt <- likert(lead[,34:42]) 
+leadlgbt <- likert(lead.df[,34:42]) 
 plot(leadlgbt) + ggtitle ("Leadership's Perceptions - LGBTQ+ Inclusivity")
 ggsave("LGBTQ (Leadership).png", width = 9, height = 3.25)
 
-#Supervisors/Facilitators
+#Supervisors/Facilitators (all IOs, cross-sectional, by area)
 
-staffall <- likert(staff[,3:30])
+staffall <- likert(staff.df[,3:30])
 plot(staffall) + ggtitle ("Supervisors/Facilitators' Perceptions of Needs")
 ggsave ("All IPNA (Staff).png", width = 9, height = 8)
 
-staffimpl <- likert(staff[,3:14]) 
+staffimpl <- likert(staff.df[,3:14]) 
 plot(staffimpl) + ggtitle ("Supervisors/Facilitators' Perceptions - Implementation")
 ggsave("Implementation (Staff).png", width = 9, height = 3.75)
 
-stafftia <- likert(staff[,15:18]) 
+stafftia <- likert(staff.df[,15:18]) 
 plot(stafftia) + ggtitle ("Supervisors/Facilitators' Perceptions - Trauma-Informed Approaches")
 ggsave("TIA (Staff).png", width = 9, height = 2.25)
 
-stafflgbt <- likert(staff[,19:25]) 
+stafflgbt <- likert(staff.df[,19:25]) 
 plot(stafflgbt) + ggtitle ("Supervisors/Facilitators' Perceptions - LGBTQ+ Inclusivity")
 ggsave("LGBTQ (Staff).png", width = 9, height = 2.5) 
 
-staffpyd <- likert(staff[,26:30]) 
+staffpyd <- likert(staff.df[,26:30]) 
 plot(staffpyd) + ggtitle ("Supervisors/Facilitators' Perceptions - Positive Youth Development")
 ggsave("PYD (Staff).png", width = 9, height = 2.25)
 
-# over time
+######################
+# all IOs, over time #
+######################
 
-#leadership
-leadpolicy <- likert(lead[,3:6], grouping = lead$Time) 
+#Leadership (all IOs, longitudinal, by area)
+
+leadpolicy <- likert(lead.df[,3:6], grouping = lead.df$Time) 
 plot(leadpolicy, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Policies")
 ggsave("Policy (Leadership) - 12.png", height = 5)
 
-leadpartner <- likert(lead[,7:10], grouping = lead$Time) 
+leadpartner <- likert(lead.df[,7:10], grouping = lead.df$Time) 
 plot(leadpartner, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Partnerships")
 ggsave("Partnerships (Leadership) - 12.png", height = 5)
 
-leadsustain <- likert(lead[,11:14], grouping = lead$Time) 
+leadsustain <- likert(lead.df[,11:14], grouping = lead.df$Time) 
 plot(leadsustain, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Sustainability")
 ggsave("Sustainability (Leadership) - 12.png", height = 5)
 
-leadimpl <- likert(lead[,15:19], grouping = lead$Time) 
+leadimpl <- likert(lead.df[,15:19], grouping = lead.df$Time) 
 plot(leadimpl, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Implementation")
 ggsave("Implementation (Leadership) - 12.png", height = 6)
 
-leadeval <- likert(lead[,20:24], grouping = lead$Time) 
+leadeval <- likert(lead.df[,20:24], grouping = lead.df$Time) 
 plot(leadeval, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Evaluation")
 ggsave("Evaluation (Leadership) - 12.png", height = 6)
 
-leadtia <- likert(lead[,25:30], grouping = lead$Time) 
+leadtia <- likert(lead.df[,25:30], grouping = lead.df$Time) 
 plot(leadtia, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Trauma-Informed Approaches")
-ggsave("TIA (Leadership) - 12.png", height = 6.5)
+ggsave("TIA (Leadership) - 12.png", height = 7)
 
-leadpyd <- likert(lead[,31:33], grouping = lead$Time) 
+leadpyd <- likert(lead.df[,31:33], grouping = lead.df$Time) 
 plot(leadpyd, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - Positive Youth Development")
-ggsave("PYD (Leadership) - 12.png", height = 4)
+ggsave("PYD (Leadership) - 12.png", height = 3)
 
-leadlgbt <- likert(lead[,34:42], grouping = lead$Time) 
+leadlgbt <- likert(lead.df[,34:42], grouping = lead.df$Time) 
 plot(leadlgbt, group.order = c("Before","Middle","After")) + ggtitle ("Leadership's Perceptions - LGBTQ+ Inclusivity")
-ggsave("LGBTQ (Leadership) - 12.png", height = 10)
+ggsave("LGBTQ (Leadership) - 12.png", height = 12)
 
-#Supervisors/Facilitators
-staffimpl <- likert(staff[,3:14], grouping = staff$Time) 
+#Supervisors/Facilitators (all IOs, longitudinal, by area)
+
+staffimpl <- likert(staff.df[,3:14], grouping = staff.df$Time) 
 plot(staffimpl, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Implementation")
-ggsave("Implementation (Staff) - 12.png", height = 12)
+ggsave("Implementation (Staff) - 12.png", height = 15)
 
-stafftia <- likert(staff[,15:18], grouping = staff$Time) 
+stafftia <- likert(staff.df[,15:18], grouping = staff.df$Time) 
 #plot(stafftia, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Trauma-Informed Approaches")
-ggsave("TIA (Staff) - 12.png", height = 5)
+ggsave("TIA (Staff) - 12.png", height = 7)
 
-stafflgbt <- likert(staff[,19:25], grouping = staff$Time) 
+stafflgbt <- likert(staff.df[,19:25], grouping = staff.df$Time) 
 plot(stafflgbt, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - LGBTQ+ Inclusivity")
-ggsave("LGBTQ (Staff) - 12.png", height = 5) 
+ggsave("LGBTQ (Staff) - 12.png", height = 7) 
 
-staffpyd <- likert(staff[,26:30], grouping = staff$Time) 
+staffpyd <- likert(staff.df[,26:30], grouping = staff.df$Time) 
 plot(staffpyd, group.order = c("Before","Middle","After")) + ggtitle ("Supervisors/Facilitators' Perceptions - Positive Youth Development")
-ggsave("PYD (Staff) - 12.png", height = 6)
+ggsave("PYD (Staff) - 12.png", height = 6.5)
+
+##################################
+# by IOs, all responses together #
+##################################
+
+  # ACDSS.df <- ipna.df[ipna.df$IO=="AC DSS",c(1:2,4:13,16:75,77)]
+     # CHS.df <- ipna.df[ipna.df$IO=="CHS",c(1:2,4:13,16:75,77)]
+      CGDCs.df <- staff.df[staff.df$IO=="CGDC",c(2:30)]
+      CGDSl.df <- lead.df[lead.df$IO=="CGDC",c(2:42)]
+CROSSROADSs.df <- staff.df[staff.df$IO=="CrossRoads",c(2:30)]
+CROSSROADSl.df <- lead.df[lead.df$IO=="CrossRoads",c(2:42)]
+      ELONs.df <- staff.df[staff.df$IO=="Elon",c(2:30)]
+      ELONl.df <- lead.df[lead.df$IO=="Elon",c(2:42)]
+      PAYCs.df <- staff.df[staff.df$IO=="PAYC",c(2:30)]
+      PAYCl.df <- lead.df[lead.df$IO=="PAYC",c(2:42)]      
+      SABGCs.df <- staff.df[staff.df$IO=="SA B&GC",c(2:30)]
+      SABGCl.df <- lead.df[lead.df$IO=="SA B&GC",c(2:42)]      
+
+cgdclall <- likert(CGDSl.df[,2:41])
+plot(cgdclall) + ggtitle ("CityGate Dream Center Leadership's Perceptions of Needs")
+ggsave ("CGDC IPNA (Leadership).png", width = 8, height = 10)
+
+cgdcsall <- likert(CGDCs.df[,2:29])
+plot(cgdcsall) + ggtitle ("CityGate Dream Center Supervisors/Facilitators' Perceptions of Needs")
+ggsave ("CGDC IPNA (Staff).png", width = 9, height = 8)
+
+crossroadslall <- likert(CROSSROADSl.df[,2:41])
+plot(crossroadslall) + ggtitle ("CrossRoads Leadership's Perceptions of Needs")
+ggsave ("CrossRoads IPNA (Leadership).png", width = 8, height = 10)
+
+crossroadssall <- likert(CROSSROADSs.df[,2:29])
+plot(crossroadssall) + ggtitle ("CrossRoads Supervisors/Facilitators' Perceptions of Needs")
+ggsave ("CrossRoads IPNA (Staff).png", width = 9, height = 8)
+
+elonlall <- likert(ELONl.df[,2:41])
+plot(elonlall) + ggtitle ("Elon Leadership's Perceptions of Needs")
+ggsave ("Elon IPNA (Leadership).png", width = 8, height = 10)
+
+elonsall <- likert(ELONs.df[,2:29])
+plot(elonsall) + ggtitle ("Elon Supervisors/Facilitators' Perceptions of Needs")
+ggsave ("Elon IPNA (Staff).png", width = 9, height = 8)
+
+payclall <- likert(PAYCl.df[,2:41])
+plot(payclall) + ggtitle ("PAYC Leadership's Perceptions of Needs")
+ggsave ("PAYC IPNA (Leadership).png", width = 8, height = 10)
+
+paycsall <- likert(PAYCs.df[,2:29])
+plot(paycsall) + ggtitle ("PAYC Supervisors/Facilitators' Perceptions of Needs")
+ggsave ("PAYC IPNA (Staff).png", width = 9, height = 8)
+
+sabgclall <- likert(SABGCl.df[,2:41])
+plot(sabgclall) + ggtitle ("SABGC Leadership's Perceptions of Needs")
+ggsave ("SABGC IPNA (Leadership).png", width = 8, height = 10)
+
+sabgcsall <- likert(SABGCs.df[,2:29])
+plot(sabgcsall) + ggtitle ("SABGC Supervisors/Facilitators' Perceptions of Needs")
+ggsave ("SABGC IPNA (Staff).png", width = 9, height = 8)
 
 ```
