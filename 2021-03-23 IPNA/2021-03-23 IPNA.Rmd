@@ -745,5 +745,4 @@ ggsave ("SABGC IPNA (Leadership).png", width = 8, height = 10)
 sabgcsall <- likert(SABGCs.df[,2:29])
 plot(sabgcsall) + ggtitle ("SABGC Supervisors/Facilitators' Perceptions of Needs")
 ggsave ("SABGC IPNA (Staff).png", width = 9, height = 8)
-
 ```

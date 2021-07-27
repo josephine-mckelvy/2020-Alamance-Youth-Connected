@@ -1,17 +1,27 @@
 ---
-title: 'Section Data: Pre-Test Summary; Reach (P/PT), Dosage & Fidelity (QPR)'
+title: 'Section Data'
+subtitle: Pre-Test Summary; Reach (Pre/Post Test), Dosage & Fidelity (QPR)
 author: "Josephine McKelvy"
 date: "March 17, 2021"
 output:
   html_document:
     df_print: paged
-subtitle: Summarizing Data by Group
+
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 # Pre/Post Test
+- import all responses (as *.csv & numeric values)
+- name the variables/columns
+- replace the blanks with missing (NA)
+- lowercase the strings (i.e., group names)
+- format the dates
+- convert the "Check all that apply" into dummy variables
+- factor the categorical variables
+- subset the scales
+- plot the diverging bar charts & save
 ```{r}
 rawppt.df <- read.csv("Participant Pre-  Post-Test Survey.csv", stringsAsFactors = TRUE)
 ppt.df <- rawppt.df[2:nrow(rawppt.df),c(12:69,77:115)] #97 variables
@@ -265,15 +275,14 @@ ppt.df$`I felt uncomfortable participating*` <- factor(ppt.df$`I felt uncomforta
                                                       labels = labellikert,
                                                       ordered = FALSE)
 
-#Pre/Post Test by group if group name is exact (Update thisgroup name below):
-thisgroup <- "dreamcenter06"
-
-library(likert)
-
 ########################
 # Pre-Test: Experience #
 ########################
 
+#Pre/Post Test by group if group name is exact (Update thisgroup name below):
+thisgroup <- "dreamcenter06"
+
+library(likert)
 ptexperlkt.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(26:31)] #6 Experience variables (likert)
 ptexperlkt.df <- na.omit(ptexperlkt.df) 
 
@@ -386,7 +395,17 @@ satisflkt <- likert(ptsatisfaction.df[,2:9])
 plot(satisflkt) + ggtitle("Participants' Satisfaction with the Group")
 ggsave("PAYC071221 - Satisfaction.png", width = 9, height = 3.25)
 ```
-# Quarterly Program Reports
+# Fidelity Logs & Quarterly Program Reports
+- import all responses (as *.csv & numeric values)
+- name the variables/columns
+- replace the blanks with missing (NA)
+- lowercase the strings (i.e., group names)
+- format the dates
+- convert the "Check all that apply" into dummy variables
+- factor the categorical variables
+- subset the scales
+- append the long form data
+- table & save
 ```{r}
 rawflqpr.df <- read.csv("Facilitators Evaluation Tools.csv", stringsAsFactors = TRUE)
 flqpr.df <- rawflqpr.df[2:nrow(rawflqpr.df),c(10:30,32:36,38:47,49:53,55:64,66:70,72:81,83:87,89:93,95:99,101:105,107,115:121,141:153,155:167,169:181,183:195, 196)] #145 variables
@@ -471,21 +490,19 @@ labelinc <- c("N&B1-2","1","N&B3","2","3","KTA")
 labelsl <- c("KTA1","KTA2","KTA3","TMHYLI1","TMHYLI2","TMHYLI3","TMHYLI4","TMHYLI5")
 labelhow <- c("as written","with changes","incomplete")
 labelset <- c("school","other CBO","out-of-home","homeless","juvenile justice","clinic","faith-based")
-labelperiod <- c("Y1-Q1","Y1-Q2","Y1-Q3","Y1-Q4","Y2-Q1","Y2-Q2","Y2-Q3","Y2-Q4","Y3-Q1","Y3-Q2","Y3-Q3","Y3-Q4")
+labelperiod <- c("Y1-SAPR1","Y1-SAPR1","Y1-SAPR2","Y1-SAPR2","Y2-SAPR1","Y2-SAPR1","Y2-SAPR2","Y2-SAPR2","Y3-SAPR1","Y3-SAPR1","Y3-SAPR2","Y3-SAPR2")
 
 flqpr.df$tool <- factor(flqpr.df$tool,
-                       levels = c(1,2,3),
-                       labels = c("P/PT","FL","QPR"))
-
+                          levels = c(1,2,3),
+                          labels = c("P/PT","FL","QPR"))
 flqpr.df$`FL io` <- factor(flqpr.df$`FL io`,
                           levels = c(1,2,3,4,5,6,7,8),
                           labels = labelio)
-
 flqpr.df$`FL ebp` <- factor(flqpr.df$`FL ebp`,
                            levels = c(1,2,3,4,5,6,7),
                            labels = labelepb)
 
-#lesson names for MPC & IN-clued only
+#Fidelity Logs: lesson names for MPC & IN-clued only
 flqpr.df$`MPC1 name` <- factor(flqpr.df$`MPC1 name`,
                               levels = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14),
                               labels = labelmpc)
@@ -506,7 +523,7 @@ flqpr.df$`IN3 name` <- factor(flqpr.df$`IN3 name`,
                              levels = c(1,2,3,4,5,6),
                              labels = labelinc)
 
-#lesson implementation for all EBPs with Fidelity Logs
+#Fidelity Logs: lesson implementation for all EBPs with Fidelity Logs
 flqpr.df$`LN1 how` <- factor(flqpr.df$`LN1 how`,
                             levels = c(1,2,3),
                             labels = labelhow)
@@ -553,41 +570,35 @@ flqpr.df$`SL5 how` <- factor(flqpr.df$`SL5 how`,
                             levels = c(1,2,3),
                             labels = labelhow)
 
-# Quarterly Program Reports
-
+#Quarterly Program Reports
 flqpr.df$`QPR io` <- factor(flqpr.df$`QPR io`,
-                           levels = c(1,2,3,4,5,6,7,8),
-                           labels = labelio)
+                                   levels = c(1,2,3,4,5,6,7,8),
+                                   labels = labelio)
 flqpr.df$`QPR setting` <- factor(flqpr.df$`QPR setting`,
-                                levels = c(1,2,3,4,5,6,7),
-                                labels = labelset)
+                                   levels = c(1,2,3,4,5,6,7),
+                                   labels = labelset)
 flqpr.df$`QPR prog spec` <- factor(flqpr.df$`QPR prog spec`,
-                                  levels = c(1,2),
-                                  labels = c("Lisa","Caro"))
+                                   levels = c(1,2),
+                                   labels = c("Lisa","Caro"))
 flqpr.df$`QPR period` <- factor(flqpr.df$`QPR period`,
-                               levels = c(1,2,3,4,5,6,7,8,9,10,11,12),
-                               labels = labelperiod)
+                                   levels = c(1,2,3,4,5,6,7,8,9,10,11,12),
+                                   labels = labelperiod)
 flqpr.df$`QPR ebp` <- factor(flqpr.df$`QPR ebp`,
-                           levels = c(1,2,3,4,5,6,7),
-                           labels = labelepb)
-
-begin  <- "2020-07-01" #options: "2020-07-01", "2021-07-01", "2022-07-01"
-finish <- "2021-06-30" #options: "2021-06-30", "2022-06-30", "2023-06-30"
-
-y1.df <- flqpr.df[flqpr.df$`MPC1 start` >=begin & flqpr.df$`MPC1 start` <=finish, c(1:147)]
-y2.df <- flqpr.df[flqpr.df$`MPC1 start` >=begin & flqpr.df$`MPC1 start` <=finish, c(1:147)]
-y3.df <- flqpr.df[flqpr.df$`MPC1 start` >=begin & flqpr.df$`MPC1 start` <=finish, c(1:147)]
+                                   levels = c(1,2,3,4,5,6,7),
+                                   labels = labelepb)
 
 #######################
 # OAH 2: Dosage (all) #
 #######################
-year <- "Y1"  #options: "Y2", "Y2", "Y3"
+
+#Reach & Retention by group reported in the QPR; convert to wide form to long form data
+period <- "Y1-SAPR2"  #options: "Y1-SAPR1", "Y1-SAPR2", "Y2-SAPR1", "Y2-SAPR2", "Y3-SAPR1", "Y3-SAPR2",
 curr <- "MPC" #options:" "MPC", "IN-clued"
 
-qpr1 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(95,96,100:102)]
-qpr2 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(108,109,113:115)]
-qpr3 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(121,122,126:128)]
-qpr4 <- flqpr.df[flqpr.df$`QPR period` %like% year & flqpr.df$`QPR ebp`==curr, c(134,135,139:141)]
+qpr1 <- flqpr.df[flqpr.df$`QPR period` %like% period & flqpr.df$`QPR ebp`==curr, c(95,96,100:102)]
+qpr2 <- flqpr.df[flqpr.df$`QPR period` %like% period & flqpr.df$`QPR ebp`==curr, c(108,109,113:115)]
+qpr3 <- flqpr.df[flqpr.df$`QPR period` %like% period & flqpr.df$`QPR ebp`==curr, c(121,122,126:128)]
+qpr4 <- flqpr.df[flqpr.df$`QPR period` %like% period & flqpr.df$`QPR ebp`==curr, c(134,135,139:141)]
 
 names(qpr1) <- c("Group Name","# Sessions/Meetings","Reach","Average Attendance","Retention")
 names(qpr2) <- c("Group Name","# Sessions/Meetings","Reach","Average Attendance","Retention")
@@ -604,11 +615,17 @@ tab_df(dosage,
 
 #repeat for IN-clued
 
-#############################
-# OAH 3: Fidelity & Quality #
-#############################
+################################################
+# OAH 3: Fidelity & Quality: Lessons Completed #
+################################################
 
-table(y1.df$`FL grp`,y1.df$`FL ebp`) 
+#Subsets by time frame: Update begin & finish dates below
+begin  <- "2021-01-01" #options: "2020-07-01", "2021-01-01", "2021-07-01", "2022-01-01", "2022-07-01", "2023-01-01"
+finish <- "2021-06-30" #options: "2020-12-31", "2021-06-30", "2021-12-31", "2022-06-30", "2022-12-31", "2023-06-30"
+
+saprfl.df <- flqpr.df[flqpr.df$`MPC1 start` >=begin & flqpr.df$`MPC1 start` <=finish, c(1:147)]
+
+table(saprfl.df$`FL grp`,saprfl.df$`FL ebp`) 
 #How many sections/groups have fidelity logs? How many logs per section/group? For which EBP? Technically, this is the lessons completed. 
 #Doesn't seem to match this dataframe of all FLs for the year:
 
@@ -623,7 +640,8 @@ names(mpc3) <- c("FL Group", "Lesson Name", "Start Date", "MPC Implementation", 
 mpcflall <- rbind.data.frame(mpc1,mpc2,mpc3)
 mpcflall <- na.omit(mpcflall)
 
-#Double check by group, using the appended logs below by EBP:
+#Optional: Double check by group, using the appended logs below by EBP
+
 #Append the MPC lesson logs into a long form fidelity log, by group/section:
 mpcgrp <- "dreamcenter032421"
 
@@ -652,7 +670,9 @@ names(inc3) <- c("FL Group", "Lesson Name", "Start Date", "IN-clued Implementati
 incfl <- rbind.data.frame(inc1,inc2,inc3)
 incfl <- na.omit(incfl)
 
-########################
+###########################################
+# OAH 3: Fidelity & Quality: Observations #
+###########################################
 
 rawobs.df <- read.csv("OAH Program Observation Form for TPP Grantees.csv", stringsAsFactors = TRUE)
 obs.df <- rawobs.df[2:nrow(rawobs.df),c(11,20,23,22,21,34)]
@@ -691,10 +711,11 @@ kable(obs.df)
 # OAH 4: Supportive Services #
 ##############################
 
-#IO's referrals for every group in the reporting period (change values of the IO):
+#subset by period:
 referralsall.df <- flqpr.df[flqpr.df$`MPC1 start` >=begin & flqpr.df$`MPC1 start` <=finish,c(3,9:15)] 
 referralsall.df <- na.omit(referralsall.df)
 
+#subset by service:
 referralsall.df$`FL ref edu` <- as.numeric(as.character(referralsall.df$`FL ref edu`))
 referralsall.df$`FL ref mh` <- as.numeric(as.character(referralsall.df$`FL ref mh`))
 referralsall.df$`FL ref pcp` <- as.numeric(as.character(referralsall.df$`FL ref pcp`))
@@ -703,6 +724,7 @@ referralsall.df$`FL ref srh` <- as.numeric(as.character(referralsall.df$`FL ref 
 referralsall.df$`FL ref viol` <- as.numeric(as.character(referralsall.df$`FL ref viol`))
 referralsall.df$`FL ref voc` <- as.numeric(as.character(referralsall.df$`FL ref voc`))
 
+#sum each service
 edu <- sum(referralsall.df$`FL ref edu`)
 mh <- sum(referralsall.df$`FL ref mh`)
 pcp <- sum(referralsall.df$`FL ref pcp`)
@@ -711,17 +733,20 @@ srh <- sum(referralsall.df$`FL ref srh`)
 viol <- sum(referralsall.df$`FL ref viol`)
 voc <- sum(referralsall.df$`FL ref voc`)
 
+#create a new dataframe with the sums
 suppsrvs <- data.frame(referral=c("SRH","MH","SA","PCP","EDU","VOC","VIOL"),count=c(srh,mh,sa,pcp,edu,voc,viol))
 
+#create a table with all referrals total (for SAPR)
 tab_df(suppsrvs,
        title = "Y1 Referrals for all IOs",
        file = "Y1 Referrals Table - all IOs.doc")
 
+#subset by IO & period:
 org <- "SA" #options: "ACDSS", "CHS", "DreamCenter", PAYC", "SA"
 referrals.df <- flqpr.df[flqpr.df$`FL io` %like% org & flqpr.df$`MPC1 start` >=begin & flqpr.df$`MPC1 start` <=finish,c(3,9:15)] 
 referrals.df <- na.omit(referrals.df)
 
-#OAH 4: Referrals
+#subset by service:
 referrals.df$`FL ref edu` <- as.numeric(as.character(referrals.df$`FL ref edu`))
 referrals.df$`FL ref mh` <- as.numeric(as.character(referrals.df$`FL ref mh`))
 referrals.df$`FL ref pcp` <- as.numeric(as.character(referrals.df$`FL ref pcp`))
@@ -730,6 +755,7 @@ referrals.df$`FL ref srh` <- as.numeric(as.character(referrals.df$`FL ref srh`))
 referrals.df$`FL ref viol` <- as.numeric(as.character(referrals.df$`FL ref viol`))
 referrals.df$`FL ref voc` <- as.numeric(as.character(referrals.df$`FL ref voc`))
 
+#sum each service
 edu <- sum(referrals.df$`FL ref edu`)
 mh <- sum(referrals.df$`FL ref mh`)
 pcp <- sum(referrals.df$`FL ref pcp`)
@@ -738,13 +764,23 @@ srh <- sum(referrals.df$`FL ref srh`)
 viol <- sum(referrals.df$`FL ref viol`)
 voc <- sum(referrals.df$`FL ref voc`)
 
+#create a new dataframe with the sums
 suppsrvs <- data.frame(referral=c("SRH","MH","SA","PCP","EDU","VOC","VIOL"),count=c(srh,mh,sa,pcp,edu,voc,viol))
 
+#create a table with all referrals for this IO (for OAHPMdata); change titles and file names
 tab_df(suppsrvs,
        title = "Y1 Referrals for: SA",
        file = "SA - Y1 Referrals Table.doc")
 ```
 # Alamance Cares
+- import all responses (as *.csv & numeric values)
+- convert the "Check all that apply" into dummy variables
+- factor the categorical variables
+- format the dates
+- subset the scales
+- name the variables/columns
+- append the long form data
+- table & save
 ```{r}
 # Alamance Cares: Supportive Services
 rawcares.df <- read.csv("Alamance Cares Testing Data.csv", stringsAsFactors = TRUE)
@@ -766,8 +802,8 @@ rawcares.df$Month <- factor(rawcares.df$Month,
 
 rawcares.df$Date <- as.Date(rawcares.df$Month, format = "%Y-%m-%d")
 
-younger.df <- rawcares.df[rawcares.df$Date >="2021-01-01" & rawcares.df$Date <="2021-06-30", c(2:23,46)]
-older.df   <- rawcares.df[rawcares.df$Date >="2021-01-01" & rawcares.df$Date <="2021-06-30", c(24:46)]
+younger.df <- rawcares.df[rawcares.df$Date >=begin & rawcares.df$Date <=finish, c(2:23,46)]
+older.df   <- rawcares.df[rawcares.df$Date >=begin & rawcares.df$Date <=finish, c(24:46)]
 
 younger.df$Age <- "14-17"
 older.df$Age <- "18-19"
@@ -775,9 +811,9 @@ older.df$Age <- "18-19"
 names(younger.df) <- c("Men","Women","F2M", "M2F","Other gender","White","Black","Native","Asian", "Pacific Islander","Multiracial","Race not specified","Race unknown","Hispanic","Non Hispanic","Ethnicity Unknown","Alamance Cares","ACC","ACHD","Elon","Maplebrook","SA","Date","Age")
 names(older.df) <- c("Men","Women","F2M", "M2F","Other gender","White","Black","Native","Asian", "Pacific Islander","Multiracial","Race not specified","Race unknown","Hispanic","Non Hispanic","Ethnicity Unknown","Alamance Cares","ACC","ACHD","Elon","Maplebrook","SA","Date","Age")
 
-cares.df <- rbind(younger.df,older.df)
+cares.df <- rbind(younger.df,older.df) #6 months x 2 age groups = 12 obs
 
-#haven't figured out how to output a pub-ready table
+#haven't figured out how to output a pub-ready table since this is already aggregated data; ended up doing counts & percents in excel
 women <- aggregate(x=cares.df$Women,
                    by= list(cares.df$Age),
                    FUN=sum)
