@@ -396,6 +396,25 @@ yrexperiencelkt <- likert(items=yrptexperlkt.df)
 plot(yrexperiencelkt, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
 ggsave("Year 1 - Experiences - Pre.png", width = 9, height = 2.5)
 
+#compute the average pre-test score to use as a threshold against the average post-test score in a one-sample t test
+
+rawpre.df <- read.csv("QuizSummaryYR1pre.csv")
+yrpre.df <- rawpre.df[2:nrow(rawpre.df),c(2)] 
+
+meanpre <- mean(as.numeric(sub("%","",yrpre.df))) 
+
+rawpost.df <- read.csv("QuizSummaryYR1post.csv")
+yrpost.df <- rawpost.df[2:nrow(rawpost.df),c(2)] 
+yrpost.df <- as.numeric(sub("%","",yrpost.df))
+
+t.test(yrpost.df, mu = meanpre, alternative = "greater")
+library(effectsize)
+cohens_d(yrpost.df, mu = meanpre, alternative = "greater")
+length(yrpost.df)
+length(yrpre.df)
+
+################################################
+       
 yrptthoughts.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish,c(2,4,94:98)] #5 Thought variables (likert) for Pre AND Post
 yrptthoughts.df <- na.omit(yrptthoughts.df) 
 
@@ -412,8 +431,6 @@ yrptsatisfaction.df <- na.omit(yrptsatisfaction.df)
 yrsatisflkt <- likert(yrptsatisfaction.df[,2:9])
 plot(yrsatisflkt) + ggtitle("Participants' Satisfaction with the Group")
 ggsave("Year 1 - Satisfaction.png", width = 9, height = 3.25)
-
-t.test(x, mu = 0, alternative = "two.sided")
 
 ################
 # OAH 1: Reach #

@@ -248,7 +248,7 @@ fac.df$`First Time` <- factor(fac.df$`First Time`,
                     levels = c(1,2),
                     labels = c("Yes", "No"))
 
-fac.df$`Menstrual` <- factor(fac.df$`Menstrual`,
+fac.df$`Capable: Menstrual` <- factor(fac.df$`Capable: Menstrual`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
@@ -256,7 +256,7 @@ fac.df$`Comfort: Menstrual` <- factor(fac.df$`Comfort: Menstrual`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
-fac.df$`Types of Sex` <- factor(fac.df$`Types of Sex`,
+fac.df$`Capable: Types of Sex` <- factor(fac.df$`Capable: Types of Sex`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
@@ -264,7 +264,7 @@ fac.df$`Comfort: Types of Sex` <- factor(fac.df$`Comfort: Types of Sex`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
-fac.df$`Contraception` <- factor(fac.df$`Contraception`,
+fac.df$`Capable: Contraception` <- factor(fac.df$`Capable: Contraception`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
@@ -272,7 +272,7 @@ fac.df$`Comfort: Contraception` <- factor(fac.df$`Comfort: Contraception`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
-fac.df$`Condom Use` <- factor(fac.df$`Condom Use`,
+fac.df$`Capable: Condom Use` <- factor(fac.df$`Capable: Condom Use`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
@@ -280,7 +280,7 @@ fac.df$`Comfort: Condom Use` <- factor(fac.df$`Comfort: Condom Use`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
-fac.df$`STI transmission` <- factor(fac.df$`STI transmission`,
+fac.df$`Capable: STI transmission` <- factor(fac.df$`Capable: STI transmission`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
@@ -288,7 +288,7 @@ fac.df$`Comfort: STIs transmission` <- factor(fac.df$`Comfort: STIs transmission
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
-fac.df$`STI effects` <- factor(fac.df$`STI effects`,
+fac.df$`Capable: STI effects` <- factor(fac.df$`Capable: STI effects`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
@@ -296,7 +296,7 @@ fac.df$`Comfort: STI effects` <- factor(fac.df$`Comfort: STI effects`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
-fac.df$`STI treatment` <- factor(fac.df$`STI treatment`,
+fac.df$`Capable: STI treatment` <- factor(fac.df$`Capable: STI treatment`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
@@ -304,7 +304,7 @@ fac.df$`Comfort: STI treatment` <- factor(fac.df$`Comfort: STI treatment`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
-fac.df$`Biological sex` <- factor(fac.df$`Biological sex`,
+fac.df$`Capable: Biological sex` <- factor(fac.df$`Capable: Biological sex`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
@@ -312,7 +312,7 @@ fac.df$`Comfort: Biological sex` <- factor(fac.df$`Comfort: Biological sex`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
-fac.df$`Gender norms` <- factor(fac.df$`Gender norms`,
+fac.df$`Capable: Gender norms` <- factor(fac.df$`Capable: Gender norms`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
@@ -320,7 +320,7 @@ fac.df$`Comfort: Gender norms` <- factor(fac.df$`Comfort: Gender norms`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
-fac.df$`Sexual orientation` <- factor(fac.df$`Sexual orientation`,
+fac.df$`Capable: Sexual orientation` <- factor(fac.df$`Capable: Sexual orientation`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
@@ -328,7 +328,7 @@ fac.df$`Comfort: Sexual orientation` <- factor(fac.df$`Comfort: Sexual orientati
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
-fac.df$`Relationships` <- factor(fac.df$`Capable: Relationships`,
+fac.df$`Capable: Relationships` <- factor(fac.df$`Capable: Relationships`,
                                levels = c(4,3,2,1),
                                labels = labelskill,
                                ordered = TRUE)
@@ -480,7 +480,7 @@ combined <- na.omit(combined)
 
 combinedlkt <- likert(items=combined[,1:27], grouping = combined$type)
 plot(combinedlkt, positive.order = TRUE) + ggtitle("Facilitators' Capability & Comfort Levels")
-ggsave("Facilitators Assessment.png", width = 9, height = 20)
+ggsave("Facilitators Assessment-all.png", width = 9, height = 20)
 
 lkt1 <- likert(items=combined[,1:12], grouping = combined$type)
 plot(lkt1, positive.order = TRUE) + ggtitle("Facilitators' Capability & Comfort Levels: Topics of Sexual Health")
