@@ -126,17 +126,29 @@ cleanIt <- function(vec){
 - There is a multiple-response item/column with varying numbers of options for each implementing organization (IO): columns 16-25 of the ta.df. Use list apply (lapply) to repeat the "cleanIt" function to those columns, i.e., your vectors.  
 ```{r}
 ta.df[17:25] <- lapply(ta.df[17:25], cleanIt) # IOs
-ta.df[30:82] <- lapply(ta.df[30:82], cleanIt) # GTO
+ta.df[30:60] <- lapply(ta.df[30:60], cleanIt) # GTO
+ta.df[61:82] <- lapply(ta.df[61:82], cleanIt) # training topics
 
 #If more than one applied, then sum > 1, or "Multiple"
-ta.df$setting <- apply(ta.df[17:25], 1, function(x) {ifelse(sum(x) > 1, "Multiple settings", names(x[x != 0]))})
+ta.df$mainio <- apply(ta.df[17:25], 1, function(x) {ifelse(sum(x) > 1, "Multiple settings", names(x[x != 0]))})
+
+ta.df$mainio <- ifelse(ta.df$mainio %in% c("X.1"),"ACHD",
+                ifelse(ta.df$mainio %in% c("X.4"),"ACDSS",
+                ifelse(ta.df$mainio %in% c("X.5"),"CHS",       
+                ifelse(ta.df$mainio %in% c("X.2"),"CGDC",
+                ifelse(ta.df$mainio %in% c("X.3"),"CrossRoads",
+                ifelse(ta.df$mainio %in% c("X.6"),"PAYC",
+                ifelse(ta.df$mainio %in% c("X.8"),"Exchange",
+                ifelse(ta.df$mainio %in% c("X.9"),"SABGC",
+                ifelse(ta.df$mainio %in% c("X.7"),"Elon",       
+                ifelse(ta.df$mainio %in% c("Multiple settings"),"Multiple settings",NA))))))))))
 
 #If only one applied, re-categorize IO into setting: Clinic, Foster Care, Community, Higher Ed, or Multiple (probably training)
-ta.df$setting <- ifelse(ta.df$setting %in% c("X.1"), 1, #ACHD = Clinic
-           ifelse(ta.df$setting %in% c("X.4","X.5"), 2, #ACDSS, CHS = Foster Care
-           ifelse(ta.df$setting %in% c("X.2","X.3","X.6","X.8","X.9"), 3, #CGDS, CrossRoads, PAYC, Exchange, SABGC = Community
-           ifelse(ta.df$setting %in% c("X.7"), 4, #Elon = Higher Ed
-           ifelse(ta.df$setting %in% c("Multiple settings"), 5, NA)))))
+ta.df$setting <- ifelse(ta.df$mainio %in% c("ACHD"), 1, #ACHD = Clinic
+           ifelse(ta.df$mainio %in% c("ACDSS","CHS"), 2, #ACDSS, CHS = Foster Care
+           ifelse(ta.df$mainio %in% c("CGDC","CrossRoads","PAYC","Exchange","SABGC"), 3, #CGDC, CrossRoads, PAYC, Exchange, SABGC = Community
+           ifelse(ta.df$mainio %in% c("Elon"), 4, #Elon = Higher Ed
+           ifelse(ta.df$mainio %in% c("Multiple settings"), 5, NA)))))
 
 ta.df$setting <- factor(ta.df$setting,
                    levels = c(1,2,3,4,5),
@@ -160,16 +172,16 @@ ta.df$Date.of.Training.or.TA <- as.Date(ta.df$Date.of.Training.or.TA,"%m/%d/%Y")
 
 # Subset data between two dates, inclusive
 year <- ta.df[ta.df$Date.of.Training.or.TA >="2020-07-01" & ta.df$Date.of.Training.or.TA <="2021-06-30"]
-qtr1 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-07-01" & ta.df$Date.of.Training.or.TA <="2021-09-30",]
-qtr2 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-10-01" & ta.df$Date.of.Training.or.TA <="2021-12-31",]
-qtr3 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-01-01" & ta.df$Date.of.Training.or.TA <="2022-03-31",]
-qtr4 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-04-01" & ta.df$Date.of.Training.or.TA <="2022-06-30",]
+#qtr1 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-07-01" & ta.df$Date.of.Training.or.TA <="2021-09-30",]
+#qtr2 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-10-01" & ta.df$Date.of.Training.or.TA <="2021-12-31",]
+#qtr3 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-01-01" & ta.df$Date.of.Training.or.TA <="2022-03-31",]
+#qtr4 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-04-01" & ta.df$Date.of.Training.or.TA <="2022-06-30",]
 ```
 - How many adults (from IOs, CAG) were trained this quarter (by T vs TA)?
 ```{r}
 # https://www.datasciencemadesimple.com/sum-function-in-r/
-aggregate(x = qtr4$How.many.adults.attended.this.training.,
-          by= list(qtr4$Training.or.Technical.Assistance..TA.),
+aggregate(x = year$How.many.adults.attended.this.training.,
+          by= list(year$Training.or.Technical.Assistance..TA.),
           FUN=sum) #will contain duplicates
 ```
 - How many hours of T/TA were provided this quarter? (for SAPR) by setting? (for MERT)
@@ -181,4 +193,28 @@ aggregate(x=year$hours,
 aggregate(x=year$hours,
           by= list(year$setting),
           FUN=sum) #TA by setting
+```
+- GTO
+```{r}
+ta.df$gto <- apply(ta.df[30:60], 1, function(x) {ifelse(sum(x) > 1, "Multiple steps", names(x[x != 0]))})
+
+ta.df$gto <- ifelse(ta.df$gto %in% c("GTO.Step.1..Assessment","X.11","X.12","X.13"),"Step 1",
+             ifelse(ta.df$gto %in% c("Step.2","X.14"),"Step 2",
+             ifelse(ta.df$gto %in% c("GTO.Step.3..Best.Practices","X.15","X.16"),"Step 3",       
+             ifelse(ta.df$gto %in% c("Step.4"),"Step 4",
+             ifelse(ta.df$gto %in% c("GTO.Step.5..Capacity","X.17","X.18","X.19","X.20","X.21","X.22","X.23","X.24"),"Step 5",
+             ifelse(ta.df$gto %in% c("Step.6","X.25","X.26"),"Step 6",
+             ifelse(ta.df$gto %in% c("Step.7","X.27","X.28","X.29"),"Step 7",
+             ifelse(ta.df$gto %in% c("GTO.Step.8..Outcome.Evaluation","X.30","X.31"),"Step 8",
+             ifelse(ta.df$gto %in% c("Step.9"),"Step 9",       
+             ifelse(ta.df$gto %in% c("Step.10"),"Step 10",  
+             ifelse(ta.df$gto %in% c("Multiple steps"),"Multiple steps",NA)))))))))))
+
+# Subset data between two dates, inclusive
+begin  <- "2020-07-01" #options: "2020-07-01", "2021-01-01", "2021-07-01", "2022-01-01", "2022-07-01", "2023-01-01"
+finish <- "2021-06-30" #options: "2020-12-31", "2021-06-30", "2021-12-31", "2022-06-30", "2022-12-31", "2023-06-30"
+iogto <- "CGDC" #options: "ACHD","ACDSS","CHS","CGDC","CrossRoads","PAYC","Exchange","SABGC","Elon" 
+                    
+gto.df <- ta.df[ta.df$Date.of.Training.or.TA >= begin & ta.df$Date.of.Training.or.TA <= finish & ta.df$mainio == "CGDC", c(12:14,30:60,85:88)]
+
 ```
