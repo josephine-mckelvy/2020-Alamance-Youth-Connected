@@ -357,7 +357,7 @@ ptksa.df <- ppt.df[ppt.df$`Group Name`%like% thisgroup,c(2:4,62:93)] #16 KSA var
 # Eval Report #
 ###############
 #Subsets by time frame: Update begin & finish dates below instead of IO
-begin  <- "2020-07-01" #options: "2020-07-01", "2021-01-01", "2021-07-01", "2022-01-01", "2022-07-01", "2023-01-01"
+begin <- "2020-07-01" #options: "2020-07-01", "2021-01-01", "2021-07-01", "2022-01-01", "2022-07-01", "2023-01-01"
 finish <- "2021-06-30" #options: "2020-12-31", "2021-06-30", "2021-12-31", "2022-06-30", "2022-12-31", "2023-06-30"
 
 yrptdemographics.df <- ppt.df[ppt.df$`Start Date` >=begin & ppt.df$`Start Date`<=finish & ppt.df$Time=="Before",c(2,4,5,7:14,16,17,19:23,25)] #8 Demographic variables 
@@ -388,6 +388,8 @@ tab_df(reach,
        title = "Reach for Year 1",
        file = "Year 1 - Demographics Table.doc")
 
+################################################
+
 library(likert)
 yrptexperlkt.df <- ppt.df[ppt.df$`Start Date` >=begin & ppt.df$`Start Date` <=finish & ppt.df$Time=="Before",c(27:32)] #6 Experience variables (likert)
 yrptexperlkt.df <- na.omit(yrptexperlkt.df) 
@@ -395,6 +397,8 @@ yrptexperlkt.df <- na.omit(yrptexperlkt.df)
 yrexperiencelkt <- likert(items=yrptexperlkt.df)
 plot(yrexperiencelkt, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
 ggsave("Year 1 - Experiences - Pre.png", width = 9, height = 2.5)
+
+################################################
 
 #compute the average pre-test score to use as a threshold against the average post-test score in a one-sample t test
 
@@ -424,6 +428,14 @@ ggsave("Year 1 - Thoughts over time.png", width = 9, height = 4.5)
 #may not plot if too many listwise deletions
 
 table(yrptthoughts.df$Time)
+
+chisq.test(yrptthoughts.df$`Prepared to say no if not ready`,yrptthoughts.df$Time)
+chisq.test(yrptthoughts.df$`Prepared to use a barrier method`,yrptthoughts.df$Time)
+chisq.test(yrptthoughts.df$`Prepared to say no if no barrier method`,yrptthoughts.df$Time)
+chisq.test(yrptthoughts.df$`Prepared to use birth control`,yrptthoughts.df$Time)
+chisq.test(yrptthoughts.df$`Prepared to go to a doctor for birth control`,yrptthoughts.df$Time)
+
+################################################
 
 yrptsatisfaction.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish & ppt.df$Time=="After",c(2,48:58)] #11 Group variables on Post
 yrptsatisfaction.df <- na.omit(yrptsatisfaction.df)

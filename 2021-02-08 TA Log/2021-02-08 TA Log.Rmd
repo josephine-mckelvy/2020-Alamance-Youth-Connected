@@ -193,6 +193,10 @@ aggregate(x=year$hours,
 aggregate(x=year$hours,
           by= list(year$setting),
           FUN=sum) #TA by setting
+
+tabyio <- aggregate(x = year$hours,
+          by= list(year$mainio),
+          FUN=sum) 
 ```
 - GTO
 ```{r}
