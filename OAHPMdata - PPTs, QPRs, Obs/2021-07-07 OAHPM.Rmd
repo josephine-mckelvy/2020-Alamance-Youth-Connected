@@ -12,6 +12,14 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+```{r}
+###################
+# READ THIS FIRST #
+###################
+
+# 8/06F: You added a "not sure" option to each of the knowledge questions. That will impact the factor levels and labels. You moved the DOB question to the assent form, which will impact the columns and names of the data frame. 
+
+```
 # Pre/Post Test
 - import all responses (as *.csv & numeric values)
 - name the variables/columns
