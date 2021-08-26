@@ -204,7 +204,7 @@ tabyio <- aggregate(x = year$hours,
 ```
 - GTO
 ```{r}
-ta.df$gto <- apply(ta.df[30:60], 1, function(x) {ifelse(sum(x) > 1, "Multiple steps", names(x[x != 0]))})
+ta.df$gto <- apply(ta.df[31:61], 1, function(x) {ifelse(sum(x) > 1, "Multiple steps", names(x[x != 0]))})
 
 ta.df$gto <- ifelse(ta.df$gto %in% c("GTO.Step.1..Assessment","X.11","X.12","X.13"),"Step 1",
              ifelse(ta.df$gto %in% c("Step.2","X.14"),"Step 2",
@@ -223,6 +223,6 @@ begin  <- "2020-07-01" #options: "2020-07-01", "2021-01-01", "2021-07-01", "2022
 finish <- "2021-06-30" #options: "2020-12-31", "2021-06-30", "2021-12-31", "2022-06-30", "2022-12-31", "2023-06-30"
 iogto <- "CGDC" #options: "ACHD","ACDSS","CHS","CGDC","CrossRoads","PAYC","Exchange","SABGC","Elon" 
                     
-gto.df <- ta.df[ta.df$Date.of.Training.or.TA >= begin & ta.df$Date.of.Training.or.TA <= finish & ta.df$mainio == "CGDC", c(12:14,30:60,85:88)]
+gto.df <- ta.df[ta.df$Date.of.Training.or.TA >= begin & ta.df$Date.of.Training.or.TA <= finish & ta.df$mainio == "CGDC", c(12:14,31:61,86:89)]
 
 ```
