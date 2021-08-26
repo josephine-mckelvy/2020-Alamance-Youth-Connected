@@ -56,6 +56,8 @@ labelspec <- c("Lisa Garland",
                "Caro Welker",
                "Josephine McKelvy",
                "Sophia Durant",
+               "Tommy White",
+               "Danielle Sherman",
                "Other")
 labeltta <- c("Training",
               "Technical Assistance")
@@ -65,18 +67,19 @@ labelmode <- c("Phone",
                "In-person for multiple organizations",
                "Web-based for multiple organizations")
 #labelorg <- c("Alamance Achieves",
-#              "Alamance County Health Dept",
+#              "Alamance County HD",
 #              "CityGate Dream Center",
 #              "CrossRoads",
-#              "Alamance County Dept of Social Srvs",
+#              "Alamance County DSS",
 #              "Children's Home Society",
 #              "Positive Attitude Youth Center",
 #              "Elon University",
 #              "Exchange Club",
+#              "Family Abuse Services",
 #              "Salvation Army Boys & Girls Club")
 
 ta.df$Program.Specialist.TA.Provider.Name <- factor(ta.df$Program.Specialist.TA.Provider.Name,
-                   levels = c(1,2,3,4,5),
+                   levels = c(1,2,3,4,5,6,7),
                    labels = labelspec)
 ta.df$Training.or.Technical.Assistance..TA. <- factor(ta.df$Training.or.Technical.Assistance..TA.,
                    levels = c(1,2),
@@ -125,12 +128,12 @@ cleanIt <- function(vec){
 ```
 - There is a multiple-response item/column with varying numbers of options for each implementing organization (IO): columns 16-25 of the ta.df. Use list apply (lapply) to repeat the "cleanIt" function to those columns, i.e., your vectors.  
 ```{r}
-ta.df[17:25] <- lapply(ta.df[17:25], cleanIt) # IOs
-ta.df[30:60] <- lapply(ta.df[30:60], cleanIt) # GTO
-ta.df[61:82] <- lapply(ta.df[61:82], cleanIt) # training topics
+ta.df[16:26] <- lapply(ta.df[16:26], cleanIt) # IOs
+ta.df[31:61] <- lapply(ta.df[31:61], cleanIt) # GTO
+ta.df[62:83] <- lapply(ta.df[62:83], cleanIt) # training topics
 
 #If more than one applied, then sum > 1, or "Multiple"
-ta.df$mainio <- apply(ta.df[17:25], 1, function(x) {ifelse(sum(x) > 1, "Multiple settings", names(x[x != 0]))})
+ta.df$mainio <- apply(ta.df[16:26], 1, function(x) {ifelse(sum(x) > 1, "Multiple settings", names(x[x != 0]))})
 
 ta.df$mainio <- ifelse(ta.df$mainio %in% c("X.1"),"ACHD",
                 ifelse(ta.df$mainio %in% c("X.4"),"ACDSS",
@@ -139,14 +142,15 @@ ta.df$mainio <- ifelse(ta.df$mainio %in% c("X.1"),"ACHD",
                 ifelse(ta.df$mainio %in% c("X.3"),"CrossRoads",
                 ifelse(ta.df$mainio %in% c("X.6"),"PAYC",
                 ifelse(ta.df$mainio %in% c("X.8"),"Exchange",
-                ifelse(ta.df$mainio %in% c("X.9"),"SABGC",
+                ifelse(ta.df$mainio %in% c("X.9"),"FAS",       
+                ifelse(ta.df$mainio %in% c("X.10"),"SABGC",
                 ifelse(ta.df$mainio %in% c("X.7"),"Elon",       
-                ifelse(ta.df$mainio %in% c("Multiple settings"),"Multiple settings",NA))))))))))
+                ifelse(ta.df$mainio %in% c("Multiple settings"),"Multiple settings",NA)))))))))))
 
 #If only one applied, re-categorize IO into setting: Clinic, Foster Care, Community, Higher Ed, or Multiple (probably training)
 ta.df$setting <- ifelse(ta.df$mainio %in% c("ACHD"), 1, #ACHD = Clinic
-           ifelse(ta.df$mainio %in% c("ACDSS","CHS"), 2, #ACDSS, CHS = Foster Care
-           ifelse(ta.df$mainio %in% c("CGDC","CrossRoads","PAYC","Exchange","SABGC"), 3, #CGDC, CrossRoads, PAYC, Exchange, SABGC = Community
+           ifelse(ta.df$mainio %in% c("ACDSS"), 2, #ACDSS = Foster Care
+           ifelse(ta.df$mainio %in% c("CHS","CGDC","CrossRoads","PAYC","Exchange","FAS","SABGC"), 3, #CHS, CGDC, CrossRoads, PAYC, Exchange, FAS, SABGC = Community
            ifelse(ta.df$mainio %in% c("Elon"), 4, #Elon = Higher Ed
            ifelse(ta.df$mainio %in% c("Multiple settings"), 5, NA)))))
 
