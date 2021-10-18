@@ -1,0 +1,373 @@
+<<<<<<< HEAD
+---
+title: "CAG Experience Survey - Fall 2021"
+subtitle: "Visualizing Longitudinal Likert Scales"
+author: "Josephine McKelvy"
+date: "October 18, 2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+Click the **+c Insert** button to insert code chunks (or functions). Add documentation outside of the code chunks as reminders of what your code does.
+
+When you click the **Knit** button, it compiles all of the code chunks and generates a document that includes both content as well as the output of any embedded R code chunks within the document. Use the **gear** icon to adjust settings (e.g., "show output only") for each code chunk. 
+
+The shortcut key for "<-" is ALT + [dash] 
+CTRL + ENTER will run the highlighted line(s) of code.
+The hashtag is code that is commented out.
+
+#1. Find/Set the working directory, where you'll import/export files.
+```{r}
+getwd() 
+# Wherever this code is saved, the file(s) for your dataset(s) should be there too
+```
+#2. Name & import your data frame, or set of information (like a .csv file of survey responses), as factor variables.
+- I created a dataframe object (which I named "raw.df") for each dataset that will read in the respective .csv files and convert categorical variables into factor variables.
+```{r}
+raw.df <- read.csv("2021-10-08 CAG Experience Survey (end of YR1).csv", stringsAsFactors = TRUE)
+
+# Export numeric values, NOT choice text, from your survey platform. 
+
+# Optional: Clean variable names in advance (e.g., insert a row of Q#s). Do NOT start variable names with numbers.
+```
+- create a time variable with standardized dates
+```{r}
+raw.df$Start <- as.Date(raw.df$Start.Date, "%m/%d/%Y", tz="America/New_York") 
+```
+#3. Clean the dataset.
+- I created an analytic dataset (which I named "cag.df") that will subset the columns of usable variables and remove informational header rows that are not survey responses.
+
+(**1-based index**: R starts with the first row of obs. being "1"; 2:nrow means that your responses/obs. start on row 3 until the Nth row. Check your dataset to see which row the actual observations start.)
+
+- I renamed the columns of variables in the analytic dataset for the diverging bar charts.
+```{r}
+cag.df <- raw.df[2:nrow(raw.df),c(55,10,12:29,31:54)] 
+# Confirm the number of obs and 54+1 variables in SurveyMonkey.
+
+names(cag.df) <- c("Start","IO","Role","Tenure",
+                   "Support (new member)",
+                   "Accomplishments (Veteran)",
+                   "Barriers (Veteran)",
+                   "AYC Components (Veteran)",
+                   "Support (veteran)",
+                   "Incorporating trauma-informed strategies into my work",
+                   "Understanding trauma and social determinants of health",
+                   "Understanding systems change principles",
+                   "Listening actively to community members",
+                   "Having difficult conversations across power dynamics",
+                   "Exploring feedback loops",
+                   "Aligning personal values with my work",
+                   "Using systems change principles in my work",
+                   "Centering stakeholders in my work",
+                   "Identifying how trauma shows up",
+                   "Identifying & interrupting shame triggers",
+                   "Consuming media",
+                   "Questioning assumptions",
+                   "Recognizing stress",
+                   "Articulating how identities impact my (inter)actions",
+                   "Starting a dialogue about systems of oppression",
+                   "Sharing power with colleagues",
+                   "Maintaining relationships",
+                   "Creating a plan to sustain growth",
+                   "Creating a climate of trust and respect",
+                   "Making space for reflection and self-care",
+                   "Identifying how my organizations values and actions align",
+                   "Share AYC fact sheet",
+                   "Share AYC evaluation",
+                   "Speak about AYC with elected officials",
+                   "Speak about AYC with potential funders",
+                   "Speak about AYC with media",
+                   "Start conversations at my organization",
+                   "Push my organization to be more trauma-informed",
+                   "Share materials about AYC",
+                   "Organize an event to promote AYC",
+                   "Connect others to further AYC goals",
+                   "Ensure young people have a leadership role in AYC",
+                   "Ensure diverse stakeholders play a role in AYC",
+                   "Additional Information")
+```
+- Recode missing data:
+```{r}
+cag.df[cag.df==""] <- NA
+```
+#3a. Clean the nominal (dichotomous, categorical) variables.
+- For each multiple choice statement, change the response values to factor, specify levels, and rename the value labels, based on the survey/codebook: (open both the dataset and the codebook/survey with question numbers and recode values to make sure the labels and levels are correct)
+```{r}
+cag.df$IO <- factor(cag.df$IO,
+                     levels = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21),
+                     labels = c("Community resident",
+                                "African American Cultural Arts & History Center",
+                                "Alamance Achieves",
+                                "ABSS",
+                                "Alamance Cares",
+                                "ACDSS",
+                                "ACHD",
+                                "Alamance Pride",
+                                "Alcohol Drug Services",
+                                "BHA",
+                                "Children's Home Society",
+                                "CityGate Dream Center",
+                                "CrossRoads",
+                                "Elon University",
+                                "Exchange Club",
+                                "Family Abuse Services",
+                                "NC DPS",
+                                "PAYC",
+                                "Salvation Army Boys and Girls Club",
+                                "United Way of Alamance County",
+                                "Other"))
+```
+#3. Clean the ordinal (Likert-scale) variables.
+- For each Likert-style statement, change the response values to factor, specify levels, and rename the value labels, based on the survey/codebook. (Open both the dataset and the codebook/survey with question numbers and recode values to make sure the labels and levels are correct.)
+```{r}
+cag.df$Role <- factor(cag.df$Role,
+                    levels = c(1,2,3,4),
+                    labels = c("Community resident",
+                               "Frontline staff",
+                               "Supervisory staff",
+                               "Organizational leadership"))
+
+cag.df$Tenure <- factor(cag.df$Tenure,
+                    levels = c(1,2,3,4),
+                    labels = c("New to CAG",
+                               "Served 1 year",
+                               "Served 2 years",
+                               "Served 3 years"))
+
+levellikert <- c(1,2,3,4,5)
+
+labelks <- c("Novice",
+             "Advanced Beginner",
+             "Competent",
+             "Proficient",
+             "Expert")
+
+cag.df$`Incorporating trauma-informed strategies into my work` <- factor(cag.df$`Incorporating trauma-informed strategies into my work`,
+                 levels = levellikert,
+                 labels = labelks)
+cag.df$`Understanding trauma and social determinants of health` <- factor(cag.df$`Understanding trauma and social determinants of health`,
+                 levels = levellikert,
+                 labels = labelks)
+cag.df$`Understanding systems change principles` <- factor(cag.df$`Understanding systems change principles`,
+                 levels = levellikert,
+                 labels = labelks)
+cag.df$`Listening actively to community members` <- factor(cag.df$`Listening actively to community members`,
+                 levels = levellikert,
+                 labels = labelks)
+cag.df$`Having difficult conversations across power dynamics` <- factor(cag.df$`Having difficult conversations across power dynamics`,
+                 levels = levellikert,
+                 labels = labelks)
+cag.df$`Exploring feedback loops` <- factor(cag.df$`Exploring feedback loops`,
+                 levels = levellikert,
+                 labels = labelks)
+cag.df$`Aligning personal values with my work` <- factor(cag.df$`Aligning personal values with my work`,
+                 levels = levellikert,
+                 labels = labelks)
+cag.df$`Using systems change principles in my work` <- factor(cag.df$`Using systems change principles in my work`,
+                 levels = levellikert,
+                 labels = labelks)
+cag.df$`Centering stakeholders in my work` <- factor(cag.df$`Centering stakeholders in my work`,
+                 levels = levellikert,
+                 labels = labelks)
+cag.df$`Identifying how trauma shows up` <- factor(cag.df$`Identifying how trauma shows up`,
+                 levels = levellikert,
+                 labels = labelks)
+cag.df$`Identifying & interrupting shame triggers` <- factor(cag.df$`Identifying & interrupting shame triggers`,
+                 levels = levellikert,
+                 labels = labelks)
+
+labeldei <- c("Dark Red-Light",
+              "Red-Light",
+              "Yellow-Light",
+              "Green-Light",
+              "Dark Green-Light")
+
+cag.df$`Consuming media` <- factor(cag.df$`Consuming media`,
+                 levels = levellikert,
+                 labels = labeldei)
+cag.df$`Questioning assumptions` <- factor(cag.df$`Questioning assumptions`,
+                 levels = levellikert,
+                 labels = labeldei)
+cag.df$`Recognizing stress` <- factor(cag.df$`Recognizing stress`,
+                 levels = levellikert,
+                 labels = labeldei)
+cag.df$`Articulating how identities impact my (inter)actions` <- factor(cag.df$`Articulating how identities impact my (inter)actions`,
+                 levels = levellikert,
+                 labels = labeldei)
+cag.df$`Starting a dialogue about systems of oppression` <- factor(cag.df$`Starting a dialogue about systems of oppression`,
+                 levels = levellikert,
+                 labels = labeldei)
+cag.df$`Sharing power with colleagues` <- factor(cag.df$`Sharing power with colleagues`,
+                 levels = levellikert,
+                 labels = labeldei)
+cag.df$`Maintaining relationships` <- factor(cag.df$`Maintaining relationships`,
+                 levels = levellikert,
+                 labels = labeldei)
+cag.df$`Creating a plan to sustain growth` <- factor(cag.df$`Creating a plan to sustain growth`,
+                 levels = levellikert,
+                 labels = labeldei)
+cag.df$`Creating a climate of trust and respect` <- factor(cag.df$`Creating a climate of trust and respect`,
+                 levels = levellikert,
+                 labels = labeldei)
+cag.df$`Making space for reflection and self-care` <- factor(cag.df$`Making space for reflection and self-care`,
+                 levels = levellikert,
+                 labels = labeldei)
+cag.df$`Identifying how my organizations values and actions align` <- factor(cag.df$`Identifying how my organizations values and actions align`,
+                 levels = levellikert,
+                 labels = labeldei)
+
+labelfreq <- c("No capacity to start",
+               "Plan to do this soon",
+               "Took first steps",
+               "Did this once",
+               "Did this often")
+
+cag.df$`Share AYC fact sheet` <- factor(cag.df$`Share AYC fact sheet`,
+                 levels = levellikert,
+                 labels = labelfreq)
+cag.df$`Share AYC evaluation` <- factor(cag.df$`Share AYC evaluation`,
+                 levels = levellikert,
+                 labels = labelfreq)
+cag.df$`Speak about AYC with elected officials` <- factor(cag.df$`Speak about AYC with elected officials`,
+                 levels = levellikert,
+                 labels = labelfreq)
+cag.df$`Speak about AYC with potential funders` <- factor(cag.df$`Speak about AYC with potential funders`,
+                 levels = levellikert,
+                 labels = labelfreq)
+cag.df$`Speak about AYC with media` <- factor(cag.df$`Speak about AYC with media`,
+                 levels = levellikert,
+                 labels = labelfreq)
+cag.df$`Start conversations at my organization` <- factor(cag.df$`Start conversations at my organization`,
+                 levels = levellikert,
+                 labels = labelfreq)
+cag.df$`Push my organization to be more trauma-informed` <- factor(cag.df$`Push my organization to be more trauma-informed`,
+                 levels = levellikert,
+                 labels = labelfreq)
+cag.df$`Share materials about AYC` <- factor(cag.df$`Share materials about AYC`,
+                 levels = levellikert,
+                 labels = labelfreq)
+cag.df$`Organize an event to promote AYC` <- factor(cag.df$`Organize an event to promote AYC`,
+                 levels = levellikert,
+                 labels = labelfreq)
+cag.df$`Connect others to further AYC goals` <- factor(cag.df$`Connect others to further AYC goals`,
+                 levels = levellikert,
+                 labels = labelfreq)
+cag.df$`Ensure young people have a leadership role in AYC` <- factor(cag.df$`Ensure young people have a leadership role in AYC`,
+                 levels = levellikert,
+                 labels = labelfreq)
+cag.df$`Ensure diverse stakeholders play a role in AYC` <- factor(cag.df$`Ensure diverse stakeholders play a role in AYC`,
+                 levels = levellikert,
+                 labels = labelfreq)
+```
+#4. Subset pre and post by cohort
+- Create an object (called "cohortAbase", etc.) that is a subset of the time variable and Likert statements (e.g., columns 10 to 18, but not 15) for those who took the baseline survey. 
+```{r}
+baseline <- "2021-01-01"  #earliest start date on surveys
+yr1cutoff <- "2021-09-01" #earliest start date on surveys
+yr2cutoff <- "2022-10-01" #earliest start date on surveys
+yr3cutoff <- "2023-10-01"
+
+#############
+# TISC KSAs #
+#############
+
+#names(ksa.df) <- c("Time",
+#                   "Incorporating trauma-informed strategies",
+#                   "Understanding historical impacts",
+#                   "Incorporating root cause approaches",
+#                   "Interviewing community members",
+#                   "Having difficult conversations",
+#                   "Exploring feedback loops across systems",
+#                   "Aligning personal values to  my work",
+#                   "Translating my perceptions into actions",
+#                   "Sharing what I've learned")
+
+cohortAbase <- cag.df[cag.df$Start >=baseline & cag.df$Start <=yr1cutoff & cag.df$Tenure=="New to CAG",c(10:14,16:18)]
+cohortAbase$time = 1
+
+cohortBbase <- cag.df[cag.df$Start >=yr1cutoff & cag.df$Start <=yr2cutoff & cag.df$Tenure=="New to CAG",c(10:14,16:18)]
+cohortBbase$time = 1
+
+#cohortCbase <- cag.df[cag.df$Start >=yr2cutoff & cag.df$Start <=yr3cutoff & cag.df$Tenure=="New to CAG",c(10:14,16:20)]
+#cohortCbase$time = 1
+
+#cohortDbase <- cag.df[cag.df$Start >=yr3cutoff & cag.df$Tenure=="New to CAG",c(1:14,16:20)]
+#cohortDbase$time = 1
+
+cohortAyr1 <- cag.df[cag.df$Start >=yr1cutoff & cag.df$Start <=yr2cutoff & cag.df$Tenure=="Served 1 year",c(10:14,16:18)]
+cohortAyr1$time = 2
+
+#cohortByr1 <- cag.df[cag.df$Start >=yr2cutoff & cag.df$Start <=yr3cutoff & cag.df$Tenure=="Served 1 year",c(10:14,16:20)]
+#cohortByr1$time = 2
+
+#cohortCyr1 <- cag.df[cag.df$Start >=yr3cutoff & cag.df$Tenure=="Served 1 year",c(10:14,16:20)]
+#cohortCyr1$time = 2
+
+#cohortAyr2 <- cag.df[cag.df$Start >=yr2cutoff & cag.df$Start <=yr3cutoff & cag.df$Tenure=="Served 2 years",c(10:14,16:20)]
+#cohortAyr2$time = 3
+
+#cohortByr2 <- cag.df[cag.df$Start >=yr3cutoff & cag.df$Tenure=="Served 2 years",c(10:14,16:20)]
+#cohortByr2$time = 3
+
+#cohortAyr3 <- cag.df[cag.df$Start >=yr3cutoff & cag.df$Tenure=="Served 3 years",c(10:14,16:20)]
+#cohortAyr3$time = 4
+
+baseyr1 <- rbind.data.frame(cohortAbase,cohortBbase,cohortAyr1)
+baseyr1$time <- factor(baseyr1$time,
+                          levels = c(1,2,3,4),
+                          labels = c("Baseline","End of Year 1","End of Year 2","End of Year 3"))
+
+#baseyr2 <- rbind.data.frame(cohortAbase,cohortBbase,cohortCbase,cohortAyr1,cohortByr1,cohortAyr2)
+#baseyr2$time <- factor(baseyr2$time,
+#                          levels = c(1,2,3,4),
+#                          labels = c("Baseline","End of Year 1","End of Year 2","End of Year 3"))
+
+#baseyr3 <- rbind.data.frame(cohortAbase,cohortBbase,cohortCbase,cohortDbase,cohortAyr1,cohortByr1,cohortCyr1,cohortAyr2,cohortByr2,cohortAyr3)
+#baseyr3$time <- factor(baseyr3$time,
+#                          levels = c(1,2,3,4),
+#                          labels = c("Baseline","End of Year 1","End of Year 2","End of Year 3"))
+
+# if there are problems with NA in these likerts:
+baseyr1 <- na.omit(baseyr1)
+#baseyr2 <- na.omit(baseyr2)
+#baseyr3 <- na.omit(baseyr3)
+
+#################
+# DEI Readiness #
+#################
+yr1dei <- cag.df[cag.df$Start >=yr1cutoff & cag.df$Start <=yr2cutoff,c(1,21:31)]
+yr1dei$time = 1
+
+##################
+# CAG Priorities #
+##################
+
+yr1freq <- cag.df[cag.df$Start >=yr1cutoff & cag.df$Start <=yr2cutoff,c(1,32:43)]
+
+```
+#4c. Plot and save diverging bar charts for each set of Likert statements.
+```{r}
+# install.packages("likert")
+# update.packages("ggplot2")
+library(likert)
+
+ksa <- likert(baseyr1[,1:8], grouping = baseyr1$cohort)
+plot(ksa, group.order = c("Start", "End")) + ggtitle("Baseline and End of Year 1 for CAG members who have served 1 year")
+ggsave("diverging-ksas-longitudinal-yr1.png", width = 10, height = 12, units = "in")
+
+dei <- likert(yr1dei[,2:12])
+plot(dei) + ggtitle("DEI Readiness for CAG Members - Year 1")
+ggsave("diverging-dei-yr1.png", width = 10)
+
+freq <- likert(yr1freq[,2:13])
+plot(freq) + ggtitle("CAG Priorities - Year 1")
+ggsave("diverging-freq-yr1.png", width = 12)
+```
+
