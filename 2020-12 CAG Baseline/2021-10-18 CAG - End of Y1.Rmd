@@ -289,6 +289,10 @@ yr3cutoff <- "2023-10-01"
 #                   "Translating my perceptions into actions",
 #                   "Sharing what I've learned")
 
+thisyearrole <- cag.df[cag.df$Start >=yr1cutoff & cag.df$Start <=yr2cutoff, c(3)]
+thisyearage <- cag.df[cag.df$Start >=yr1cutoff & cag.df$Start <=yr2cutoff, c(4)]
+table(thisyear,thisyearage)
+
 cohortAbase <- cag.df[cag.df$Start >=baseline & cag.df$Start <=yr1cutoff & cag.df$Tenure=="New to CAG",c(10:14,16:18)]
 cohortAbase$time = 1
 
@@ -358,9 +362,9 @@ yr1freq <- cag.df[cag.df$Start >=yr1cutoff & cag.df$Start <=yr2cutoff,c(1,32:43)
 # update.packages("ggplot2")
 library(likert)
 
-ksa <- likert(baseyr1[,1:8], grouping = baseyr1$cohort)
-plot(ksa, group.order = c("Start", "End")) + ggtitle("Baseline and End of Year 1 for CAG members who have served 1 year")
-ggsave("diverging-ksas-longitudinal-yr1.png", width = 10, height = 12, units = "in")
+ksa <- likert(baseyr1[,1:8],grouping = baseyr1$time)
+plot(ksa) + ggtitle("Baseline and End of Year 1 for CAG members who have served 1 year")
+ggsave("diverging-ksas-long-yr1.png", width = 10, height = 10, units = "in")
 
 dei <- likert(yr1dei[,2:12])
 plot(dei) + ggtitle("DEI Readiness for CAG Members - Year 1")
