@@ -93,7 +93,7 @@ ta.df$Mode.of.Training.or.TA <- factor(ta.df$Mode.of.Training.or.TA,
 (https://stackoverflow.com/questions/6328771/changing-values-when-converting-column-type-to-numeric; https://www.geeksforgeeks.org/convert-factor-to-numeric-and-numeric-to-factor-in-r-programming/) Convert to character and then numeric.)
 ```{r}
 ta.df$How.many.adults.attended.this.training. <- as.numeric(as.character(ta.df$How.many.adults.attended.this.training.))
-sum(ta.df$How.many.adults.attended.this.training.) #will contain duplicates and across time
+sum(ta.df$How.many.adults.attended.this.training.) #will contain duplicates and across time; see M:\...\Facilitator Roster instead
 
 ta.df$X.10 <- as.numeric(as.character(ta.df$X.10))
 
@@ -176,8 +176,8 @@ ta.df$Date.of.Training.or.TA <- as.Date(ta.df$Date.of.Training.or.TA,"%m/%d/%Y")
 
 # Subset data between two dates, inclusive
 #year <- ta.df[ta.df$Date.of.Training.or.TA >="2020-07-01" & ta.df$Date.of.Training.or.TA <="2021-06-30"]
-qtr1 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-07-01" & ta.df$Date.of.Training.or.TA <="2021-09-30",]
-#qtr2 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-10-01" & ta.df$Date.of.Training.or.TA <="2021-12-31",]
+#qtr1 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-07-01" & ta.df$Date.of.Training.or.TA <="2021-09-30",]
+qtr2 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-10-01" & ta.df$Date.of.Training.or.TA <="2021-12-31",]
 #qtr3 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-01-01" & ta.df$Date.of.Training.or.TA <="2022-03-31",]
 #qtr4 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-04-01" & ta.df$Date.of.Training.or.TA <="2022-06-30",]
 ```
@@ -190,18 +190,18 @@ aggregate(x = year$How.many.adults.attended.this.training.,
 ```
 - How many hours of T/TA were provided this quarter? (for SAPR) by setting? (for MERT)
 ```{r}
-#update the dataframe:
+#update the dataframe 6 times:
 
-aggregate(x=qtr1$hours,
-          by= list(qtr1$Training.or.Technical.Assistance..TA.),
+aggregate(x=qtr2$hours,
+          by= list(qtr2$Training.or.Technical.Assistance..TA.),
           FUN=sum)
 
-aggregate(x=qtr1$hours,
-          by= list(qtr1$setting),
+aggregate(x=qtr2$hours,
+          by= list(qtr2$setting),
           FUN=sum) #TA by setting
 
-tabyio <- aggregate(x = qtr1$hours,
-          by= list(qtr1$mainio),
+tabyio <- aggregate(x = qtr2$hours,
+          by= list(qtr2$mainio),
           FUN=sum) 
 ```
 - GTO
