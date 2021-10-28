@@ -31,7 +31,7 @@ knitr::opts_chunk$set(echo = TRUE)
 - subset the scales
 - plot the diverging bar charts & save
 ```{r}
-rawppt.df <- read.csv("Participant Pre-  Post-Test Survey.csv", stringsAsFactors = TRUE)
+rawppt.df <- read.csv("Participant Pre  Post Test Survey MPC.csv", stringsAsFactors = TRUE)
 ppt.df <- rawppt.df[2:nrow(rawppt.df),c(3,11:69,77:115)] #99 variables
 names(ppt.df) <- c("Start Date","Initials","Birthdate",
                    "Group Name", "Participant", "Time",
@@ -287,8 +287,8 @@ ppt.df$`I felt uncomfortable participating*` <- factor(ppt.df$`I felt uncomforta
 # Pre-Test: Experience #
 ########################
 
-#Pre/Post Test by group if group name is exact (Update thisgroup name below):
-thisgroup <- "payc07"
+#Pre/Post Test by group if group name is exact (Update thisgroup name and ggsave file name below):
+thisgroup <- "dreamcenter10"
 
 library(likert)
 ptexperlkt.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(28:33)] #6 Experience variables (likert)
@@ -296,7 +296,7 @@ ptexperlkt.df <- na.omit(ptexperlkt.df)
 
 experiencelkt <- likert(items=ptexperlkt.df)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
-ggsave("PAYC071221 - Experiences - Pre.png", width = 9, height = 2.5)
+ggsave("DreamCenter102621 - Experiences - Pre.png", width = 9, height = 2.5)
 
 ########################
 
@@ -337,7 +337,7 @@ ptthoughts.df <- na.omit(ptthoughts.df)
 
 thoughtlkt <- likert(ptthoughts.df[,4:8], grouping = ptthoughts.df$Time)
 plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
-ggsave("PAYC071221b - Thoughts over time.png", width = 9, height = 4.5)
+ggsave("DreamCenter102621 - Thoughts over time.png", width = 9, height = 4.5)
 #may not plot if too many listwise deletions
 
 ###########################
@@ -365,8 +365,10 @@ ptksa.df <- ppt.df[ppt.df$`Group Name`%like% thisgroup,c(100,4,63:94)] #16 KSA v
 # Eval Report #
 ###############
 #Subsets by time frame: Update begin & finish dates below instead of IO
-begin <- "2020-07-01" #options: "2020-07-01", "2021-01-01", "2021-07-01", "2022-01-01", "2022-07-01", "2023-01-01"
-finish <- "2021-06-30" #options: "2020-12-31", "2021-06-30", "2021-12-31", "2022-06-30", "2022-12-31", "2023-06-30"
+begin <- "2021-07-01" 
+#options: "2020-07-01", "2021-01-01", "2021-07-01", "2022-01-01", "2022-07-01", "2023-01-01"
+finish <- "2022-06-30" 
+#options: "2020-12-31", "2021-06-30", "2021-12-31", "2022-06-30", "2022-12-31", "2023-06-30"
 
 yrptdemographics.df <- ppt.df[ppt.df$`Start Date` >=begin & ppt.df$`Start Date`<=finish & ppt.df$Time=="Before",c(100,4,9:15,17,18,20:24,26)] #8 Demographic variables 
 
@@ -393,11 +395,11 @@ table(yrptdemographics.df$Hispanic)
 
 library(sjPlot)
 tab_df(reach,
-       title = "Reach for Year 1",
-       file = "Year 1 - Demographics Table.doc")
+       title = "Reach for Year 2",
+       file = "Year 2 - Demographics Table.doc")
 yroahrace <- tab_xtab(var.row = yrptdemographics.df$race_cat, var.col = yrptdemographics.df$Hispanic,
-         title = "Race by Ethnicity for: 2020-2021",
-         file = "2020-2021 - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
+         title = "Race by Ethnicity for: 2022-2022",
+         file = "2021-2022 - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
 
 ################################################
 
@@ -464,18 +466,18 @@ ggsave("Year 1 - Satisfaction.png", width = 9, height = 3.25)
 # OAH 1: Reach #
 ################
 
-ptdemographics.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(100,4,9:15,17,18,20:24,26)] #8 Demographic variables 
+ptdemographics.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(4,100,3,9:15,17,18,20:24,26)] #8 Demographic variables 
 ptdemographics.df <- na.omit(ptdemographics.df)
 
 # install.packages("eeptools")
 library(eeptools)
 ptdemographics.df$Age <- floor(age_calc(ptdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
 
-ptdemographics.df$gender_cat <- apply(ptdemographics.df[12:16], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
+ptdemographics.df$gender_cat <- apply(ptdemographics.df[13:17], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
 gender <- data.frame(table(ptdemographics.df$gender_cat))
 names(gender) <- c("Demographics","Count")
 
-ptdemographics.df$race_cat <- apply(ptdemographics.df[4:9], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
+ptdemographics.df$race_cat <- apply(ptdemographics.df[5:10], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
 race <- data.frame(table(ptdemographics.df$race_cat))
 names(race) <- c("Demographics","Count")
 
@@ -489,11 +491,11 @@ reach <- rbind.data.frame(gender,race,age,grade)
 
 library(sjPlot)
 tab_df(reach,
-       title = "Reach for: DreamCenter062121",
-       file = "DreamCenter062121 - Demographics Table.doc")
+       title = "Reach for: DreamCenter102621",
+       file = "DreamCenter102621 - Demographics Table.doc")
 oahrace <- tab_xtab(var.row = ptdemographics.df$race_cat, var.col = ptdemographics.df$Hispanic,
-         title = "Race by Ethnicity for: DreamCenter062121",
-         file = "DreamCenter062121 - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
+         title = "Race by Ethnicity for: DreamCenter102621",
+         file = "DreamCenter102621 - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
 
 #Knitr can print double tables: https://bookdown.org/yihui/rmarkdown-cookbook/kable.html#multiple-tables-side-by-side
 #knitr::kables(
