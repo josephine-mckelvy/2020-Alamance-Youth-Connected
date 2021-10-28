@@ -2,7 +2,7 @@
 title: 'Section Data'
 subtitle: Pre-Test Summary; Reach (Pre/Post Test), Dosage & Fidelity (QPR)
 author: "Josephine McKelvy"
-date: "March 17, 2021"
+date: 
 output:
   html_document:
     df_print: paged
@@ -291,16 +291,18 @@ ppt.df$`I felt uncomfortable participating*` <- factor(ppt.df$`I felt uncomforta
 thisgroup <- "dreamcenter10"
 
 library(likert)
-ptexperlkt.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(28:33)] #6 Experience variables (likert)
-ptexperlkt.df <- na.omit(ptexperlkt.df) 
+gpexperlkt.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(28:33)] #6 Experience variables (likert)
+gpexperlkt.df <- na.omit(gpexperlkt.df) 
 
-experiencelkt <- likert(items=ptexperlkt.df)
+experiencelkt <- likert(items=gpexperlkt.df)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
 ggsave("DreamCenter102621 - Experiences - Pre.png", width = 9, height = 2.5)
 
 ########################
 
-ptexpermrd.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(34,36:47)] #13 Experience options (MR dummy excluding duplicate column and "Other method" (text))
+#Optional: subset the types of past sexual experiences
+
+gpexpermrd.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(34,36:47)] #13 Experience options (MR dummy excluding duplicate column and "Other method" (text))
 #how to make a frequency table of mrd?
 
 #install.packages("ggpbr")
@@ -332,10 +334,10 @@ ptexpermrd.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Bef
 ###########################
 # Pre/Post-Test: Thoughts #
 ###########################
-ptthoughts.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup,c(100,4,6,95:99)] #5 Thought variables (likert) for Pre AND Post
-ptthoughts.df <- na.omit(ptthoughts.df) 
+gpthoughts.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup,c(100,4,6,95:99)] #5 Thought variables (likert) for Pre AND Post
+gpthoughts.df <- na.omit(gpthoughts.df) 
 
-thoughtlkt <- likert(ptthoughts.df[,4:8], grouping = ptthoughts.df$Time)
+thoughtlkt <- likert(gpthoughts.df[,4:8], grouping = gpthoughts.df$Time)
 plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
 ggsave("DreamCenter102621 - Thoughts over time.png", width = 9, height = 4.5)
 #may not plot if too many listwise deletions
@@ -344,10 +346,10 @@ ggsave("DreamCenter102621 - Thoughts over time.png", width = 9, height = 4.5)
 # Post-Test: Satisfaction #
 ###########################
 
-ptsatisfaction.df <- ppt.df[ppt.df$`Group Name`==thisgroup & ppt.df$Time=="After",c(100,49:56)] #8 Group variables on Post, excluding comments
-ptsatisfaction.df <- na.omit(ptsatisfaction.df)
+gpsatisfaction.df <- ppt.df[ppt.df$`Group Name`==thisgroup & ppt.df$Time=="After",c(100,49:56)] #8 Group variables on Post, excluding comments
+gpsatisfaction.df <- na.omit(gpsatisfaction.df)
 
-satisflkt <- likert(ptsatisfaction.df[,2:9])
+satisflkt <- likert(gpsatisfaction.df[,2:9])
 plot(satisflkt) + ggtitle("Participants' Satisfaction with the Group")
 ggsave("PAYC071221 - Satisfaction.png", width = 9, height = 3.25)
 
@@ -466,25 +468,25 @@ ggsave("Year 1 - Satisfaction.png", width = 9, height = 3.25)
 # OAH 1: Reach #
 ################
 
-ptdemographics.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(4,100,3,9:15,17,18,20:24,26)] #8 Demographic variables 
-ptdemographics.df <- na.omit(ptdemographics.df)
+gpdemographics.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(4,100,3,9:15,17,18,20:24,26)] #8 Demographic variables 
+gpdemographics.df <- na.omit(gpdemographics.df)
 
 # install.packages("eeptools")
 library(eeptools)
-ptdemographics.df$Age <- floor(age_calc(ptdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
+gpdemographics.df$Age <- floor(age_calc(gpdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
 
-ptdemographics.df$gender_cat <- apply(ptdemographics.df[13:17], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
-gender <- data.frame(table(ptdemographics.df$gender_cat))
+gpdemographics.df$gender_cat <- apply(gpdemographics.df[13:17], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
+gender <- data.frame(table(gpdemographics.df$gender_cat))
 names(gender) <- c("Demographics","Count")
 
-ptdemographics.df$race_cat <- apply(ptdemographics.df[5:10], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
-race <- data.frame(table(ptdemographics.df$race_cat))
+gpdemographics.df$race_cat <- apply(gpdemographics.df[5:10], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
+race <- data.frame(table(gpdemographics.df$race_cat))
 names(race) <- c("Demographics","Count")
 
-age <- data.frame(table(ptdemographics.df$Age))
+age <- data.frame(table(gpdemographics.df$Age))
 names(age) <- c("Demographics","Count")
 
-grade <- data.frame(table(ptdemographics.df$Grade))
+grade <- data.frame(table(gpdemographics.df$Grade))
 names(grade) <- c("Demographics","Count")
 
 reach <- rbind.data.frame(gender,race,age,grade)
