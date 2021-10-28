@@ -305,6 +305,30 @@ ggsave("DreamCenter102621 - Experiences - Pre.png", width = 9, height = 2.5)
 gpexpermrd.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(34,36:47)] #13 Experience options (MR dummy excluding duplicate column and "Other method" (text))
 #how to make a frequency table of mrd?
 
+never <- sum(gpexpermrd.df$`Never had sex`)
+nobarr <- sum(gpexpermrd.df$`Sex with no barrier method`)
+nobc <- sum(gpexpermrd.df$`Sex with no birth control`)
+ec <- sum(gpexpermrd.df$EC)
+iud <- sum(gpexpermrd.df$IUD)
+implant <- sum(gpexpermrd.df$Implant)
+shot <- sum(gpexpermrd.df$Shot)
+ring <- sum(gpexpermrd.df$Ring)
+patch <- sum(gpexpermrd.df$Patch)
+pill <- sum(gpexpermrd.df$Pill)
+barr <- sum(gpexpermrd.df$`Barrier Method`)
+notsure <- sum(gpexpermrd.df$`Not sure`)
+
+lastsex <- rbind.data.frame(never,nobarr,nobc, ec,iud,implant,shot,ring,patch,pill,barr,notsure)
+
+
+
+names(age) <- c("Demographics","Count")
+
+library(sjPlot)
+tab_df(gpexpermrd.df,
+       title = "Last Sex",
+       file = "DreamCenter1002621 - Last Sex Table.doc")
+
 #install.packages("ggpbr")
 #ggpubr::ggsummarystats(ptexperlkt.df)
 #experct <- summary(experiencelkt)
