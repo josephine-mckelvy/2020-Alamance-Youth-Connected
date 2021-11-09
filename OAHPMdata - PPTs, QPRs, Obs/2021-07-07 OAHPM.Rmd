@@ -643,6 +643,48 @@ ggsave("PAYC071221 - Satisfaction.png", width = 9, height = 3.25)
 #pre.df  <- na.omit(pre.df)
 ptksa.df <- ppt.df[ppt.df$`Group Name`%like% thisgroup,c(100,4,63:94)] #16 KSA variables with 32 options
 
+################
+# OAH 1: Reach #
+################
+
+gpdemographics.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(4,100,3,9:15,17,18,20:24,26)] #8 Demographic variables 
+gpdemographics.df <- na.omit(gpdemographics.df)
+
+# install.packages("eeptools")
+library(eeptools)
+gpdemographics.df$Age <- floor(age_calc(gpdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
+
+gpdemographics.df$gender_cat <- apply(gpdemographics.df[13:17], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
+gender <- data.frame(table(gpdemographics.df$gender_cat))
+names(gender) <- c("Demographics","Count")
+
+gpdemographics.df$race_cat <- apply(gpdemographics.df[5:10], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
+race <- data.frame(table(gpdemographics.df$race_cat))
+names(race) <- c("Demographics","Count")
+
+age <- data.frame(table(gpdemographics.df$Age))
+names(age) <- c("Demographics","Count")
+
+grade <- data.frame(table(gpdemographics.df$Grade))
+names(grade) <- c("Demographics","Count")
+
+reach <- rbind.data.frame(gender,race,age,grade)
+
+library(sjPlot)
+tab_df(reach,
+       title = "Reach for: ACHD110821",
+       file = "ACHD110821 - Demographics Table.doc")
+oahrace <- tab_xtab(var.row = gpdemographics.df$race_cat, var.col = gpdemographics.df$Hispanic,
+         title = "Race by Ethnicity for: ACHD110821",
+         file = "ACHD110821 - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
+table(gpdemographics.df$race_cat,gpdemographics.df$Hispanic)
+#Knitr can print double tables: https://bookdown.org/yihui/rmarkdown-cookbook/kable.html#multiple-tables-side-by-side
+#knitr::kables(
+#  list(
+#    knitr::kable(
+#      reach),
+#    knitr::kable(oahrace)),)
+
 ###############
 # Eval Report #
 ###############
@@ -712,6 +754,28 @@ cohens_d(yrpost.df, mu = meanpre, alternative = "greater")
 length(yrpost.df)
 length(yrpre.df)
 
+#compute difference scores for each respondent to use in a paired t-test
+
+scores <- read.csv("QuizSummary.csv")
+merged.df <- merge(scores,rawppt.df, by=c('Respondent.ID'))
+merged.df <- merged.df[2:nrow(merged.df),c(1:3,12,21:23,25) ] #99 variables
+names(merged.df) <- c("Respondent.ID","Score (Percent)","Score (Points)","Start Date","Initials","Birthdate",
+                   "Group Name", "Time")
+                  
+merged.df$`Group Name` <- tolower(merged.df$`Group Name`) 
+merged.df$Initials <- tolower(merged.df$Initials)
+
+merged.df$`Start Date` <- as.POSIXct(as.character(merged.df$`Start Date`), format = "%m/%d/%Y %H:%M:%S %p", tz="America/New_York")
+merged.df$Birthdate <- as.Date(merged.df$Birthdate, "%m/%d/%Y") 
+merged.df$PID <- paste(merged.df$Initials, merged.df$Birthdate)
+
+wide.df <- reshape(merged.df, idvar = "PID", timevar = "Time", direction = "wide")
+wide.df <- wide.df[,c(5,8,1,3,10)]
+#wide.df <- as.numeric(sub("%","",wide.df)) #convert to numbers without NAing data
+#wide.df$diff <- wide.df$`Score (Percent).2` - wide.df$`Score (Percent).1
+#run t-test on difference scores
+
+
 ################################################
        
 yrptthoughts.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish,c(100,4,6,95:99)] #5 Thought variables (likert) for Pre AND Post
@@ -743,48 +807,6 @@ yrptsatisfaction.df <- na.omit(yrptsatisfaction.df)
 yrsatisflkt <- likert(yrptsatisfaction.df[,2:9])
 plot(yrsatisflkt) + ggtitle("Participants' Satisfaction with the Group")
 ggsave("Year 1 - Satisfaction.png", width = 9, height = 3.25)
-
-################
-# OAH 1: Reach #
-################
-
-gpdemographics.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(4,100,3,9:15,17,18,20:24,26)] #8 Demographic variables 
-gpdemographics.df <- na.omit(gpdemographics.df)
-
-# install.packages("eeptools")
-library(eeptools)
-gpdemographics.df$Age <- floor(age_calc(gpdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
-
-gpdemographics.df$gender_cat <- apply(gpdemographics.df[13:17], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
-gender <- data.frame(table(gpdemographics.df$gender_cat))
-names(gender) <- c("Demographics","Count")
-
-gpdemographics.df$race_cat <- apply(gpdemographics.df[5:10], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
-race <- data.frame(table(gpdemographics.df$race_cat))
-names(race) <- c("Demographics","Count")
-
-age <- data.frame(table(gpdemographics.df$Age))
-names(age) <- c("Demographics","Count")
-
-grade <- data.frame(table(gpdemographics.df$Grade))
-names(grade) <- c("Demographics","Count")
-
-reach <- rbind.data.frame(gender,race,age,grade)
-
-library(sjPlot)
-tab_df(reach,
-       title = "Reach for: ACHD110821",
-       file = "ACHD110821 - Demographics Table.doc")
-oahrace <- tab_xtab(var.row = gpdemographics.df$race_cat, var.col = gpdemographics.df$Hispanic,
-         title = "Race by Ethnicity for: ACHD110821",
-         file = "ACHD110821 - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
-table(gpdemographics.df$race_cat,gpdemographics.df$Hispanic)
-#Knitr can print double tables: https://bookdown.org/yihui/rmarkdown-cookbook/kable.html#multiple-tables-side-by-side
-#knitr::kables(
-#  list(
-#    knitr::kable(
-#      reach),
-#    knitr::kable(oahrace)),)
 ```
 # Fidelity Logs & Quarterly Program Reports
 - import all responses (as *.csv & numeric values)
