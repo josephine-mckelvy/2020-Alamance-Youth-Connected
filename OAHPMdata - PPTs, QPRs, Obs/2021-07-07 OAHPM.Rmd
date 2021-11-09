@@ -17,10 +17,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ###################
 
 # 8/06F: You added a "not sure" option to each of the knowledge questions. That will impact the factor levels and labels. 
-# double-check column numbers for subsets because you added a start date column
 
 ```
-# Pre/Post Test
+# Overview (Steps)
 - import all responses (as *.csv & numeric values)
 - name the variables/columns
 - replace the blanks with missing (NA)
@@ -31,9 +30,16 @@ knitr::opts_chunk$set(echo = TRUE)
 - subset the scales
 - plot the diverging bar charts & save
 ```{r}
+##################
+# Clean the data #
+##################
+
+# Import data, subset and name the variables in the dataframes, remove blanks (by language)
 rawppt.df <- read.csv("Participant Pre  Post Test Survey MPC.csv", stringsAsFactors = TRUE)
-ppt.df <- rawppt.df[2:nrow(rawppt.df),c(3,11:69,77:115)] #99 variables
-names(ppt.df) <- c("Start Date","Initials","Birthdate",
+
+#English Pre/Post-Tests: subsetted dataframe
+pptengl.df <- rawppt.df[2:nrow(rawppt.df),c(3,12:70,78:116)] #99 variables
+names(pptengl.df) <- c("Start Date","Initials","Birthdate",
                    "Group Name", "Participant", "Time",
                    "Alamance County",
                    "Other County (text)",
@@ -128,17 +134,127 @@ names(ppt.df) <- c("Start Date","Initials","Birthdate",
                    "Prepared to say no if no barrier method",
                    "Prepared to use birth control",
                    "Prepared to go to a doctor for birth control")
+pptengl.df[pptengl.df==""] <- NA
 
-ppt.df[ppt.df==""] <- NA
+#Spanish Pre/Post-Tests: Subsetted dataframe
+pptspan.df <- rawppt.df[2:nrow(rawppt.df),c(3,118:176,184:222) ] #99 variables
+names(pptspan.df) <- c("Start Date","Initials","Birthdate",
+                   "Group Name", "Participant", "Time",
+                   "Alamance County",
+                   "Other County (text)",
+                   "Grade",
+                   "Race not reported",
+                   "White",
+                   "Black",
+                   "Asian",
+                   "Pacific Islander",
+                   "Native American",
+                   "Other Race (text)",
+                   "Hispanic",
+                   "Language",
+                   "Other Language (text)",
+                   "Gender not reported",
+                   "Woman",
+                   "Man",
+                   "Transgender",
+                   "Nonbinary/Does not identify",
+                   "Other Gender (text)",
+                   "Sexual Identity",
+                   "Other Sexual Identity (text)",
+                   "Oral Sex",
+                   "Vaginal Sex",
+                   "Anal Sex",
+                   "Pregnancy",
+                   "Sex using alcohol",
+                   "Sex using drugs",
+                   "Never had sex",
+                   "(Duplicate hidden category)",
+                   "Sex with no barrier method",
+                   "Sex with no birth control",
+                   "EC",
+                   "IUD",
+                   "Implant",
+                   "Shot",
+                   "Ring",
+                   "Patch",
+                   "Pill",
+                   "Barrier Method",
+                   "Not sure",
+                   "Prefer not to answer",
+                   "Other Method (text)",
+                   "Group leader understood me",
+                   "Group mates respect each other",
+                   "I felt judged*",
+                   "Group leader knew the material",
+                   "I understood the material",
+                   "Group leader made the activities fun",
+                   "I felt free to speak",
+                   "I felt uncomfortable participating*",
+                   "Topics I will remember",
+                   "Group did this well",
+                   "Improvements",
+                   "First name",
+                   "Email address",
+                   "Phone number",
+                   "Future",
+                   "Healthy Relationship",
+                   "Dating Abuse",
+                   "Consent",
+                   "PrEP",
+                   "abstinence-neither",
+                   "abstinence-pregnancy",
+                   "abstinence-STI",
+                   "birth control-neither",
+                   "birth control-pregnancy",
+                   "birth control-STI",
+                   "external condom-neither",
+                   "external condom-pregnancy",
+                   "external condom-STI",
+                   "lambskin condom-neither",
+                   "lambskin condom-pregnancy",
+                   "lambskin condom-STI",
+                   "internal condom-neither",
+                   "internal condom-pregnancy",
+                   "internal condom-STI",
+                   "withdrawal-neither",
+                   "withdrawal-pregnancy",
+                   "withdrawal-STI",
+                   "Store the condom",
+                   "Open the package",
+                   "Pinch the tip",
+                   "Unroll the condom",
+                   "Hold the base",
+                   "STI infection",
+                   "Water-based lubricants",
+                   "EC up to 5 days",
+                   "EC without prescription",
+                   "Prepared to say no if not ready",
+                   "Prepared to use a barrier method",
+                   "Prepared to say no if no barrier method",
+                   "Prepared to use birth control",
+                   "Prepared to go to a doctor for birth control")
+pptspan.df[pptspan.df==""] <- NA
 
+# Lowercase the strings and format the dates
 library(data.table)
-ppt.df$`Group Name` <- tolower(ppt.df$`Group Name`) 
-ppt.df$Initials <- tolower(ppt.df$Initials)
 
-ppt.df$`Start Date` <- as.POSIXct(as.character(ppt.df$`Start Date`), format = "%m/%d/%Y %H:%M:%S %p", tz="America/New_York")
-ppt.df$Birthdate <- as.Date(ppt.df$Birthdate, "%m/%d/%Y") 
-ppt.df$PID <- paste(ppt.df$Initials, ppt.df$Birthdate)
+#English Pre/Post-Tests: Identifiers
+pptengl.df$`Group Name` <- tolower(pptengl.df$`Group Name`) 
+pptengl.df$Initials <- tolower(pptengl.df$Initials)
 
+pptengl.df$`Start Date` <- as.POSIXct(as.character(pptengl.df$`Start Date`), format = "%m/%d/%Y %H:%M:%S %p", tz="America/New_York")
+pptengl.df$Birthdate <- as.Date(pptengl.df$Birthdate, "%m/%d/%Y") 
+pptengl.df$PID <- paste(pptengl.df$Initials, pptengl.df$Birthdate)
+
+#Spanish Pre/Post-Tests: Identifiers
+pptspan.df$`Group Name` <- tolower(pptspan.df$`Group Name`) 
+pptspan.df$Initials <- tolower(pptspan.df$Initials)
+
+pptspan.df$`Start Date` <- as.POSIXct(as.character(pptspan.df$`Start Date`), format = "%m/%d/%Y %H:%M:%S %p", tz="America/New_York")
+pptspan.df$Birthdate <- as.Date(pptspan.df$Birthdate, "%m/%d/%Y") 
+pptspan.df$PID <- paste(pptspan.df$Initials, pptspan.df$Birthdate)
+
+# Dummy the CATA variables
 cleanIt <- function(vec){
   chars <- as.character(vec)
   chars[chars!=""] <- "1" #if not blank (including zeroes), replace with "one"
@@ -147,21 +263,28 @@ cleanIt <- function(vec){
   return(as.numeric(chars)) #convert values to numbers
 }
 
-#Pre/Post Tests: Multiple Response Dummy Variables
-ppt.df[10:15]  <- lapply(ppt.df[10:15],  cleanIt) #pre: racial identity options
-ppt.df[20:24] <- lapply(ppt.df[20:24], cleanIt) #pre: gender identity options
-ppt.df[34:47] <- lapply(ppt.df[34:47], cleanIt) #pre: last time sex options
-ppt.df[68:85] <- lapply(ppt.df[68:85], cleanIt) #both: if used correctly Qs
+#English Pre/Post-Tests: Multiple Response Dummy Variables
+pptengl.df[10:15]  <- lapply(pptengl.df[10:15],  cleanIt) #pre: racial identity options
+pptengl.df[20:24] <- lapply(pptengl.df[20:24], cleanIt) #pre: gender identity options
+pptengl.df[34:47] <- lapply(pptengl.df[34:47], cleanIt) #pre: last time sex options
+pptengl.df[68:85] <- lapply(pptengl.df[68:85], cleanIt) #both: if used correctly Qs
 
-# Pre-Test Demographics
+#Spanish Pre/Post-Tests: Multiple Response Dummy Variables
+pptspan.df[10:15]  <- lapply(pptspan.df[10:15],  cleanIt) #pre: racial identity options
+pptspan.df[20:24] <- lapply(pptspan.df[20:24], cleanIt) #pre: gender identity options
+pptspan.df[34:47] <- lapply(pptspan.df[34:47], cleanIt) #pre: last time sex options
+pptspan.df[68:85] <- lapply(pptspan.df[68:85], cleanIt) #both: if used correctly Qs
 
-ppt.df$Time <- factor(ppt.df$Time,
+# Factor categorical variables
+
+#English Pre-Tests: Categorical Variables - Demographics
+pptengl.df$Time <- factor(pptengl.df$Time,
                     levels = c(1,2),
                     labels = c("Before", "After"))
-ppt.df$`Alamance County` <- factor(ppt.df$`Alamance County`,
+pptengl.df$`Alamance County` <- factor(pptengl.df$`Alamance County`,
                                    levels = c(1,0),
                                    labels = c("Yes","No/Not Reported"))
-ppt.df$Grade <- factor(ppt.df$Grade,
+pptengl.df$Grade <- factor(pptengl.df$Grade,
                    levels = c(1,2,3,4,5,6,7,9,10,11,12),
                    labels = c("6th Grade",
                               "7th Grade",
@@ -174,23 +297,66 @@ ppt.df$Grade <- factor(ppt.df$Grade,
                               "Technical Training or College",
                               "Not in school",
                               "Prefer not to answer"))
-ppt.df$Hispanic <- factor(ppt.df$Hispanic,
+pptengl.df$Hispanic <- factor(pptengl.df$Hispanic,
                           levels = c(1,2,0),
                           labels = c("Hispanic/Latinx",
                                      "Non-Hispanic/Latinx",
                                      "Prefer not to answer"))
-ppt.df$Language <- factor(ppt.df$Language,
-                         levels = c(1,3,0),
+pptengl.df$Language <- factor(pptengl.df$Language,
+                         levels = c(1,2,3,0),
                          labels = c("English",
                                     "Spanish",
+                                    "Both",
                                     "Prefer not to answer/Other"))
-ppt.df$`Sexual Identity` <- factor(ppt.df$`Sexual Identity`,
-                         levels = c(1,2,0),
+pptengl.df$`Sexual Identity` <- factor(pptengl.df$`Sexual Identity`,
+                         levels = c(1,2,3,4,0),
                          labels = c("LGBQ",
                                     "Straight",
+                                    "Pansexual",
+                                    "Not sure yet",
+                                    "Prefer not to answer/Other"))
+table(pptengl.df$`Sexual Identity`) #check against Survey Monkey's Question Summary
+
+#Spanish Pre-Tests: Categorical Variables - Demographics
+pptspan.df$Time <- factor(pptspan.df$Time,
+                    levels = c(1,2),
+                    labels = c("Before", "After"))
+pptspan.df$`Alamance County` <- factor(pptspan.df$`Alamance County`,
+                                   levels = c(1,0),
+                                   labels = c("Yes","No/Not Reported"))
+pptspan.df$Grade <- factor(pptspan.df$Grade,
+                   levels = c(1,2,3,4,5,6,7,9,10,11,12),
+                   labels = c("6th Grade",
+                              "7th Grade",
+                              "8th Grade",
+                              "9th Grade",
+                              "10th Grade",
+                              "11th Grade",
+                              "12th Grade",
+                              "GED Program",
+                              "Technical Training or College",
+                              "Not in school",
+                              "Prefer not to answer"))
+pptspan.df$Hispanic <- factor(pptspan.df$Hispanic,
+                          levels = c(1,2,0),
+                          labels = c("Hispanic/Latinx",
+                                     "Non-Hispanic/Latinx",
+                                     "Prefer not to answer"))
+pptspan.df$Language <- factor(pptspan.df$Language,
+                         levels = c(1,2,3,0),
+                         labels = c("English",
+                                    "Spanish",
+                                    "Both",
+                                    "Prefer not to answer/Other"))
+pptspan.df$`Sexual Identity` <- factor(pptspan.df$`Sexual Identity`,
+                         levels = c(1,2,3,4,0),
+                         labels = c("LGBQ",
+                                    "Straight",
+                                    "Pansexual",
+                                    "Not sure yet",
                                     "Prefer not to answer/Other"))
 
-# Pre-Test Experiences: The labels and levels are re-ordered to how I want them to appear in the legend with "prefer not to answer" on one end or the other of the Likert scale, as opposed to the sequence in the paper survey/codebook: 1=last 30 days; 2=more than 30 days ago; 3=not sure; 4=never; 5=prefer not to answer 
+#Pre-Tests: Experiences codebook - The labels and levels are re-ordered to how I want them to appear in the legend with "prefer not to answer" on one end or the other of the Likert scale, as opposed to the sequence in the paper survey/codebook: 1=last 30 days; 2=more than 30 days ago; 3=not sure; 4=never; 5=prefer not to answer 
 
 labelfreq <- c("Never",
                "Not sure",
@@ -198,97 +364,185 @@ labelfreq <- c("Never",
                "Within the last 30 days",
                "Ever (more than 30 days ago")
 
-ppt.df$`Oral Sex` <- factor(ppt.df$`Oral Sex`,
+#English Pre-Tests: Categorical Variables - Experiences
+pptengl.df$`Oral Sex` <- factor(pptengl.df$`Oral Sex`,
                          levels = c(4,3,5,1,2),
                          labels = labelfreq,
                          ordered = FALSE)
-ppt.df$`Vaginal Sex` <- factor(ppt.df$`Vaginal Sex`,
+pptengl.df$`Vaginal Sex` <- factor(pptengl.df$`Vaginal Sex`,
                          levels = c(4,3,5,1,2),
                          labels = labelfreq,
                          ordered = FALSE)
-ppt.df$`Anal Sex` <- factor(ppt.df$`Anal Sex`,
+pptengl.df$`Anal Sex` <- factor(pptengl.df$`Anal Sex`,
                          levels = c(4,3,5,1,2),
                          labels = labelfreq,
                          ordered = FALSE)
-ppt.df$Pregnancy <- factor(ppt.df$Pregnancy,
+pptengl.df$Pregnancy <- factor(pptengl.df$Pregnancy,
                          levels = c(4,3,5,1,2),
                          labels = labelfreq,
                          ordered = FALSE)
-ppt.df$`Sex using alcohol` <- factor(ppt.df$`Sex using alcohol`,
+pptengl.df$`Sex using alcohol` <- factor(pptengl.df$`Sex using alcohol`,
                          levels = c(4,3,5,1,2),
                          labels = labelfreq,
                          ordered = FALSE)
-ppt.df$`Sex using drugs` <- factor(ppt.df$`Sex using drugs`,
+pptengl.df$`Sex using drugs` <- factor(pptengl.df$`Sex using drugs`,
                                    levels = c(4,3,5,1,2),
                                    labels = labelfreq)
 
-# Pre/Post-Test Thoughts codebook: 1=disagree; 2=not sure; 3=agree; 4=not applicable to me (replaced with NA); 5=prefer not to answer; seemed to work by just omitting "prefer not to answer"
+#Spanish Pre-Tests: Categorical Variables - Experiences
+pptspan.df$`Oral Sex` <- factor(pptspan.df$`Oral Sex`,
+                         levels = c(4,3,5,1,2),
+                         labels = labelfreq,
+                         ordered = FALSE)
+pptspan.df$`Vaginal Sex` <- factor(pptspan.df$`Vaginal Sex`,
+                         levels = c(4,3,5,1,2),
+                         labels = labelfreq,
+                         ordered = FALSE)
+pptspan.df$`Anal Sex` <- factor(pptspan.df$`Anal Sex`,
+                         levels = c(4,3,5,1,2),
+                         labels = labelfreq,
+                         ordered = FALSE)
+pptspan.df$Pregnancy <- factor(pptspan.df$Pregnancy,
+                         levels = c(4,3,5,1,2),
+                         labels = labelfreq,
+                         ordered = FALSE)
+pptspan.df$`Sex using alcohol` <- factor(pptspan.df$`Sex using alcohol`,
+                         levels = c(4,3,5,1,2),
+                         labels = labelfreq,
+                         ordered = FALSE)
+pptspan.df$`Sex using drugs` <- factor(pptspan.df$`Sex using drugs`,
+                                   levels = c(4,3,5,1,2),
+                                   labels = labelfreq)
+
+#Pre/Post-Tests: Thoughts codebook - 1=disagree; 2=not sure; 3=agree; 4=not applicable to me (replaced with NA); 5=prefer not to answer; seemed to work by just omitting "prefer not to answer"
 
 labellikert <- c("Disagree",
                  "Not Sure",
                  "Agree")
 
-ppt.df$`Prepared to say no if not ready` <- factor(ppt.df$`Prepared to say no if not ready`,
+#English Pre/Post Tests: Categorical Variables - Thoughts
+pptengl.df$`Prepared to say no if not ready` <- factor(pptengl.df$`Prepared to say no if not ready`,
                       levels = c(1,2,3),
                       labels = labellikert,
                       ordered = FALSE)
-ppt.df$`Prepared to use a barrier method` <- factor(ppt.df$`Prepared to use a barrier method`,
+pptengl.df$`Prepared to use a barrier method` <- factor(pptengl.df$`Prepared to use a barrier method`,
                       levels = c(1,2,3),
                       labels = labellikert,
                       ordered = FALSE)
-ppt.df$`Prepared to say no if no barrier method` <- factor(ppt.df$`Prepared to say no if no barrier method`,
+pptengl.df$`Prepared to say no if no barrier method` <- factor(pptengl.df$`Prepared to say no if no barrier method`,
                       levels = c(1,2,3),
                       labels = labellikert,
                       ordered = FALSE)
-ppt.df$`Prepared to use birth control` <- factor(ppt.df$`Prepared to use birth control`,
+pptengl.df$`Prepared to use birth control` <- factor(pptengl.df$`Prepared to use birth control`,
                       levels = c(1,2,3),
                       labels = labellikert,
                       ordered = FALSE)
-ppt.df$`Prepared to go to a doctor for birth control` <- factor(ppt.df$`Prepared to go to a doctor for birth control`,
+pptengl.df$`Prepared to go to a doctor for birth control` <- factor(pptengl.df$`Prepared to go to a doctor for birth control`,
                       levels = c(1,2,3),
                       labels = labellikert,
                       ordered = FALSE)
 
-# Post-Test Group satisfaction codebook: 1=disagree; 2=not sure; 3=agree; 4=prefer not to answer 
+#Spanish Pre/Post Tests: Categorical Variables - Thoughts
+pptspan.df$`Prepared to say no if not ready` <- factor(pptspan.df$`Prepared to say no if not ready`,
+                      levels = c(1,2,3),
+                      labels = labellikert,
+                      ordered = FALSE)
+pptspan.df$`Prepared to use a barrier method` <- factor(pptspan.df$`Prepared to use a barrier method`,
+                      levels = c(1,2,3),
+                      labels = labellikert,
+                      ordered = FALSE)
+pptspan.df$`Prepared to say no if no barrier method` <- factor(pptspan.df$`Prepared to say no if no barrier method`,
+                      levels = c(1,2,3),
+                      labels = labellikert,
+                      ordered = FALSE)
+pptspan.df$`Prepared to use birth control` <- factor(pptspan.df$`Prepared to use birth control`,
+                      levels = c(1,2,3),
+                      labels = labellikert,
+                      ordered = FALSE)
+pptspan.df$`Prepared to go to a doctor for birth control` <- factor(pptspan.df$`Prepared to go to a doctor for birth control`,
+                      levels = c(1,2,3),
+                      labels = labellikert,
+                      ordered = FALSE)
 
-ppt.df$`Group leader understood me` <- factor(ppt.df$`Group leader understood me`,
+#Post-Tests: Group satisfaction codebook - 1=disagree; 2=not sure; 3=agree; 4=prefer not to answer 
+
+#English Post-Tests: Categorical Variable - Satisfaction 
+pptengl.df$`Group leader understood me` <- factor(pptengl.df$`Group leader understood me`,
                                               levels = c(1,2,3),
                                               labels = labellikert,
                                               ordered = FALSE)
-ppt.df$`Group mates respect each other` <- factor(ppt.df$`Group mates respect each other`,
+pptengl.df$`Group mates respect each other` <- factor(pptengl.df$`Group mates respect each other`,
                                               levels = c(1,2,3),
                                               labels = labellikert,
                                               ordered = FALSE)
-ppt.df$`I felt judged*` <- factor(ppt.df$`I felt judged`,
+pptengl.df$`I felt judged*` <- factor(pptengl.df$`I felt judged`,
                                  levels = c(3,2,1), # reverse-coded
                                  labels = labellikert,
                                  ordered = FALSE)
-ppt.df$`Group leader knew the material` <- factor(ppt.df$`Group leader knew the material`,
+pptengl.df$`Group leader knew the material` <- factor(pptengl.df$`Group leader knew the material`,
                                                   levels = c(1,2,3),
                                                   labels = labellikert,
                                                   ordered = FALSE)
-ppt.df$`I understood the material` <- factor(ppt.df$`I understood the material`,
+pptengl.df$`I understood the material` <- factor(pptengl.df$`I understood the material`,
                                              levels = c(1,2,3),
                                              labels = labellikert,
                                              ordered = FALSE )
-ppt.df$`Group leader made the activities fun` <- factor(ppt.df$`Group leader made the activities fun`,
+pptengl.df$`Group leader made the activities fun` <- factor(pptengl.df$`Group leader made the activities fun`,
                                                         levels = c(1,2,3),
                                                         labels = labellikert,
                                                         ordered = FALSE)
-ppt.df$`I felt free to speak` <- factor(ppt.df$`I felt free to speak`,
+pptengl.df$`I felt free to speak` <- factor(pptengl.df$`I felt free to speak`,
                                         levels = c(1,2,3),
                                         labels = labellikert,
                                         ordered = FALSE)
-ppt.df$`I felt uncomfortable participating*` <- factor(ppt.df$`I felt uncomfortable participating`,
+pptengl.df$`I felt uncomfortable participating*` <- factor(pptengl.df$`I felt uncomfortable participating`,
                                                       levels = c(3,2,1), # reverse-coded
                                                       labels = labellikert,
                                                       ordered = FALSE)
+
+#Spanish Post-Test: Categorical variable - Satisfaction
+pptspan.df$`Group leader understood me` <- factor(pptspan.df$`Group leader understood me`,
+                                              levels = c(1,2,3),
+                                              labels = labellikert,
+                                              ordered = FALSE)
+pptspan.df$`Group mates respect each other` <- factor(pptspan.df$`Group mates respect each other`,
+                                              levels = c(1,2,3),
+                                              labels = labellikert,
+                                              ordered = FALSE)
+pptspan.df$`I felt judged*` <- factor(pptspan.df$`I felt judged`,
+                                 levels = c(3,2,1), # reverse-coded
+                                 labels = labellikert,
+                                 ordered = FALSE)
+pptspan.df$`Group leader knew the material` <- factor(pptspan.df$`Group leader knew the material`,
+                                                  levels = c(1,2,3),
+                                                  labels = labellikert,
+                                                  ordered = FALSE)
+pptspan.df$`I understood the material` <- factor(pptspan.df$`I understood the material`,
+                                             levels = c(1,2,3),
+                                             labels = labellikert,
+                                             ordered = FALSE )
+pptspan.df$`Group leader made the activities fun` <- factor(pptspan.df$`Group leader made the activities fun`,
+                                                        levels = c(1,2,3),
+                                                        labels = labellikert,
+                                                        ordered = FALSE)
+pptspan.df$`I felt free to speak` <- factor(pptspan.df$`I felt free to speak`,
+                                        levels = c(1,2,3),
+                                        labels = labellikert,
+                                        ordered = FALSE)
+pptspan.df$`I felt uncomfortable participating*` <- factor(pptspan.df$`I felt uncomfortable participating`,
+                                                      levels = c(3,2,1), # reverse-coded
+                                                      labels = labellikert,
+                                                      ordered = FALSE)
+
+# Merge the identical but parallel English and Spanish datasets
+ppt.df <- rbind(pptengl.df, pptspan.df) #including blanks
+
 ########################
 # Pre-Test: Experience #
 ########################
 
 #Pre/Post Test by group if group name is exact (Update thisgroup name and ggsave file name below):
-thisgroup <- "dreamcenter10"
+thisgroup <- "achd11"
 
 library(likert)
 gpexperlkt.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(28:33)] #6 Experience variables (likert)
@@ -296,7 +550,7 @@ gpexperlkt.df <- na.omit(gpexperlkt.df)
 
 experiencelkt <- likert(items=gpexperlkt.df)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
-ggsave("DreamCenter102621 - Experiences - Pre.png", width = 9, height = 2.5)
+ggsave("ACHD110821 - Experiences - Pre.png", width = 9, height = 2.5)
 
 ########################
 
@@ -318,16 +572,12 @@ pill <- sum(gpexpermrd.df$Pill)
 barr <- sum(gpexpermrd.df$`Barrier Method`)
 notsure <- sum(gpexpermrd.df$`Not sure`)
 
-lastsex <- rbind.data.frame(never,nobarr,nobc, ec,iud,implant,shot,ring,patch,pill,barr,notsure)
-
-
-
-names(age) <- c("Demographics","Count")
-
-library(sjPlot)
-tab_df(gpexpermrd.df,
-       title = "Last Sex",
-       file = "DreamCenter1002621 - Last Sex Table.doc")
+#lastsex <- rbind.data.frame(never,nobarr,nobc, ec,iud,implant,shot,ring,patch,pill,barr,notsure)
+#names(lastsex) <- c("Count")
+#library(sjPlot)
+#tab_df(gpexpermrd.df,
+#       title = "Last Sex",
+#       file = "ACHD110821 - Last Sex Table.doc")
 
 #install.packages("ggpbr")
 #ggpubr::ggsummarystats(ptexperlkt.df)
@@ -363,7 +613,13 @@ gpthoughts.df <- na.omit(gpthoughts.df)
 
 thoughtlkt <- likert(gpthoughts.df[,4:8], grouping = gpthoughts.df$Time)
 plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
-ggsave("DreamCenter102621 - Thoughts over time.png", width = 9, height = 4.5)
+ggsave("ACHD110821 - Thoughts over time.png", width = 9, height = 4.5)
+#may not plot if too many listwise deletions
+
+#Optional: just the pre-test thoughts
+thoughtlkt <- likert(gpthoughts.df[,4:8])
+plot(thoughtlkt) + ggtitle("Participants' Thoughts about Future Sexual Activity")
+ggsave("ACHD110821 - Thoughts over time.png", width = 9, height = 2.5)
 #may not plot if too many listwise deletions
 
 ###########################
@@ -517,12 +773,12 @@ reach <- rbind.data.frame(gender,race,age,grade)
 
 library(sjPlot)
 tab_df(reach,
-       title = "Reach for: DreamCenter102621",
-       file = "DreamCenter102621 - Demographics Table.doc")
-oahrace <- tab_xtab(var.row = ptdemographics.df$race_cat, var.col = ptdemographics.df$Hispanic,
-         title = "Race by Ethnicity for: DreamCenter102621",
-         file = "DreamCenter102621 - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
-
+       title = "Reach for: ACHD110821",
+       file = "ACHD110821 - Demographics Table.doc")
+oahrace <- tab_xtab(var.row = gpdemographics.df$race_cat, var.col = gpdemographics.df$Hispanic,
+         title = "Race by Ethnicity for: ACHD110821",
+         file = "ACHD110821 - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
+table(gpdemographics.df$race_cat,gpdemographics.df$Hispanic)
 #Knitr can print double tables: https://bookdown.org/yihui/rmarkdown-cookbook/kable.html#multiple-tables-side-by-side
 #knitr::kables(
 #  list(
