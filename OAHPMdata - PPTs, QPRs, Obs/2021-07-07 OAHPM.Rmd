@@ -36,8 +36,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Import data, subset and name the variables in the dataframes, remove blanks (by language)
 rawppt.df <- read.csv("Participant Pre  Post Test Survey MPC.csv", stringsAsFactors = TRUE)
+# OR
+rawppt.df <- read.csv("Participant Pre  Post Test Survey IN-clued.csv", stringsAsFactors = TRUE)
 
 #English Pre/Post-Tests: subsetted dataframe
+pptengl.df <- rawppt.df[2:nrow(rawppt.df),c(3,11:69,77:93)] #need names of IN-clued PPT
 pptengl.df <- rawppt.df[2:nrow(rawppt.df),c(3,12:70,78:116)] #99 variables
 names(pptengl.df) <- c("Start Date","Initials","Birthdate",
                    "Group Name", "Participant", "Time",
@@ -542,22 +545,24 @@ ppt.df <- rbind(pptengl.df, pptspan.df) #including blanks
 ########################
 
 #Pre/Post Test by group if group name is exact (Update thisgroup name and ggsave file name below):
-thisgroup <- "achd11"
+thisgroup <- "elon"
 
 library(likert)
-gpexperlkt.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(28:33)] #6 Experience variables (likert)
+gpexperlkt.df <- pptengl.df[pptengl.df$`Group Name` %like% thisgroup & pptengl.df$Time=="Before",c(28:33)] #6 Experience variables (likert)
 gpexperlkt.df <- na.omit(gpexperlkt.df) 
 
 experiencelkt <- likert(items=gpexperlkt.df)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
-ggsave("ACHD110821 - Experiences - Pre.png", width = 9, height = 2.5)
+ggsave("Elon - Experiences - Pre.png", width = 9, height = 2.5)
 
 ########################
 
 #Optional: subset the types of past sexual experiences
 
-gpexpermrd.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(34,36:47)] #13 Experience options (MR dummy excluding duplicate column and "Other method" (text))
+gpexpermrd.df <- pptengl.df[pptengl.df$`Group Name` %like% thisgroup & pptengl.df$Time=="Before",c(34,36:47)] #13 Experience options (MR dummy excluding duplicate column and "Other method" (text))
 #how to make a frequency table of mrd?
+
+#tab_stackfrq(gpexpermrd.df) #percents by response
 
 never <- sum(gpexpermrd.df$`Never had sex`)
 nobarr <- sum(gpexpermrd.df$`Sex with no barrier method`)
@@ -608,12 +613,12 @@ notsure <- sum(gpexpermrd.df$`Not sure`)
 ###########################
 # Pre/Post-Test: Thoughts #
 ###########################
-gpthoughts.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup,c(100,4,6,95:99)] #5 Thought variables (likert) for Pre AND Post
+gpthoughts.df <- pptengl.df[pptengl.df$`Group Name` %like% thisgroup,c(100,4,6,95:99)] #5 Thought variables (likert) for Pre AND Post
 gpthoughts.df <- na.omit(gpthoughts.df) 
 
 thoughtlkt <- likert(gpthoughts.df[,4:8], grouping = gpthoughts.df$Time)
 plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
-ggsave("ACHD110821 - Thoughts over time.png", width = 9, height = 4.5)
+ggsave("Elon - Thoughts over time.png", width = 9, height = 4.5)
 #may not plot if too many listwise deletions
 
 #Optional: just the pre-test thoughts
@@ -647,7 +652,7 @@ ptksa.df <- ppt.df[ppt.df$`Group Name`%like% thisgroup,c(100,4,63:94)] #16 KSA v
 # OAH 1: Reach #
 ################
 
-gpdemographics.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(4,100,3,9:15,17,18,20:24,26)] #8 Demographic variables 
+gpdemographics.df <- pptengl.df[pptengl.df$`Group Name` %like% thisgroup & pptengl.df$Time=="Before",c(4,100,3,9:15,17,18,20:24,26)] #8 Demographic variables 
 gpdemographics.df <- na.omit(gpdemographics.df)
 
 # install.packages("eeptools")
@@ -672,12 +677,15 @@ reach <- rbind.data.frame(gender,race,age,grade)
 
 library(sjPlot)
 tab_df(reach,
-       title = "Reach for: ACHD110821",
-       file = "ACHD110821 - Demographics Table.doc")
+       title = "Reach for: Elon082421",
+       file = "Elon - Demographics Table.doc")
 oahrace <- tab_xtab(var.row = gpdemographics.df$race_cat, var.col = gpdemographics.df$Hispanic,
-         title = "Race by Ethnicity for: ACHD110821",
-         file = "ACHD110821 - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
+         title = "Race by Ethnicity for: Elon082421",
+         file = "Elon - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
+# OR
+
 table(gpdemographics.df$race_cat,gpdemographics.df$Hispanic)
+
 #Knitr can print double tables: https://bookdown.org/yihui/rmarkdown-cookbook/kable.html#multiple-tables-side-by-side
 #knitr::kables(
 #  list(
