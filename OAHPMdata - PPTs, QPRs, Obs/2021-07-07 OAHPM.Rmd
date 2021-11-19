@@ -39,9 +39,80 @@ rawppt.df <- read.csv("Participant Pre  Post Test Survey MPC.csv", stringsAsFact
 # OR
 rawppt.df <- read.csv("Participant Pre  Post Test Survey IN-clued.csv", stringsAsFactors = TRUE)
 
-#English Pre/Post-Tests: subsetted dataframe
-pptengl.df <- rawppt.df[2:nrow(rawppt.df),c(3,11:69,77:93)] #need names of IN-clued PPT
-pptengl.df <- rawppt.df[2:nrow(rawppt.df),c(3,12:70,78:116)] #99 variables
+#English Pre/Post-Tests: subsetted dataframe for IN-clued
+pptengl.df <- rawppt.df[2:nrow(rawppt.df),c(3,11:69,77:80,86:93)] #72 variables for IN-clued
+names(pptengl.df) <- c("Start Date","Initials","Birthdate",
+                   "Group Name", "Participant", "Time",
+                   "Alamance County",
+                   "Other County (text)",
+                   "Grade",
+                   "Race not reported",
+                   "White",
+                   "Black",
+                   "Asian",
+                   "Pacific Islander",
+                   "Native American",
+                   "Other Race (text)",
+                   "Hispanic",
+                   "Language",
+                   "Other Language (text)",
+                   "Gender not reported",
+                   "Woman",
+                   "Man",
+                   "Transgender",
+                   "Nonbinary/Does not identify",
+                   "Other Gender (text)",
+                   "Sexual Identity",
+                   "Other Sexual Identity (text)",
+                   "Oral Sex",
+                   "Vaginal Sex",
+                   "Anal Sex",
+                   "Pregnancy",
+                   "Sex using alcohol",
+                   "Sex using drugs",
+                   "Never had sex",
+                   "(Duplicate hidden category)",
+                   "Sex with no barrier method",
+                   "Sex with no birth control",
+                   "EC",
+                   "IUD",
+                   "Implant",
+                   "Shot",
+                   "Ring",
+                   "Patch",
+                   "Pill",
+                   "Barrier Method",
+                   "Not sure",
+                   "Prefer not to answer",
+                   "Other Method (text)",
+                   "Group leader understood me",
+                   "Group mates respect each other",
+                   "I felt judged*",
+                   "Group leader knew the material",
+                   "I understood the material",
+                   "Group leader made the activities fun",
+                   "I felt free to speak",
+                   "I felt uncomfortable participating*",
+                   "Topics I will remember",
+                   "Group did this well",
+                   "Improvements",
+                   "First name",
+                   "Email address",
+                   "Phone number",
+                   "Future",
+                   "Consent",
+                   "EC up to 5 days",
+                   "EC without prescription",
+                   "Be You",
+                   "Prepared to say no if not ready",
+                   "Prepared to use a barrier method",
+                   "Prepared to say no if no barrier method",
+                   "Prepared to use birth control",
+                   "Prepared to go to a doctor for birth control")
+pptengl.df[pptengl.df==""] <- NA
+
+#English Pre/Post-Tests: subsetted dataframe for MPC
+pptengl.df <- rawppt.df[2:nrow(rawppt.df),c(3,12:70,78:116)] #99 variables for MPC
 names(pptengl.df) <- c("Start Date","Initials","Birthdate",
                    "Group Name", "Participant", "Time",
                    "Alamance County",
@@ -139,7 +210,7 @@ names(pptengl.df) <- c("Start Date","Initials","Birthdate",
                    "Prepared to go to a doctor for birth control")
 pptengl.df[pptengl.df==""] <- NA
 
-#Spanish Pre/Post-Tests: Subsetted dataframe
+#Spanish Pre/Post-Tests: Subsetted dataframe for MPC
 pptspan.df <- rawppt.df[2:nrow(rawppt.df),c(3,118:176,184:222) ] #99 variables
 names(pptspan.df) <- c("Start Date","Initials","Birthdate",
                    "Group Name", "Participant", "Time",
@@ -270,7 +341,7 @@ cleanIt <- function(vec){
 pptengl.df[10:15]  <- lapply(pptengl.df[10:15],  cleanIt) #pre: racial identity options
 pptengl.df[20:24] <- lapply(pptengl.df[20:24], cleanIt) #pre: gender identity options
 pptengl.df[34:47] <- lapply(pptengl.df[34:47], cleanIt) #pre: last time sex options
-pptengl.df[68:85] <- lapply(pptengl.df[68:85], cleanIt) #both: if used correctly Qs
+pptengl.df[68:85] <- lapply(pptengl.df[68:85], cleanIt) #both: if used correctly Qs in MPC only
 
 #Spanish Pre/Post-Tests: Multiple Response Dummy Variables
 pptspan.df[10:15]  <- lapply(pptspan.df[10:15],  cleanIt) #pre: racial identity options
@@ -553,7 +624,7 @@ gpexperlkt.df <- na.omit(gpexperlkt.df)
 
 experiencelkt <- likert(items=gpexperlkt.df)
 plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
-ggsave("Elon - Experiences - Pre.png", width = 9, height = 2.5)
+ggsave("Elon111421 - Experiences - Pre.png", width = 9, height = 2.5)
 
 ########################
 
@@ -613,25 +684,31 @@ notsure <- sum(gpexpermrd.df$`Not sure`)
 ###########################
 # Pre/Post-Test: Thoughts #
 ###########################
-gpthoughts.df <- pptengl.df[pptengl.df$`Group Name` %like% thisgroup,c(100,4,6,95:99)] #5 Thought variables (likert) for Pre AND Post
+gpthoughts.df <- pptengl.df[pptengl.df$`Group Name` %like% thisgroup,c(73,4,6,68:72)] #5 Thought variables (likert) for IN-clued Pre AND Post
+gpthoughts.df <- na.omit(gpthoughts.df) 
+
+gpthoughts.df <- pptengl.df[pptengl.df$`Group Name` %like% thisgroup,c(100,4,6,95:99)] #5 Thought variables (likert) for MPC Pre AND Post
 gpthoughts.df <- na.omit(gpthoughts.df) 
 
 thoughtlkt <- likert(gpthoughts.df[,4:8], grouping = gpthoughts.df$Time)
 plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
-ggsave("Elon - Thoughts over time.png", width = 9, height = 4.5)
+ggsave("Elon111421 - Thoughts over time.png", width = 9, height = 4.5)
 #may not plot if too many listwise deletions
 
 #Optional: just the pre-test thoughts
 thoughtlkt <- likert(gpthoughts.df[,4:8])
 plot(thoughtlkt) + ggtitle("Participants' Thoughts about Future Sexual Activity")
-ggsave("ACHD110821 - Thoughts over time.png", width = 9, height = 2.5)
+ggsave("Elon111421 - Thoughts over time.png", width = 9, height = 2.5)
 #may not plot if too many listwise deletions
 
 ###########################
 # Post-Test: Satisfaction #
 ###########################
 
-gpsatisfaction.df <- ppt.df[ppt.df$`Group Name`==thisgroup & ppt.df$Time=="After",c(100,49:56)] #8 Group variables on Post, excluding comments
+gpsatisfaction.df <- pptengl.df[pptengl.df$`Group Name`==thisgroup & pptengl.df$Time=="After",c(73,49:56)] #8 Group variables on IN-clued Post, excluding comments
+gpsatisfaction.df <- na.omit(gpsatisfaction.df)
+
+gpsatisfaction.df <- ppt.df[ppt.df$`Group Name`==thisgroup & ppt.df$Time=="After",c(100,49:56)] #8 Group variables on MPC Post, excluding comments
 gpsatisfaction.df <- na.omit(gpsatisfaction.df)
 
 satisflkt <- likert(gpsatisfaction.df[,2:9])
@@ -652,7 +729,10 @@ ptksa.df <- ppt.df[ppt.df$`Group Name`%like% thisgroup,c(100,4,63:94)] #16 KSA v
 # OAH 1: Reach #
 ################
 
-gpdemographics.df <- pptengl.df[pptengl.df$`Group Name` %like% thisgroup & pptengl.df$Time=="Before",c(4,100,3,9:15,17,18,20:24,26)] #8 Demographic variables 
+gpdemographics.df <- pptengl.df[pptengl.df$`Group Name` %like% thisgroup & pptengl.df$Time=="Before",c(4,73,3,9:15,17,18,20:24,26)] #8 Demographic variables for IN-clued
+gpdemographics.df <- na.omit(gpdemographics.df)
+
+gpdemographics.df <- pptengl.df[pptengl.df$`Group Name` %like% thisgroup & pptengl.df$Time=="Before",c(4,100,3,9:15,17,18,20:24,26)] #8 Demographic variables for MPC
 gpdemographics.df <- na.omit(gpdemographics.df)
 
 # install.packages("eeptools")
@@ -677,8 +757,8 @@ reach <- rbind.data.frame(gender,race,age,grade)
 
 library(sjPlot)
 tab_df(reach,
-       title = "Reach for: Elon082421",
-       file = "Elon - Demographics Table.doc")
+       title = "Reach for: Elon111421",
+       file = "Elon111421 - Demographics Table.doc")
 oahrace <- tab_xtab(var.row = gpdemographics.df$race_cat, var.col = gpdemographics.df$Hispanic,
          title = "Race by Ethnicity for: Elon082421",
          file = "Elon - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
