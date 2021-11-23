@@ -414,6 +414,43 @@ ppt.df$`Sex using drugs` <- factor(ppt.df$`Sex using drugs`,
                                    levels = c(4,3,5,1,2),
                                    labels = labelfreq)
 
+ppt.df$`Never had sex` <- factor(ppt.df$`Never had sex`,
+                                 levels = c(0,1),
+                                 labels = c("no","Never had sex"))
+ppt.df$`Sex with no barrier method` <- factor(ppt.df$`Sex with no barrier method`,
+                                 levels = c(0,1),
+                                 labels = c("no","No barrier method"))
+ppt.df$`Sex with no birth control` <- factor(ppt.df$`Sex with no birth control`,
+                                 levels = c(0,1),
+                                 labels = c("no","No birth control"))
+ppt.df$EC <- factor(ppt.df$EC,
+                                 levels = c(0,1),
+                                 labels = c("no","EC"))
+ppt.df$IUD <- factor(ppt.df$IUD,
+                                 levels = c(0,1),
+                                 labels = c("no","IUD"))
+ppt.df$Implant <- factor(ppt.df$Implant,
+                                 levels = c(0,1),
+                                 labels = c("no","Implant"))
+ppt.df$Shot <- factor(ppt.df$Shot,
+                                 levels = c(0,1),
+                                 labels = c("no","Shot"))
+ppt.df$Ring <- factor(ppt.df$Ring,
+                                 levels = c(0,1),
+                                 labels = c("no","Ring"))
+ppt.df$Patch <- factor(ppt.df$Patch,
+                                 levels = c(0,1),
+                                 labels = c("no","Patch"))
+ppt.df$Pill <- factor(ppt.df$Pill,
+                                 levels = c(0,1),
+                                 labels = c("no","Pill"))
+ppt.df$`Barrier Method` <- factor(ppt.df$`Barrier Method`,
+                                 levels = c(0,1),
+                                 labels = c("no","Barrier Method"))
+ppt.df$`Not sure` <- factor(ppt.df$`Not sure`,
+                                 levels = c(0,1),
+                                 labels = c("no","Not Sure"))
+
 #Pre/Post-Tests: Thoughts codebook - 1=disagree; 2=not sure; 3=agree; 4=not applicable to me (replaced with NA); 5=prefer not to answer; seemed to work by just omitting "prefer not to answer"
 
 labellikert <- c("Disagree",
@@ -492,8 +529,8 @@ library(likert)
 gpexperience.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(72,4,6,28:33)] #6 Experience variables (likert)
 gpexperience.df <- na.omit(gpexperience.df) 
 
-lktexperience <- likert(gpexperience.df[,4:9])
-plot(lktexperience, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
+gplktexperience <- likert(gpexperience.df[,4:9])
+plot(gplktexperience, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
 ggsave("GROUP - Experiences - Pre.png", width = 9, height = 2.5)
 
 ########################
@@ -505,18 +542,26 @@ gpexpermrd.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Bef
 
 #tab_stackfrq(gpexpermrd.df) #percents by response
 
-never <- sum(gpexpermrd.df$`Never had sex`)
-nobarr <- sum(gpexpermrd.df$`Sex with no barrier method`)
-nobc <- sum(gpexpermrd.df$`Sex with no birth control`)
-ec <- sum(gpexpermrd.df$EC)
-iud <- sum(gpexpermrd.df$IUD)
-implant <- sum(gpexpermrd.df$Implant)
-shot <- sum(gpexpermrd.df$Shot)
-ring <- sum(gpexpermrd.df$Ring)
-patch <- sum(gpexpermrd.df$Patch)
-pill <- sum(gpexpermrd.df$Pill)
-barr <- sum(gpexpermrd.df$`Barrier Method`)
-notsure <- sum(gpexpermrd.df$`Not sure`)
+gpdgrade <- data.frame(table(gpdemographics.df$Grade))
+names(gpdgrade) <- c("Demographics","Count")
+
+reach <- rbind.data.frame(gpdgender,gpdrace,gpdage,gpdgrade)
+table(gpexpermrd.df$`Never had sex`==1)
+
+mrdnever   <- data.frame(table(ppt.df$`Never had sex`))
+mrdnobm    <- data.frame(table(gpexpermrd.df$`Sex with no barrier method`))
+mrdnobc    <- data.frame(table(gpexpermrd.df$`Sex with no birth control`))
+mrdec      <- data.frame(table(gpexpermrd.df$EC))
+mrdiud     <- data.frame(table(gpexpermrd.df$IUD))
+mrdimplant <- data.frame(table(gpexpermrd.df$Implant))
+mrdshot    <- data.frame(table(gpexpermrd.df$Shot))
+mrdring    <- data.frame(table(gpexpermrd.df$Ring))
+mrdpatch   <- data.frame(table(gpexpermrd.df$Patch))
+mrdpill    <- data.frame(table(gpexpermrd.df$Pill))
+mrdbm      <- data.frame(table(gpexpermrd.df$`Barrier Method`))
+mrdns      <- data.frame(table(gpexpermrd.df$`Not sure`))
+
+mrdall <- rbind.data.frame(mrdnever,mrdnobm,mrdnobc,mrdec,mrdiud,mrdimplant,mrdshot,mrdring,mrdpatch,mrdpill,mrdbm,mrdns)
 
 #lastsex <- rbind.data.frame(never,nobarr,nobc, ec,iud,implant,shot,ring,patch,pill,barr,notsure)
 #names(lastsex) <- c("Count")
@@ -557,14 +602,14 @@ notsure <- sum(gpexpermrd.df$`Not sure`)
 gpthoughts.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup,c(72,4,6,67:71)] #5 Thought variables (likert) for IN-clued + MPC Pre AND Post
 gpthoughts.df <- na.omit(gpthoughts.df) 
 
-lktthought <- likert(gpthoughts.df[,4:8], grouping = gpthoughts.df$Time)
-plot(lktthought, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
+gplktthought <- likert(gpthoughts.df[,4:8], grouping = gpthoughts.df$Time)
+plot(gplktthought, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
 ggsave("GROUP - Thoughts over time.png", width = 9, height = 4.5)
 #may not plot if too many listwise deletions
 
 #Optional: just the pre-test thoughts
-lktthought <- likert(gpthoughts.df[,4:8])
-plot(lktthought) + ggtitle("Participants' Thoughts about Future Sexual Activity")
+gplktthought <- likert(gpthoughts.df[,4:8])
+plot(gplktthought) + ggtitle("Participants' Thoughts about Future Sexual Activity")
 ggsave("GROUP - Thoughts.png", width = 9, height = 2.5)
 #may not plot if too many listwise deletions
 
@@ -575,8 +620,8 @@ ggsave("GROUP - Thoughts.png", width = 9, height = 2.5)
 gpsatisfaction.df <- ppt.df[ppt.df$`Group Name`==thisgroup & ppt.df$Time=="After",c(72,4,49:56)] #8 Group variables on IN-clued + MPC Post, excluding comments
 gpsatisfaction.df <- na.omit(gpsatisfaction.df)
 
-lktsatisfaction <- likert(gpsatisfaction.df[,3:10])
-plot(lktsatisfaction) + ggtitle("Participants' Satisfaction with the Group")
+gplktsatisfaction <- likert(gpsatisfaction.df[,3:10])
+plot(gplktsatisfaction) + ggtitle("Participants' Satisfaction with the Group")
 ggsave("GROUP - Satisfaction.png", width = 9, height = 3.25)
 
 ######################
@@ -601,20 +646,20 @@ library(eeptools)
 gpdemographics.df$Age <- floor(age_calc(gpdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
 
 gpdemographics.df$gender_cat <- apply(gpdemographics.df[13:17], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
-gender <- data.frame(table(gpdemographics.df$gender_cat))
-names(gender) <- c("Demographics","Count")
+gpdgender <- data.frame(table(gpdemographics.df$gender_cat))
+names(gpdgender) <- c("Demographics","Count")
 
 gpdemographics.df$race_cat <- apply(gpdemographics.df[5:10], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
-race <- data.frame(table(gpdemographics.df$race_cat))
-names(race) <- c("Demographics","Count")
+gpdrace <- data.frame(table(gpdemographics.df$race_cat))
+names(gpdrace) <- c("Demographics","Count")
 
-age <- data.frame(table(gpdemographics.df$Age))
-names(age) <- c("Demographics","Count")
+gpdage <- data.frame(table(gpdemographics.df$Age))
+names(gpdage) <- c("Demographics","Count")
 
-grade <- data.frame(table(gpdemographics.df$Grade))
-names(grade) <- c("Demographics","Count")
+gpdgrade <- data.frame(table(gpdemographics.df$Grade))
+names(gpdgrade) <- c("Demographics","Count")
 
-reach <- rbind.data.frame(gender,race,age,grade)
+reach <- rbind.data.frame(gpdgender,gpdrace,gpdage,gpdgrade)
 
 library(sjPlot)
 tab_df(reach,
