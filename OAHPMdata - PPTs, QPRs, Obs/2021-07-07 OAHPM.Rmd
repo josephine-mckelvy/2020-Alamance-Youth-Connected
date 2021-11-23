@@ -34,14 +34,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ##################
 
 # Import data, subset and name the variables in the dataframes, remove blanks (by language)
-rawpptm.df <- read.csv("Participant Pre  Post Test Survey MPC.csv", stringsAsFactors = TRUE)
+pptmraw.df <- read.csv("Participant Pre  Post Test Survey MPC.csv", stringsAsFactors = TRUE)
 # OR
-rawppti.df <- read.csv("Participant Pre  Post Test Survey IN-clued.csv", stringsAsFactors = TRUE)
+pptiraw.df <- read.csv("Participant Pre  Post Test Survey IN-clued.csv", stringsAsFactors = TRUE)
 
 #English Pre/Post-Tests: subsetted dataframe for IN-clued
 #pptengli.df <- rawppti.df[2:nrow(rawppti.df),c(3,11:69,77:80,86,87:93)] #72 variables for IN-clued
-pptengli.df <- rawppti.df[2:nrow(rawppti.df),c(3,11:69,77:80,86,87,89:93)] #71 variables for IN-clued + MPC
-names(pptengli.df) <- c("Start Date","Initials","Birthdate",
+pptieng.df <- pptiraw.df[2:nrow(pptiraw.df),c(3,11:69,77:80,86,87,89:93)] #71 variables for IN-clued + MPC
+names(pptieng.df) <- c("Start Date","Initials","Birthdate",
                    "Group Name", "Participant", "Time",
                    "Alamance County",
                    "Other County (text)",
@@ -109,12 +109,12 @@ names(pptengli.df) <- c("Start Date","Initials","Birthdate",
                    "Prepared to say no if no barrier method",
                    "Prepared to use birth control",
                    "Prepared to go to a doctor for birth control")
-pptengli.df[pptengli.df==""] <- NA
+pptieng.df[pptieng.df==""] <- NA
 
 #English Pre/Post-Tests: subsetted dataframe for MPC
 #pptenglm.df <- rawpptm.df[2:nrow(rawpptm.df),c(3,12:70,78:116)] #99 variables for MPC
-pptenglm.df <- rawpptm.df[2:nrow(rawpptm.df),c(3,12:70,78:80,83,110:116)] #71 variables for MPC + IN-clued
-names(pptenglm.df) <- c("Start Date","Initials","Birthdate",
+pptmeng.df <- pptmraw.df[2:nrow(pptmraw.df),c(3,12:70,78:80,83,110:116)] #71 variables for MPC + IN-clued
+names(pptmeng.df) <- c("Start Date","Initials","Birthdate",
                    "Group Name", "Participant", "Time",
                    "Alamance County",
                    "Other County (text)",
@@ -209,12 +209,12 @@ names(pptenglm.df) <- c("Start Date","Initials","Birthdate",
                    "Prepared to say no if no barrier method",
                    "Prepared to use birth control",
                    "Prepared to go to a doctor for birth control")
-pptenglm.df[pptenglm.df==""] <- NA
+pptmeng.df[pptmeng.df==""] <- NA
 
 #Spanish Pre/Post-Tests: Subsetted dataframe for MPC
 #pptspanm.df <- rawpptm.df[2:nrow(rawpptm.df),c(3,118:176,184:222) ] #99 variables for MPC
-pptspanm.df <- rawpptm.df[2:nrow(rawpptm.df),c(3,118:176,184:186,189,216:222) ] #99 variables
-names(pptspanm.df) <- c("Start Date","Initials","Birthdate",
+pptmspa.df <- pptmraw.df[2:nrow(pptmraw.df),c(3,118:176,184:186,189,216:222) ] #99 variables
+names(pptmspa.df) <- c("Start Date","Initials","Birthdate",
                    "Group Name", "Participant", "Time",
                    "Alamance County",
                    "Other County (text)",
@@ -309,9 +309,9 @@ names(pptspanm.df) <- c("Start Date","Initials","Birthdate",
                    "Prepared to say no if no barrier method",
                    "Prepared to use birth control",
                    "Prepared to go to a doctor for birth control")
-pptspanm.df[pptspanm.df==""] <- NA
+pptmspa.df[pptmspa.df==""] <- NA
 
-ppt.df <- rbind(pptengli.df,pptenglm.df,pptspanm.df)
+ppt.df <- rbind(pptieng.df,pptmeng.df,pptmspa.df)
 
 # Lowercase the strings and format the dates
 library(data.table)
@@ -336,7 +336,7 @@ cleanIt <- function(vec){
 #IN-clued + MPC-E + MPC-S Pre/Post-Tests: Multiple Response Dummy Variables 
 ppt.df[10:15] <- lapply(ppt.df[10:15], cleanIt) #pre: racial identity options 
 ppt.df[20:24] <- lapply(ppt.df[20:24], cleanIt) #pre: gender identity options 
-ppt.df[34:47] <- lapply(ppt.df[34:47], cleanIt) #pre: last time sex options   
+#ppt.df[34:47] <- lapply(ppt.df[34:47], cleanIt) #pre: last time sex options   
 #pptenglm.df[68:85] <- lapply(pptenglm.df[68:85], cleanIt) #both: if used correctly Qs  (MPC only)
 
 # Factor categorical variables
@@ -415,41 +415,44 @@ ppt.df$`Sex using drugs` <- factor(ppt.df$`Sex using drugs`,
                                    labels = labelfreq)
 
 ppt.df$`Never had sex` <- factor(ppt.df$`Never had sex`,
-                                 levels = c(0,1),
-                                 labels = c("no","Never had sex"))
+                                 levels = c(0),
+                                 labels = c("Never had sex"))
 ppt.df$`Sex with no barrier method` <- factor(ppt.df$`Sex with no barrier method`,
-                                 levels = c(0,1),
-                                 labels = c("no","No barrier method"))
+                                 levels = c(2),
+                                 labels = c("No barrier method"))
 ppt.df$`Sex with no birth control` <- factor(ppt.df$`Sex with no birth control`,
-                                 levels = c(0,1),
-                                 labels = c("no","No birth control"))
+                                 levels = c(3),
+                                 labels = c("No birth control"))
 ppt.df$EC <- factor(ppt.df$EC,
-                                 levels = c(0,1),
-                                 labels = c("no","EC"))
+                                 levels = c(4),
+                                 labels = c("EC"))
 ppt.df$IUD <- factor(ppt.df$IUD,
-                                 levels = c(0,1),
-                                 labels = c("no","IUD"))
+                                 levels = c(5),
+                                 labels = c("IUD"))
 ppt.df$Implant <- factor(ppt.df$Implant,
-                                 levels = c(0,1),
-                                 labels = c("no","Implant"))
+                                 levels = c(6),
+                                 labels = c("Implant"))
 ppt.df$Shot <- factor(ppt.df$Shot,
-                                 levels = c(0,1),
-                                 labels = c("no","Shot"))
+                                 levels = c(7),
+                                 labels = c("Shot"))
 ppt.df$Ring <- factor(ppt.df$Ring,
-                                 levels = c(0,1),
-                                 labels = c("no","Ring"))
+                                 levels = c(8),
+                                 labels = c("Ring"))
 ppt.df$Patch <- factor(ppt.df$Patch,
-                                 levels = c(0,1),
-                                 labels = c("no","Patch"))
+                                 levels = c(9),
+                                 labels = c("Patch"))
 ppt.df$Pill <- factor(ppt.df$Pill,
-                                 levels = c(0,1),
-                                 labels = c("no","Pill"))
+                                 levels = c(10),
+                                 labels = c("Pill"))
 ppt.df$`Barrier Method` <- factor(ppt.df$`Barrier Method`,
-                                 levels = c(0,1),
-                                 labels = c("no","Barrier Method"))
+                                 levels = c(11),
+                                 labels = c("Barrier Method"))
 ppt.df$`Not sure` <- factor(ppt.df$`Not sure`,
-                                 levels = c(0,1),
-                                 labels = c("no","Not Sure"))
+                                 levels = c(12),
+                                 labels = c("Not Sure"))
+ppt.df$`Prefer not to answer` <- factor(ppt.df$`Prefer not to answer`,
+                                 levels = c(13),
+                                 labels = c("Prefer not to answer"))
 
 #Pre/Post-Tests: Thoughts codebook - 1=disagree; 2=not sure; 3=agree; 4=not applicable to me (replaced with NA); 5=prefer not to answer; seemed to work by just omitting "prefer not to answer"
 
@@ -537,18 +540,9 @@ ggsave("GROUP - Experiences - Pre.png", width = 9, height = 2.5)
 
 #Optional: subset the types of past sexual experiences
 
-gpexpermrd.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(72,4,34,36:47)] #13 Experience options (MR dummy excluding duplicate column and "Other method" (text))
-#how to make a frequency table of mrd?
+gpexpermrd.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(72,4,6,34,36:47)] #13 Experience options (MR dummy excluding duplicate column and "Other method" (text))
 
-#tab_stackfrq(gpexpermrd.df) #percents by response
-
-gpdgrade <- data.frame(table(gpdemographics.df$Grade))
-names(gpdgrade) <- c("Demographics","Count")
-
-reach <- rbind.data.frame(gpdgender,gpdrace,gpdage,gpdgrade)
-table(gpexpermrd.df$`Never had sex`==1)
-
-mrdnever   <- data.frame(table(ppt.df$`Never had sex`))
+mrdnever   <- data.frame(table(gpexpermrd.df$`Never had sex`))
 mrdnobm    <- data.frame(table(gpexpermrd.df$`Sex with no barrier method`))
 mrdnobc    <- data.frame(table(gpexpermrd.df$`Sex with no birth control`))
 mrdec      <- data.frame(table(gpexpermrd.df$EC))
@@ -560,41 +554,10 @@ mrdpatch   <- data.frame(table(gpexpermrd.df$Patch))
 mrdpill    <- data.frame(table(gpexpermrd.df$Pill))
 mrdbm      <- data.frame(table(gpexpermrd.df$`Barrier Method`))
 mrdns      <- data.frame(table(gpexpermrd.df$`Not sure`))
+mrdpnta    <- data.frame(table(gpexpermrd.df$`Prefer not to answer`))
 
-mrdall <- rbind.data.frame(mrdnever,mrdnobm,mrdnobc,mrdec,mrdiud,mrdimplant,mrdshot,mrdring,mrdpatch,mrdpill,mrdbm,mrdns)
-
-#lastsex <- rbind.data.frame(never,nobarr,nobc, ec,iud,implant,shot,ring,patch,pill,barr,notsure)
-#names(lastsex) <- c("Count")
-#library(sjPlot)
-#tab_df(gpexpermrd.df,
-#       title = "Last Sex",
-#       file = "ACHD110821 - Last Sex Table.doc")
-
-#install.packages("ggpbr")
-#ggpubr::ggsummarystats(ptexperlkt.df)
-#experct <- summary(experiencelkt)
-
-#dotchart(as.matrix(mrdumlastsex,labels = row.names(mrdumlastsex)))
-
-#https://www.youtube.com/watch?v=vQsdJBm0fLw
-#mrdumlastsex <- data.frame(Freq=colSums(ptexpermrd.df[2:14]),
-#                           Percent=(colSums(ptexpermrd.df[2:14])/nrow(ptexpermrd.df[2:14]))*100) 
-#mrdumlastsex <- mrdumlastsex[order(-mrdumlastsex$Freq),] #sorted, but won't plot in this order
-
-#library(ggpubr)
-#ggballoonplot(mrdumlastsex, fill = "value") + scale_fill_viridis_c(option = "C")
-
-#ggplot(mrdumlastsex, aes(x=Percent, y=rownames(mrdumlastsex))) +
-#  geom_point(size = 1.5, alpha = .3) +
-#  labs(title = "Contraception Use at Last Sexual Activity") +
-#         theme_minimal() +
-#  theme(axis.title = element_blank(),
-#              panel.grid.major.x = element_blank(),
-#              panel.grid.minor = element_blank(),
-#              plot.title = element_text(size = 20, margin = margin(b = 10)),
-#              plot.subtitle = element_text(size = 10, color = "darkslategrey", margin = margin(b = 25)),
-#              plot.caption = element_text(size = 8, margin = margin(t = 10), color = "grey70", hjust = 0))
-#ggsave("Test.png")
+mrdall <- rbind.data.frame(mrdnever,mrdnobm,mrdnobc,mrdec,mrdiud,mrdimplant,mrdshot,mrdring,mrdpatch,mrdpill,mrdbm,mrdns,mrdpnta)
+names(mrdall) <- c("At Last Sex","Count")
 
 ###########################
 # Pre/Post-Test: Thoughts #
@@ -659,15 +622,15 @@ names(gpdage) <- c("Demographics","Count")
 gpdgrade <- data.frame(table(gpdemographics.df$Grade))
 names(gpdgrade) <- c("Demographics","Count")
 
-reach <- rbind.data.frame(gpdgender,gpdrace,gpdage,gpdgrade)
+gpdreach <- rbind.data.frame(gpdgender,gpdrace,gpdage,gpdgrade)
 
 library(sjPlot)
-tab_df(reach,
+tab_df(gpdreach,
        title = "Reach for: GROUP",
        file = "GROUP - Demographics Table.doc")
 oahrace <- tab_xtab(var.row = gpdemographics.df$race_cat, var.col = gpdemographics.df$Hispanic,
-         title = "Race by Ethnicity for: Elon082421",
-         file = "Elon - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
+         title = "Race by Ethnicity for: GROUP",
+         file = "GROUP - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
 # OR
 
 table(gpdemographics.df$race_cat,gpdemographics.df$Hispanic)
@@ -686,9 +649,9 @@ table(gpdemographics.df$race_cat,gpdemographics.df$Hispanic)
 begin  <- "2021-07-01" #options: "2020-07-01", "2021-01-01", "2021-07-01", "2022-01-01", "2022-07-01", "2023-01-01"
 finish <- "2022-06-30" #options: "2020-12-31", "2021-06-30", "2021-12-31", "2022-06-30", "2022-12-31", "2023-06-30"
 
-###############
-# Experiences #
-###############
+###################
+# All Experiences #
+###################
 
 library(likert)
 yrexperience.df <- ppt.df[ppt.df$`Start Date` >=begin & ppt.df$`Start Date` <=finish & ppt.df$Time=="Before",c(72,4,6,28:33)] #6 Experience variables (likert)
@@ -698,19 +661,19 @@ yrlktexperience <- likert(yrexperience.df[,4:9])
 plot(yrlktexperience, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
 ggsave("Year 2 - Experiences - Pre.png", width = 9, height = 2.5)
 
-############
-# Thoughts #
-############
+################
+# All Thoughts #
+################
        
 yrthoughts.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish,c(72,4,6,67:71)] #5 Thought variables (likert) for Pre AND Post
-yrptthoughts.df <- na.omit(yrptthoughts.df) 
+yrthoughts.df <- na.omit(yrthoughts.df) 
 
-yrlktthought <- likert(yrptthoughts.df[,4:8], grouping = yrptthoughts.df$Time)
+yrlktthought <- likert(yrthoughts.df[,4:8], grouping = yrthoughts.df$Time)
 plot(yrlktthought, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
 ggsave("Year 2 - Thoughts over time.png", width = 9, height = 4.5)
 #may not plot if too many listwise deletions
 
-table(yrthoughts.df$Time)
+table(yrthoughts.df$Time) #fewer post < pre
 
 chisq.test(yrthoughts.df$`Prepared to say no if not ready`,yrthoughts.df$Time)
 chisq.test(yrthoughts.df$`Prepared to use a barrier method`,yrthoughts.df$Time)
@@ -718,9 +681,11 @@ chisq.test(yrthoughts.df$`Prepared to say no if no barrier method`,yrthoughts.df
 chisq.test(yrthoughts.df$`Prepared to use birth control`,yrthoughts.df$Time)
 chisq.test(yrthoughts.df$`Prepared to go to a doctor for birth control`,yrthoughts.df$Time)
 
-################
-# Satisfaction #
-################
+#p-value < 0.05: small likelihood that the pre/post difference is due to chance
+
+####################
+# All Satisfaction #
+####################
 
 yrsatisfaction.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish & ppt.df$Time=="After",c(72,4,6,49:56)] #8 Group variables on Post
 yrsatisfaction.df <- na.omit(yrsatisfaction.df)
@@ -729,9 +694,9 @@ yrlktsatisfaction <- likert(yrsatisfaction.df[,4:11])
 plot(yrlktsatisfaction) + ggtitle("Participants' Satisfaction with the Groups")
 ggsave("Year 2 - Satisfaction.png", width = 9, height = 3.25)
 
-################
-# Demographics #
-################
+####################
+# All Demographics #
+####################
 
 yrdemographics.df <- ppt.df[ppt.df$`Start Date` >=begin & ppt.df$`Start Date`<=finish & ppt.df$Time=="Before",c(72,4,3,9:15,17,18,20:24,26)] #8 Demographic variables 
 yrdemographics.df <- na.omit(yrdemographics.df)
@@ -741,26 +706,26 @@ library(eeptools)
 yrdemographics.df$Age <- floor(age_calc(yrdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
 
 yrdemographics.df$gender_cat <- apply(yrdemographics.df[13:17], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
-gender <- data.frame(table(yrdemographics.df$gender_cat))
-names(gender) <- c("Demographics","Count")
+yrdgender <- data.frame(table(yrdemographics.df$gender_cat))
+names(yrdgender) <- c("Demographics","Count")
 
 yrdemographics.df$race_cat <- apply(yrdemographics.df[5:10], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
-race <- data.frame(table(yrdemographics.df$race_cat))
-names(race) <- c("Demographics","Count")
+yrdrace <- data.frame(table(yrdemographics.df$race_cat))
+names(yrdrace) <- c("Demographics","Count")
 
-age <- data.frame(table(yrdemographics.df$Age))
-names(age) <- c("Demographics","Count")
+yrdage <- data.frame(table(yrdemographics.df$Age))
+names(yrdage) <- c("Demographics","Count")
 
-grade <- data.frame(table(yrdemographics.df$Grade))
-names(grade) <- c("Demographics","Count")
+yrdgrade <- data.frame(table(yrdemographics.df$Grade))
+names(yrdgrade) <- c("Demographics","Count")
 
-reach <- rbind.data.frame(gender,race,age,grade)
+yrdreach <- rbind.data.frame(yrdgender,yrdrace,yrdage,yrdgrade)
 
 library(sjPlot)
-tab_df(reach,
+tab_df(yrdreach,
        title = "Reach for Year 2",
        file = "Year 2 - Demographics Table.doc")
-yroahrace <- tab_xtab(var.row = yrptdemographics.df$race_cat, var.col = yrptdemographics.df$Hispanic,
+yroahrace <- tab_xtab(var.row = yrdemographics.df$race_cat, var.col = yrdemographics.df$Hispanic,
          title = "Race by Ethnicity for Year 2",
          file = "Year 2 - Race by Ethnicity Table.doc") #may not print if no Hispanic YP
 # OR
