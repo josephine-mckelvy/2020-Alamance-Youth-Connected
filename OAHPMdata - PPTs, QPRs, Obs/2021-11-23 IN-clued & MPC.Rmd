@@ -1,8 +1,8 @@
 ---
 title: 'Section Data'
-subtitle: Pre-Test Summary; Reach (Pre/Post Test), Dosage & Fidelity (QPR)
+subtitle: Pre-Test Summary; Reach (Pre/Post Test)
 author: "Josephine McKelvy"
-date: 
+date: Tuesday, November 23, 2021
 output:
   html_document:
     df_print: paged
@@ -17,6 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ###################
 
 # 8/06F: You added a "not sure" option to each of the knowledge questions. That will impact the factor levels and labels. 
+
 ```
 # Overview (Steps)
 - import all responses (as *.csv & numeric values)
@@ -34,14 +35,13 @@ knitr::opts_chunk$set(echo = TRUE)
 ##################
 
 # Import data, subset and name the variables in the dataframes, remove blanks (by language)
-rawpptm.df <- read.csv("Participant Pre  Post Test Survey MPC.csv", stringsAsFactors = TRUE)
+rawppt.df <- read.csv("Participant Pre  Post Test Survey MPC.csv", stringsAsFactors = TRUE)
 # OR
-rawppti.df <- read.csv("Participant Pre  Post Test Survey IN-clued.csv", stringsAsFactors = TRUE)
+rawppt2.df <- read.csv("Participant Pre  Post Test Survey IN-clued.csv", stringsAsFactors = TRUE)
 
 #English Pre/Post-Tests: subsetted dataframe for IN-clued
-#pptengli.df <- rawppti.df[2:nrow(rawppti.df),c(3,11:69,77:80,86,87:93)] #72 variables for IN-clued
-pptengli.df <- rawppti.df[2:nrow(rawppti.df),c(3,11:69,77:80,86,87,89:93)] #71 variables for IN-clued + MPC
-names(pptengli.df) <- c("Start Date","Initials","Birthdate",
+pptengl2.df <- rawppt2.df[2:nrow(rawppt2.df),c(3,11:69,77:80,86,87,89:93)] #72 variables for IN-clued
+names(pptengl2.df) <- c("Start Date","Initials","Birthdate",
                    "Group Name", "Participant", "Time",
                    "Alamance County",
                    "Other County (text)",
@@ -103,18 +103,17 @@ names(pptengli.df) <- c("Start Date","Initials","Birthdate",
                    "Consent",
                    "EC up to 5 days",
                    "EC without prescription",
-#                   "Be You", #col 88
+                  
                    "Prepared to say no if not ready",
                    "Prepared to use a barrier method",
                    "Prepared to say no if no barrier method",
                    "Prepared to use birth control",
                    "Prepared to go to a doctor for birth control")
-pptengli.df[pptengli.df==""] <- NA
+pptengl2.df[pptengl2.df==""] <- NA
 
 #English Pre/Post-Tests: subsetted dataframe for MPC
-#pptenglm.df <- rawpptm.df[2:nrow(rawpptm.df),c(3,12:70,78:116)] #99 variables for MPC
-pptenglm.df <- rawpptm.df[2:nrow(rawpptm.df),c(3,12:70,78:80,83,110:116)] #71 variables for MPC + IN-clued
-names(pptenglm.df) <- c("Start Date","Initials","Birthdate",
+pptengl.df <- rawppt.df[2:nrow(rawppt.df),c(3,12:70,78:80,83,110:116)] #99 variables for MPC
+names(pptengl.df) <- c("Start Date","Initials","Birthdate",
                    "Group Name", "Participant", "Time",
                    "Alamance County",
                    "Other County (text)",
@@ -173,35 +172,35 @@ names(pptenglm.df) <- c("Start Date","Initials","Birthdate",
                    "Email address",
                    "Phone number",
                    "Future",
-#                   "Healthy Relationship",      #col 81
-#                   "Dating Abuse",              #col 82
+                   
+                   
                    "Consent",
-#                   "PrEP",                      #col 84
-#                   "abstinence-neither",        #col 85
-#                   "abstinence-pregnancy",      #col 86
-#                   "abstinence-STI",            #col 87
-#                   "birth control-neither",     #col 88
-#                   "birth control-pregnancy",   #col 89
-#                   "birth control-STI",         #col 90
-#                   "external condom-neither",   #col 91
-#                   "external condom-pregnancy", #col 92
-#                   "external condom-STI",       #col 93
-#                   "lambskin condom-neither",   #col 94
-#                   "lambskin condom-pregnancy", #col 95
-#                   "lambskin condom-STI",       #col 96
-#                   "internal condom-neither",   #col 97
-#                   "internal condom-pregnancy", #col 98
-#                   "internal condom-STI",       #col 99
-#                   "withdrawal-neither",        #col 100
-#                   "withdrawal-pregnancy",      #col 101
-#                   "withdrawal-STI",            #col 102
-#                   "Store the condom",          #col 103
-#                   "Open the package",          #col 104
-#                   "Pinch the tip",             #col 105
-#                   "Unroll the condom",         #col 106
-#                   "Hold the base",             #col 107
-#                   "STI infection",             #col 108
-#                   "Water-based lubricants",    #col 109
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
                    "EC up to 5 days",
                    "EC without prescription",
                    "Prepared to say no if not ready",
@@ -209,114 +208,14 @@ names(pptenglm.df) <- c("Start Date","Initials","Birthdate",
                    "Prepared to say no if no barrier method",
                    "Prepared to use birth control",
                    "Prepared to go to a doctor for birth control")
-pptenglm.df[pptenglm.df==""] <- NA
+pptengl.df[pptengl.df==""] <- NA
 
-#Spanish Pre/Post-Tests: Subsetted dataframe for MPC
-#pptspanm.df <- rawpptm.df[2:nrow(rawpptm.df),c(3,118:176,184:222) ] #99 variables for MPC
-pptspanm.df <- rawpptm.df[2:nrow(rawpptm.df),c(3,118:176,184:186,189,216:222) ] #99 variables
-names(pptspanm.df) <- c("Start Date","Initials","Birthdate",
-                   "Group Name", "Participant", "Time",
-                   "Alamance County",
-                   "Other County (text)",
-                   "Grade",
-                   "Race not reported",
-                   "White",
-                   "Black",
-                   "Asian",
-                   "Pacific Islander",
-                   "Native American",
-                   "Other Race (text)",
-                   "Hispanic",
-                   "Language",
-                   "Other Language (text)",
-                   "Gender not reported",
-                   "Woman",
-                   "Man",
-                   "Transgender",
-                   "Nonbinary/Does not identify",
-                   "Other Gender (text)",
-                   "Sexual Identity",
-                   "Other Sexual Identity (text)",
-                   "Oral Sex",
-                   "Vaginal Sex",
-                   "Anal Sex",
-                   "Pregnancy",
-                   "Sex using alcohol",
-                   "Sex using drugs",
-                   "Never had sex",
-                   "(Duplicate hidden category)",
-                   "Sex with no barrier method",
-                   "Sex with no birth control",
-                   "EC",
-                   "IUD",
-                   "Implant",
-                   "Shot",
-                   "Ring",
-                   "Patch",
-                   "Pill",
-                   "Barrier Method",
-                   "Not sure",
-                   "Prefer not to answer",
-                   "Other Method (text)",
-                   "Group leader understood me",
-                   "Group mates respect each other",
-                   "I felt judged*",
-                   "Group leader knew the material",
-                   "I understood the material",
-                   "Group leader made the activities fun",
-                   "I felt free to speak",
-                   "I felt uncomfortable participating*",
-                   "Topics I will remember",
-                   "Group did this well",
-                   "Improvements",
-                   "First name",
-                   "Email address",
-                   "Phone number",
-                   "Future",
-#                   "Healthy Relationship",      #col 187
-#                   "Dating Abuse",              #col 188
-                   "Consent",
-#                   "PrEP",                      #col 190
-#                   "abstinence-neither",        #col 191
-#                   "abstinence-pregnancy",      #col 192
-#                   "abstinence-STI",            #col 193
-#                   "birth control-neither",     #col 194
-#                   "birth control-pregnancy",   #col 195
-#                   "birth control-STI",         #col 196
-#                   "external condom-neither",   #col 197
-#                   "external condom-pregnancy", #col 198
-#                   "external condom-STI",       #col 199
-#                   "lambskin condom-neither",   #col 200
-#                   "lambskin condom-pregnancy", #col 201
-#                   "lambskin condom-STI",       #col 202
-#                   "internal condom-neither",   #col 203
-#                   "internal condom-pregnancy", #col 204
-#                   "internal condom-STI",       #col 205
-#                   "withdrawal-neither",        #col 206
-#                   "withdrawal-pregnancy",      #col 207
-#                   "withdrawal-STI",            #col 208
-#                   "Store the condom",          #col 209
-#                   "Open the package",          #col 210
-#                   "Pinch the tip",             #col 211
-#                   "Unroll the condom",         #col 212
-#                   "Hold the base",             #col 213
-#                   "STI infection",             #col 214
-#                   "Water-based lubricants",    #col 215
-                   "EC up to 5 days",
-                   "EC without prescription",
-                   "Prepared to say no if not ready",
-                   "Prepared to use a barrier method",
-                   "Prepared to say no if no barrier method",
-                   "Prepared to use birth control",
-                   "Prepared to go to a doctor for birth control")
-pptspanm.df[pptspanm.df==""] <- NA
-
-ppt.df <- rbind(pptengli.df,pptenglm.df,pptspanm.df)
+ppt.df <- rbind(pptengl.df,pptengl2.df)
 
 # Lowercase the strings and format the dates
 library(data.table)
 
-#IN-clued + MPC-E + MPC-S Pre/Post-Tests: Identifiers 
+#English Pre/Post-Tests: Identifiers (repeat for IN-clued, if needed)
 ppt.df$`Group Name` <- tolower(ppt.df$`Group Name`) 
 ppt.df$Initials <- tolower(ppt.df$Initials)
 
@@ -333,15 +232,14 @@ cleanIt <- function(vec){
   return(as.numeric(chars)) #convert values to numbers
 }
 
-#IN-clued + MPC-E + MPC-S Pre/Post-Tests: Multiple Response Dummy Variables 
+#English Pre/Post-Tests: Multiple Response Dummy Variables 
 ppt.df[10:15] <- lapply(ppt.df[10:15], cleanIt) #pre: racial identity options 
 ppt.df[20:24] <- lapply(ppt.df[20:24], cleanIt) #pre: gender identity options 
 ppt.df[34:47] <- lapply(ppt.df[34:47], cleanIt) #pre: last time sex options   
-#pptenglm.df[68:85] <- lapply(pptenglm.df[68:85], cleanIt) #both: if used correctly Qs  (MPC only)
 
 # Factor categorical variables
 
-#IN-clued + MPC-E + MPC-S Pre-Tests: Categorical Variables - Demographics 
+#English Pre-Tests: Categorical Variables - Demographics (repeat for IN-clued, if needed)
 ppt.df$Time <- factor(ppt.df$Time,
                     levels = c(1,2),
                     labels = c("Before", "After"))
@@ -379,7 +277,8 @@ ppt.df$`Sexual Identity` <- factor(ppt.df$`Sexual Identity`,
                                     "Pansexual",
                                     "Not sure yet",
                                     "Prefer not to answer/Other"))
-#table(ppt.df$`Sexual Identity`) #Optional: check against Survey Monkey's Question Summary
+
+table(ppt.df$`Sexual Identity`) #check against Survey Monkey's Question Summary
 
 #Pre-Tests: Experiences codebook - The labels and levels are re-ordered to how I want them to appear in the legend with "prefer not to answer" on one end or the other of the Likert scale, as opposed to the sequence in the paper survey/codebook: 1=last 30 days; 2=more than 30 days ago; 3=not sure; 4=never; 5=prefer not to answer 
 
@@ -389,7 +288,7 @@ labelfreq <- c("Never",
                "Within the last 30 days",
                "Ever (more than 30 days ago")
 
-#IN-clued + MPC-E + MPC-S Pre-Tests: Categorical Variables - Experiences
+#English Pre-Tests: Categorical Variables - Experiences
 ppt.df$`Oral Sex` <- factor(ppt.df$`Oral Sex`,
                          levels = c(4,3,5,1,2),
                          labels = labelfreq,
@@ -420,7 +319,7 @@ labellikert <- c("Disagree",
                  "Not Sure",
                  "Agree")
 
-#IN-clued + MPC-E + MPC-S Pre/Post Tests: Categorical Variables - Thoughts
+#English Pre/Post Tests: Categorical Variables - Thoughts
 ppt.df$`Prepared to say no if not ready` <- factor(ppt.df$`Prepared to say no if not ready`,
                       levels = c(1,2,3),
                       labels = labellikert,
@@ -444,7 +343,7 @@ ppt.df$`Prepared to go to a doctor for birth control` <- factor(ppt.df$`Prepared
 
 #Post-Tests: Group satisfaction codebook - 1=disagree; 2=not sure; 3=agree; 4=prefer not to answer 
 
-#IN-clued + MPC-E + MPC-S Post-Tests: Categorical Variable - Satisfaction 
+#English Post-Tests: Categorical Variable - Satisfaction 
 ppt.df$`Group leader understood me` <- factor(ppt.df$`Group leader understood me`,
                                               levels = c(1,2,3),
                                               labels = labellikert,
@@ -477,30 +376,27 @@ ppt.df$`I felt uncomfortable participating*` <- factor(ppt.df$`I felt uncomforta
                                                       levels = c(3,2,1), # reverse-coded
                                                       labels = labellikert,
                                                       ordered = FALSE)
-```
-- Plots for Group Pre/Post-Test Summaries
-```{r}
-#Pre/Post-Test by group if group name is exact 
-#Update thisgroup name and ggsave file names below
-thisgroup <- "elon"
 
 ########################
 # Pre-Test: Experience #
 ########################
 
-library(likert)
-gpexperience.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(72,4,6,28:33)] #6 Experience variables (likert)
-gpexperience.df <- na.omit(gpexperience.df) 
+#Pre/Post Test by group if group name is exact (Update thisgroup name and ggsave file name below):
+thisgroup <- "elon"
 
-lktexperience <- likert(gpexperience.df[,4:9])
-plot(lktexperience, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
-ggsave("GROUP - Experiences - Pre.png", width = 9, height = 2.5)
+library(likert)
+gpexperlkt.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(28:33)] #6 Experience variables (likert)
+gpexperlkt.df <- na.omit(gpexperlkt.df) 
+
+experiencelkt <- likert(items=gpexperlkt.df)
+plot(experiencelkt, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
+ggsave("Elon - Experiences - Pre.png", width = 9, height = 2.5)
 
 ########################
 
 #Optional: subset the types of past sexual experiences
 
-gpexpermrd.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(72,4,34,36:47)] #13 Experience options (MR dummy excluding duplicate column and "Other method" (text))
+gpexpermrd.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(34,36:47)] #13 Experience options (MR dummy excluding duplicate column and "Other method" (text))
 #how to make a frequency table of mrd?
 
 #tab_stackfrq(gpexpermrd.df) #percents by response
@@ -554,46 +450,36 @@ notsure <- sum(gpexpermrd.df$`Not sure`)
 ###########################
 # Pre/Post-Test: Thoughts #
 ###########################
-gpthoughts.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup,c(72,4,6,67:71)] #5 Thought variables (likert) for IN-clued + MPC Pre AND Post
+gpthoughts.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup,c(72,4,6,67:71)] #5 Thought variables (likert) for Pre AND Post
 gpthoughts.df <- na.omit(gpthoughts.df) 
 
-lktthought <- likert(gpthoughts.df[,4:8], grouping = gpthoughts.df$Time)
-plot(lktthought, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
-ggsave("GROUP - Thoughts over time.png", width = 9, height = 4.5)
+thoughtlkt <- likert(gpthoughts.df[,4:8], grouping = gpthoughts.df$Time)
+plot(thoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
+ggsave("Elon - Thoughts over time.png", width = 9, height = 4.5)
 #may not plot if too many listwise deletions
 
 #Optional: just the pre-test thoughts
-lktthought <- likert(gpthoughts.df[,4:8])
-plot(lktthought) + ggtitle("Participants' Thoughts about Future Sexual Activity")
-ggsave("GROUP - Thoughts.png", width = 9, height = 2.5)
+thoughtlkt <- likert(gpthoughts.df[,4:8])
+plot(thoughtlkt) + ggtitle("Participants' Thoughts about Future Sexual Activity")
+ggsave("Elon111421 - Thoughts over time.png", width = 9, height = 2.5)
 #may not plot if too many listwise deletions
 
 ###########################
 # Post-Test: Satisfaction #
 ###########################
 
-gpsatisfaction.df <- ppt.df[ppt.df$`Group Name`==thisgroup & ppt.df$Time=="After",c(72,4,49:56)] #8 Group variables on IN-clued + MPC Post, excluding comments
+gpsatisfaction.df <- ppt.df[ppt.df$`Group Name`==thisgroup & ppt.df$Time=="After",c(72,49:56)] #8 Group variables on Post, excluding comments
 gpsatisfaction.df <- na.omit(gpsatisfaction.df)
 
-lktsatisfaction <- likert(gpsatisfaction.df[,3:10])
-plot(lktsatisfaction) + ggtitle("Participants' Satisfaction with the Group")
-ggsave("GROUP - Satisfaction.png", width = 9, height = 3.25)
-
-######################
-# SurveyMonkey Stats #
-######################
-
-# Optional subsets:
-#post.df <- ppt.df[ppt.df$Time=="After", c(1:3,47:60,61:97)]# optional subset of identifiers, satisfaction, contact info to post-test
-#pre.df  <- ppt.df[ppt.df$Time=="Before", c(1,3,4,6:13,15,16,18:22,24,26:45)] #optional subset of demographics, experiences
-#pre.df  <- na.omit(pre.df)
-ptksa.df <- pptenglm.df[pptenglm.df$`Group Name`%like% thisgroup,c(100,4,63:94)] #16 KSA variables with 32 options for MPC
+satisflkt <- likert(gpsatisfaction.df[,2:9])
+plot(satisflkt) + ggtitle("Participants' Satisfaction with the Group")
+ggsave("PAYC071221 - Satisfaction.png", width = 9, height = 3.25)
 
 ################
 # OAH 1: Reach #
 ################
 
-gpdemographics.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(72,4,3,9:15,17,18,20:24,26)] #8 Demographic variables for IN-clued + MPC
+gpdemographics.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(72,4,3,6,10:15,17,18,20:24,26)] #8 Demographic variables
 gpdemographics.df <- na.omit(gpdemographics.df)
 
 # install.packages("eeptools")
@@ -618,8 +504,8 @@ reach <- rbind.data.frame(gender,race,age,grade)
 
 library(sjPlot)
 tab_df(reach,
-       title = "Reach for: GROUP",
-       file = "GROUP - Demographics Table.doc")
+       title = "Reach for: Elon111421",
+       file = "Elon111421 - Demographics Table.doc")
 oahrace <- tab_xtab(var.row = gpdemographics.df$race_cat, var.col = gpdemographics.df$Hispanic,
          title = "Race by Ethnicity for: Elon082421",
          file = "Elon - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
@@ -633,98 +519,58 @@ table(gpdemographics.df$race_cat,gpdemographics.df$Hispanic)
 #    knitr::kable(
 #      reach),
 #    knitr::kable(oahrace)),)
-```
-- Annual Evaluation Report
-```{r}
-#Subsets by time frame instead of group name
-#Update begin/finish dates & ggsave file names below
-begin  <- "2021-07-01" #options: "2020-07-01", "2021-01-01", "2021-07-01", "2022-01-01", "2022-07-01", "2023-01-01"
-finish <- "2022-06-30" #options: "2020-12-31", "2021-06-30", "2021-12-31", "2022-06-30", "2022-12-31", "2023-06-30"
 
 ###############
-# Experiences #
+# Eval Report #
 ###############
+#Subsets by time frame: Update begin & finish dates below instead of IO
+begin <- "2021-07-01" 
+#options: "2020-07-01", "2021-01-01", "2021-07-01", "2022-01-01", "2022-07-01", "2023-01-01"
+finish <- "2022-06-30" 
+#options: "2020-12-31", "2021-06-30", "2021-12-31", "2022-06-30", "2022-12-31", "2023-06-30"
 
-library(likert)
-yrexperience.df <- ppt.df[ppt.df$`Start Date` >=begin & ppt.df$`Start Date` <=finish & ppt.df$Time=="Before",c(72,4,6,28:33)] #6 Experience variables (likert)
-yrexperience.df <- na.omit(yrexperience.df) 
-
-yrlktexperience <- likert(yrexperience.df[,4:9])
-plot(yrlktexperience, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
-ggsave("Year 2 - Experiences - Pre.png", width = 9, height = 2.5)
-
-############
-# Thoughts #
-############
-       
-yrthoughts.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish,c(72,4,6,67:71)] #5 Thought variables (likert) for Pre AND Post
-yrptthoughts.df <- na.omit(yrptthoughts.df) 
-
-yrlktthought <- likert(yrptthoughts.df[,4:8], grouping = yrptthoughts.df$Time)
-plot(yrlktthought, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
-ggsave("Year 2 - Thoughts over time.png", width = 9, height = 4.5)
-#may not plot if too many listwise deletions
-
-table(yrthoughts.df$Time)
-
-chisq.test(yrthoughts.df$`Prepared to say no if not ready`,yrthoughts.df$Time)
-chisq.test(yrthoughts.df$`Prepared to use a barrier method`,yrthoughts.df$Time)
-chisq.test(yrthoughts.df$`Prepared to say no if no barrier method`,yrthoughts.df$Time)
-chisq.test(yrthoughts.df$`Prepared to use birth control`,yrthoughts.df$Time)
-chisq.test(yrthoughts.df$`Prepared to go to a doctor for birth control`,yrthoughts.df$Time)
-
-################
-# Satisfaction #
-################
-
-yrsatisfaction.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish & ppt.df$Time=="After",c(72,4,6,49:56)] #8 Group variables on Post
-yrsatisfaction.df <- na.omit(yrsatisfaction.df)
-
-yrlktsatisfaction <- likert(yrsatisfaction.df[,4:11])
-plot(yrlktsatisfaction) + ggtitle("Participants' Satisfaction with the Groups")
-ggsave("Year 2 - Satisfaction.png", width = 9, height = 3.25)
-
-################
-# Demographics #
-################
-
-yrdemographics.df <- ppt.df[ppt.df$`Start Date` >=begin & ppt.df$`Start Date`<=finish & ppt.df$Time=="Before",c(72,4,3,9:15,17,18,20:24,26)] #8 Demographic variables 
-yrdemographics.df <- na.omit(yrdemographics.df)
+yrptdemographics.df <- ppt.df[ppt.df$`Start Date` >=begin & ppt.df$`Start Date`<=finish & ppt.df$Time=="Before",c(100,4,9:15,17,18,20:24,26)] #8 Demographic variables 
 
 # install.packages("eeptools")
 library(eeptools)
-yrdemographics.df$Age <- floor(age_calc(yrdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
+yrptdemographics.df$Age <- floor(age_calc(yrptdemographics.df$Birthdate, units = "years")) #make sure your date variable is formatted; does not like NAs
 
-yrdemographics.df$gender_cat <- apply(yrdemographics.df[13:17], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
-gender <- data.frame(table(yrdemographics.df$gender_cat))
+yrptdemographics.df$gender_cat <- apply(yrptdemographics.df[12:16], 1, function(x) {ifelse(sum(x) > 1, "Multigender", names(x[x != 0]))})
+gender <- data.frame(table(yrptdemographics.df$gender_cat))
 names(gender) <- c("Demographics","Count")
 
-yrdemographics.df$race_cat <- apply(yrdemographics.df[5:10], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
-race <- data.frame(table(yrdemographics.df$race_cat))
+yrptdemographics.df$race_cat <- apply(yrptdemographics.df[4:9], 1, function(x) {ifelse(sum(x) > 1, "Multiracial", names(x[x != 0]))})
+race <- data.frame(table(yrptdemographics.df$race_cat))
 names(race) <- c("Demographics","Count")
 
-age <- data.frame(table(yrdemographics.df$Age))
+age <- data.frame(table(yrptdemographics.df$Age))
 names(age) <- c("Demographics","Count")
 
-grade <- data.frame(table(yrdemographics.df$Grade))
+grade <- data.frame(table(yrptdemographics.df$Grade))
 names(grade) <- c("Demographics","Count")
 
 reach <- rbind.data.frame(gender,race,age,grade)
+table(yrptdemographics.df$Hispanic)
 
 library(sjPlot)
 tab_df(reach,
        title = "Reach for Year 2",
        file = "Year 2 - Demographics Table.doc")
 yroahrace <- tab_xtab(var.row = yrptdemographics.df$race_cat, var.col = yrptdemographics.df$Hispanic,
-         title = "Race by Ethnicity for Year 2",
-         file = "Year 2 - Race by Ethnicity Table.doc") #may not print if no Hispanic YP
-# OR
+         title = "Race by Ethnicity for: 2022-2022",
+         file = "2021-2022 - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
 
-table(yrdemographics.df$race_cat,yrdemographics.df$Hispanic)
+################################################
 
-#############
-# Knowledge #
-#############
+library(likert)
+yrptexperlkt.df <- ppt.df[ppt.df$`Start Date` >=begin & ppt.df$`Start Date` <=finish & ppt.df$Time=="Before",c(28:33)] #6 Experience variables (likert)
+yrptexperlkt.df <- na.omit(yrptexperlkt.df) 
+
+yrexperiencelkt <- likert(items=yrptexperlkt.df)
+plot(yrexperiencelkt, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
+ggsave("Year 1 - Experiences - Pre.png", width = 9, height = 2.5)
+
+################################################
 
 #compute the average pre-test score to use as a threshold against the average post-test score in a one-sample t test
 
@@ -763,6 +609,39 @@ wide.df <- wide.df[,c(5,8,1,3,10)]
 #wide.df <- as.numeric(sub("%","",wide.df)) #convert to numbers without NAing data
 #wide.df$diff <- wide.df$`Score (Percent).2` - wide.df$`Score (Percent).1
 #run t-test on difference scores
+
+
+################################################
+       
+yrptthoughts.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish,c(100,4,6,95:99)] #5 Thought variables (likert) for Pre AND Post
+yrptthoughts.df <- na.omit(yrptthoughts.df) 
+library(likert)
+yrthoughtlkt <- likert(yrptthoughts.df[,4:8], grouping = yrptthoughts.df$Time)
+tab_xtab(var.row=yrthoughtlkt, var.col = yrptthoughts.df$Time)
+oahrace <- tab_xtab(var.row = ptdemographics.df$race_cat, var.col = ptdemographics.df$Hispanic,
+         title = "Race by Ethnicity for: DreamCenter062121",
+         file = "DreamCenter062121 - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
+
+plot(yrthoughtlkt, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
+ggsave("Year 1 - Thoughts over time.png", width = 9, height = 4.5)
+#may not plot if too many listwise deletions
+
+table(yrptthoughts.df$Time)
+
+chisq.test(yrptthoughts.df$`Prepared to say no if not ready`,yrptthoughts.df$Time)
+chisq.test(yrptthoughts.df$`Prepared to use a barrier method`,yrptthoughts.df$Time)
+chisq.test(yrptthoughts.df$`Prepared to say no if no barrier method`,yrptthoughts.df$Time)
+chisq.test(yrptthoughts.df$`Prepared to use birth control`,yrptthoughts.df$Time)
+chisq.test(yrptthoughts.df$`Prepared to go to a doctor for birth control`,yrptthoughts.df$Time)
+
+################################################
+
+yrptsatisfaction.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish & ppt.df$Time=="After",c(100,49:56)] #8 Group variables on Post
+yrptsatisfaction.df <- na.omit(yrptsatisfaction.df)
+
+yrsatisflkt <- likert(yrptsatisfaction.df[,2:9])
+plot(yrsatisflkt) + ggtitle("Participants' Satisfaction with the Group")
+ggsave("Year 1 - Satisfaction.png", width = 9, height = 3.25)
 ```
 # Fidelity Logs & Quarterly Program Reports
 - import all responses (as *.csv & numeric values)
