@@ -37,11 +37,11 @@ knitr::opts_chunk$set(echo = TRUE)
 # Import data, subset and name the variables in the dataframes, remove blanks (by language)
 rawppt.df <- read.csv("Participant Pre  Post Test Survey MPC.csv", stringsAsFactors = TRUE)
 # OR
-rawppt.df <- read.csv("Participant Pre  Post Test Survey IN-clued.csv", stringsAsFactors = TRUE)
+rawppt2.df <- read.csv("Participant Pre  Post Test Survey IN-clued.csv", stringsAsFactors = TRUE)
 
 #English Pre/Post-Tests: subsetted dataframe for IN-clued
-pptengl.df <- rawppt.df[2:nrow(rawppt.df),c(3,11:69,77:80,86:93)] #72 variables for IN-clued
-names(pptengl.df) <- c("Start Date","Initials","Birthdate",
+pptengl2.df <- rawppt2.df[2:nrow(rawppt2.df),c(3,11:69,77:80,86:93)] #72 variables for IN-clued
+names(pptengl2.df) <- c("Start Date","Initials","Birthdate",
                    "Group Name", "Participant", "Time",
                    "Alamance County",
                    "Other County (text)",
@@ -109,7 +109,7 @@ names(pptengl.df) <- c("Start Date","Initials","Birthdate",
                    "Prepared to say no if no barrier method",
                    "Prepared to use birth control",
                    "Prepared to go to a doctor for birth control")
-pptengl.df[pptengl.df==""] <- NA
+pptengl2.df[pptengl2.df==""] <- NA
 
 #English Pre/Post-Tests: subsetted dataframe for MPC
 pptengl.df <- rawppt.df[2:nrow(rawppt.df),c(3,12:70,78:116)] #99 variables for MPC
@@ -312,7 +312,7 @@ pptspan.df[pptspan.df==""] <- NA
 # Lowercase the strings and format the dates
 library(data.table)
 
-#English Pre/Post-Tests: Identifiers
+#English Pre/Post-Tests: Identifiers (repeat for IN-clued, if needed)
 pptengl.df$`Group Name` <- tolower(pptengl.df$`Group Name`) 
 pptengl.df$Initials <- tolower(pptengl.df$Initials)
 
@@ -337,21 +337,21 @@ cleanIt <- function(vec){
   return(as.numeric(chars)) #convert values to numbers
 }
 
-#English Pre/Post-Tests: Multiple Response Dummy Variables
-pptengl.df[10:15]  <- lapply(pptengl.df[10:15],  cleanIt) #pre: racial identity options
-pptengl.df[20:24] <- lapply(pptengl.df[20:24], cleanIt) #pre: gender identity options
-pptengl.df[34:47] <- lapply(pptengl.df[34:47], cleanIt) #pre: last time sex options
-pptengl.df[68:85] <- lapply(pptengl.df[68:85], cleanIt) #both: if used correctly Qs in MPC only
+#English Pre/Post-Tests: Multiple Response Dummy Variables 
+pptengl.df[10:15] <- lapply(pptengl.df[10:15], cleanIt) #pre: racial identity options (repeat for IN-clued, if needed)
+pptengl.df[20:24] <- lapply(pptengl.df[20:24], cleanIt) #pre: gender identity options (repeat for IN-clued, if needed)
+pptengl.df[34:47] <- lapply(pptengl.df[34:47], cleanIt) #pre: last time sex options   (repeat for IN-clued, if needed)
+pptengl.df[68:85] <- lapply(pptengl.df[68:85], cleanIt) #both: if used correctly Qs   (MPC only)
 
 #Spanish Pre/Post-Tests: Multiple Response Dummy Variables
-pptspan.df[10:15]  <- lapply(pptspan.df[10:15],  cleanIt) #pre: racial identity options
+pptspan.df[10:15] <- lapply(pptspan.df[10:15], cleanIt) #pre: racial identity options
 pptspan.df[20:24] <- lapply(pptspan.df[20:24], cleanIt) #pre: gender identity options
 pptspan.df[34:47] <- lapply(pptspan.df[34:47], cleanIt) #pre: last time sex options
 pptspan.df[68:85] <- lapply(pptspan.df[68:85], cleanIt) #both: if used correctly Qs
 
 # Factor categorical variables
 
-#English Pre-Tests: Categorical Variables - Demographics
+#English Pre-Tests: Categorical Variables - Demographics (repeat for IN-clued, if needed)
 pptengl.df$Time <- factor(pptengl.df$Time,
                     levels = c(1,2),
                     labels = c("Before", "After"))
