@@ -414,6 +414,7 @@ ppt.df$`Sex using drugs` <- factor(ppt.df$`Sex using drugs`,
                                    levels = c(4,3,5,1,2),
                                    labels = labelfreq)
 
+#Check all that apply:
 ppt.df$`Never had sex` <- factor(ppt.df$`Never had sex`,
                                  levels = c(0),
                                  labels = c("Never had sex"))
@@ -529,10 +530,10 @@ thisgroup <- "elon"
 ########################
 
 library(likert)
-gpexperience.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(72,4,6,28:33)] #6 Experience variables (likert)
-gpexperience.df <- na.omit(gpexperience.df) 
+gpsexperience.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(72,4,6,28:33)] #6 Experience variables (likert)
+gpsexperience.df <- na.omit(gpsexperience.df) 
 
-gplktexperience <- likert(gpexperience.df[,4:9])
+gplktexperience <- likert(gpsexperience.df[,4:9])
 plot(gplktexperience, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
 ggsave("GROUP - Experiences - Pre.png", width = 9, height = 2.5)
 
@@ -540,21 +541,21 @@ ggsave("GROUP - Experiences - Pre.png", width = 9, height = 2.5)
 
 #Optional: subset the types of past sexual experiences
 
-gpexpermrd.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(72,4,6,34,36:47)] #13 Experience options (MR dummy excluding duplicate column and "Other method" (text))
+gpsexpermrd.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup & ppt.df$Time=="Before",c(72,4,6,34,36:47)] #13 Experience options (MR dummy excluding duplicate column and "Other method" (text))
 
-mrdnever   <- data.frame(table(gpexpermrd.df$`Never had sex`))
-mrdnobm    <- data.frame(table(gpexpermrd.df$`Sex with no barrier method`))
-mrdnobc    <- data.frame(table(gpexpermrd.df$`Sex with no birth control`))
-mrdec      <- data.frame(table(gpexpermrd.df$EC))
-mrdiud     <- data.frame(table(gpexpermrd.df$IUD))
-mrdimplant <- data.frame(table(gpexpermrd.df$Implant))
-mrdshot    <- data.frame(table(gpexpermrd.df$Shot))
-mrdring    <- data.frame(table(gpexpermrd.df$Ring))
-mrdpatch   <- data.frame(table(gpexpermrd.df$Patch))
-mrdpill    <- data.frame(table(gpexpermrd.df$Pill))
-mrdbm      <- data.frame(table(gpexpermrd.df$`Barrier Method`))
-mrdns      <- data.frame(table(gpexpermrd.df$`Not sure`))
-mrdpnta    <- data.frame(table(gpexpermrd.df$`Prefer not to answer`))
+mrdnever   <- data.frame(table(gpsexpermrd.df$`Never had sex`))
+mrdnobm    <- data.frame(table(gpsexpermrd.df$`Sex with no barrier method`))
+mrdnobc    <- data.frame(table(gpsexpermrd.df$`Sex with no birth control`))
+mrdec      <- data.frame(table(gpsexpermrd.df$EC))
+mrdiud     <- data.frame(table(gpsexpermrd.df$IUD))
+mrdimplant <- data.frame(table(gpsexpermrd.df$Implant))
+mrdshot    <- data.frame(table(gpsexpermrd.df$Shot))
+mrdring    <- data.frame(table(gpsexpermrd.df$Ring))
+mrdpatch   <- data.frame(table(gpsexpermrd.df$Patch))
+mrdpill    <- data.frame(table(gpsexpermrd.df$Pill))
+mrdbm      <- data.frame(table(gpsexpermrd.df$`Barrier Method`))
+mrdns      <- data.frame(table(gpsexpermrd.df$`Not sure`))
+mrdpnta    <- data.frame(table(gpsexpermrd.df$`Prefer not to answer`))
 
 mrdall <- rbind.data.frame(mrdnever,mrdnobm,mrdnobc,mrdec,mrdiud,mrdimplant,mrdshot,mrdring,mrdpatch,mrdpill,mrdbm,mrdns,mrdpnta)
 names(mrdall) <- c("At Last Sex","Count")
@@ -562,16 +563,16 @@ names(mrdall) <- c("At Last Sex","Count")
 ###########################
 # Pre/Post-Test: Thoughts #
 ###########################
-gpthoughts.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup,c(72,4,6,67:71)] #5 Thought variables (likert) for IN-clued + MPC Pre AND Post
-gpthoughts.df <- na.omit(gpthoughts.df) 
+gpsthoughts.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup,c(72,4,6,67:71)] #5 Thought variables (likert) for IN-clued + MPC Pre AND Post
+gpsthoughts.df <- na.omit(gpsthoughts.df) 
 
-gplktthought <- likert(gpthoughts.df[,4:8], grouping = gpthoughts.df$Time)
+gplktthought <- likert(gpsthoughts.df[,4:8], grouping = gpsthoughts.df$Time)
 plot(gplktthought, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
 ggsave("GROUP - Thoughts over time.png", width = 9, height = 4.5)
 #may not plot if too many listwise deletions
 
 #Optional: just the pre-test thoughts
-gplktthought <- likert(gpthoughts.df[,4:8])
+gplktthought <- likert(gpsthoughts.df[,4:8])
 plot(gplktthought) + ggtitle("Participants' Thoughts about Future Sexual Activity")
 ggsave("GROUP - Thoughts.png", width = 9, height = 2.5)
 #may not plot if too many listwise deletions
@@ -580,10 +581,10 @@ ggsave("GROUP - Thoughts.png", width = 9, height = 2.5)
 # Post-Test: Satisfaction #
 ###########################
 
-gpsatisfaction.df <- ppt.df[ppt.df$`Group Name`==thisgroup & ppt.df$Time=="After",c(72,4,49:56)] #8 Group variables on IN-clued + MPC Post, excluding comments
-gpsatisfaction.df <- na.omit(gpsatisfaction.df)
+gpssatisfaction.df <- ppt.df[ppt.df$`Group Name`==thisgroup & ppt.df$Time=="After",c(72,4,49:56)] #8 Group variables on IN-clued + MPC Post, excluding comments
+gpssatisfaction.df <- na.omit(gpssatisfaction.df)
 
-gplktsatisfaction <- likert(gpsatisfaction.df[,3:10])
+gplktsatisfaction <- likert(gpssatisfaction.df[,3:10])
 plot(gplktsatisfaction) + ggtitle("Participants' Satisfaction with the Group")
 ggsave("GROUP - Satisfaction.png", width = 9, height = 3.25)
 
@@ -628,7 +629,7 @@ library(sjPlot)
 tab_df(gpdreach,
        title = "Reach for: GROUP",
        file = "GROUP - Demographics Table.doc")
-oahrace <- tab_xtab(var.row = gpdemographics.df$race_cat, var.col = gpdemographics.df$Hispanic,
+gpdoahrace <- tab_xtab(var.row = gpdemographics.df$race_cat, var.col = gpdemographics.df$Hispanic,
          title = "Race by Ethnicity for: GROUP",
          file = "GROUP - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP
 # OR
@@ -654,10 +655,10 @@ finish <- "2022-06-30" #options: "2020-12-31", "2021-06-30", "2021-12-31", "2022
 ###################
 
 library(likert)
-yrexperience.df <- ppt.df[ppt.df$`Start Date` >=begin & ppt.df$`Start Date` <=finish & ppt.df$Time=="Before",c(72,4,6,28:33)] #6 Experience variables (likert)
-yrexperience.df <- na.omit(yrexperience.df) 
+yrsexperience.df <- ppt.df[ppt.df$`Start Date` >=begin & ppt.df$`Start Date` <=finish & ppt.df$Time=="Before",c(72,4,6,28:33)] #6 Experience variables (likert)
+yrsexperience.df <- na.omit(yrsexperience.df) 
 
-yrlktexperience <- likert(yrexperience.df[,4:9])
+yrlktexperience <- likert(yrsexperience.df[,4:9])
 plot(yrlktexperience, positive.order = TRUE) + ggtitle("Participants' Past Sexual Experiences")
 ggsave("Year 2 - Experiences - Pre.png", width = 9, height = 2.5)
 
@@ -665,21 +666,21 @@ ggsave("Year 2 - Experiences - Pre.png", width = 9, height = 2.5)
 # All Thoughts #
 ################
        
-yrthoughts.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish,c(72,4,6,67:71)] #5 Thought variables (likert) for Pre AND Post
-yrthoughts.df <- na.omit(yrthoughts.df) 
+yrsthoughts.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish,c(72,4,6,67:71)] #5 Thought variables (likert) for Pre AND Post
+yrsthoughts.df <- na.omit(yrsthoughts.df) 
 
-yrlktthought <- likert(yrthoughts.df[,4:8], grouping = yrthoughts.df$Time)
+yrlktthought <- likert(yrsthoughts.df[,4:8], grouping = yrsthoughts.df$Time)
 plot(yrlktthought, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
 ggsave("Year 2 - Thoughts over time.png", width = 9, height = 4.5)
 #may not plot if too many listwise deletions
 
-table(yrthoughts.df$Time) #fewer post < pre
+table(yrsthoughts.df$Time) #fewer post < pre
 
-chisq.test(yrthoughts.df$`Prepared to say no if not ready`,yrthoughts.df$Time)
-chisq.test(yrthoughts.df$`Prepared to use a barrier method`,yrthoughts.df$Time)
-chisq.test(yrthoughts.df$`Prepared to say no if no barrier method`,yrthoughts.df$Time)
-chisq.test(yrthoughts.df$`Prepared to use birth control`,yrthoughts.df$Time)
-chisq.test(yrthoughts.df$`Prepared to go to a doctor for birth control`,yrthoughts.df$Time)
+chisq.test(yrsthoughts.df$`Prepared to say no if not ready`,yrsthoughts.df$Time)
+chisq.test(yrsthoughts.df$`Prepared to use a barrier method`,yrsthoughts.df$Time)
+chisq.test(yrsthoughts.df$`Prepared to say no if no barrier method`,yrsthoughts.df$Time)
+chisq.test(yrsthoughts.df$`Prepared to use birth control`,yrsthoughts.df$Time)
+chisq.test(yrsthoughts.df$`Prepared to go to a doctor for birth control`,yrsthoughts.df$Time)
 
 #p-value < 0.05: small likelihood that the pre/post difference is due to chance
 
@@ -687,10 +688,10 @@ chisq.test(yrthoughts.df$`Prepared to go to a doctor for birth control`,yrthough
 # All Satisfaction #
 ####################
 
-yrsatisfaction.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish & ppt.df$Time=="After",c(72,4,6,49:56)] #8 Group variables on Post
-yrsatisfaction.df <- na.omit(yrsatisfaction.df)
+yrssatisfaction.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish & ppt.df$Time=="After",c(72,4,6,49:56)] #8 Group variables on Post
+yrssatisfaction.df <- na.omit(yrssatisfaction.df)
 
-yrlktsatisfaction <- likert(yrsatisfaction.df[,4:11])
+yrlktsatisfaction <- likert(yrssatisfaction.df[,4:11])
 plot(yrlktsatisfaction) + ggtitle("Participants' Satisfaction with the Groups")
 ggsave("Year 2 - Satisfaction.png", width = 9, height = 3.25)
 
@@ -725,7 +726,7 @@ library(sjPlot)
 tab_df(yrdreach,
        title = "Reach for Year 2",
        file = "Year 2 - Demographics Table.doc")
-yroahrace <- tab_xtab(var.row = yrdemographics.df$race_cat, var.col = yrdemographics.df$Hispanic,
+yrdoahrace <- tab_xtab(var.row = yrdemographics.df$race_cat, var.col = yrdemographics.df$Hispanic,
          title = "Race by Ethnicity for Year 2",
          file = "Year 2 - Race by Ethnicity Table.doc") #may not print if no Hispanic YP
 # OR
