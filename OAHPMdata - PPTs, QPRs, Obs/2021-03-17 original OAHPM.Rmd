@@ -19,7 +19,7 @@ Click the **+c Insert** button to insert code chunks (or functions). Add documen
 When you click the **Knit** button, it compiles all of the code chunks and generates a document that includes both content as well as the output of any embedded R code chunks within the document. Use the **gear** icon to adjust settings (e.g., "show output only") for each code chunk. 
 
 The shortcut key for "<-" is ALT + [dash] 
-CTRL + ENTER will run the highlighted line(s) of code.
+CTRL + ENTER will run the highlighted line(s) of code. (if that doesn't work check the ``` & ```{r})
 The hashtag is documentation/explanation that is commented out.
 
 # 0. First time: 
