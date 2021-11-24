@@ -311,7 +311,8 @@ names(pptmspa.df) <- c("Start Date","Initials","Birthdate",
                    "Prepared to go to a doctor for birth control")
 pptmspa.df[pptmspa.df==""] <- NA
 
-ppt.df <- rbind(pptieng.df,pptmeng.df,pptmspa.df)
+#ppt.df <- rbind(pptieng.df,pptmeng.df,pptmspa.df) #MPC + IN-clued
+ppt.df <- rbind(pptmeng.df,pptmspa.df) #MPC only
 
 # Lowercase the strings and format the dates
 library(data.table)
@@ -523,7 +524,7 @@ ppt.df$`I felt uncomfortable participating*` <- factor(ppt.df$`I felt uncomforta
 ```{r}
 #Pre/Post-Test by group if group name is exact 
 #Update thisgroup name and ggsave file names below
-thisgroup <- "elon"
+thisgroup <- "dreamcenter10"
 
 ########################
 # Pre-Test: Experience #
@@ -563,13 +564,17 @@ names(mrdall) <- c("At Last Sex","Count")
 ###########################
 # Pre/Post-Test: Thoughts #
 ###########################
+library(likert)
+
 gpsthoughts.df <- ppt.df[ppt.df$`Group Name` %like% thisgroup,c(72,4,6,67:71)] #5 Thought variables (likert) for IN-clued + MPC Pre AND Post
 gpsthoughts.df <- na.omit(gpsthoughts.df) 
 
 gplktthought <- likert(gpsthoughts.df[,4:8], grouping = gpsthoughts.df$Time)
 plot(gplktthought, group.order = c("Before","After")) + ggtitle("Participants' Thoughts about Future Sexual Activity")
-ggsave("GROUP - Thoughts over time.png", width = 9, height = 4.5)
+ggsave("DreamCenter102621 - Thoughts over time.png", width = 9, height = 4.5)
 #may not plot if too many listwise deletions
+
+table(gpsthoughts.df$Time)
 
 #Optional: just the pre-test thoughts
 gplktthought <- likert(gpsthoughts.df[,4:8])
@@ -581,12 +586,12 @@ ggsave("GROUP - Thoughts.png", width = 9, height = 2.5)
 # Post-Test: Satisfaction #
 ###########################
 
-gpssatisfaction.df <- ppt.df[ppt.df$`Group Name`==thisgroup & ppt.df$Time=="After",c(72,4,49:56)] #8 Group variables on IN-clued + MPC Post, excluding comments
+gpssatisfaction.df <- ppt.df[ppt.df$`Group Name`%like% thisgroup & ppt.df$Time=="After",c(72,4,49:59)] #8 Group variables on IN-clued + MPC Post, excluding comments
 gpssatisfaction.df <- na.omit(gpssatisfaction.df)
 
 gplktsatisfaction <- likert(gpssatisfaction.df[,3:10])
 plot(gplktsatisfaction) + ggtitle("Participants' Satisfaction with the Group")
-ggsave("GROUP - Satisfaction.png", width = 9, height = 3.25)
+ggsave("DreamCenter102621 - Satisfaction.png", width = 9, height = 3.25)
 
 ######################
 # SurveyMonkey Stats #
