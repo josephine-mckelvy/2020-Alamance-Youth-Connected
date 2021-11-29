@@ -1,0 +1,282 @@
+---
+title: "AYC TA Log - SAPR & MERT data"
+subtitle: "Summarizing Counts by Date & Setting"
+author: "Josephine McKelvy"
+date: "February 08, 2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+Click the **+c Insert** button to insert code chunks (or functions). Add documentation outside of the code chunks as reminders of what your code does.
+
+When you click the **Knit** button, it compiles all of the code chunks and generates a document that includes both content as well as the output of any embedded R code chunks within the document. Use the **gear** icon to adjust settings (e.g., "show output only") for each code chunk. 
+
+The shortcut key for "<-" is ALT + [dash] 
+CTRL + ENTER will run the highlighted line(s) of code.
+The hashtag is code that is commented out.
+
+# 1. Find/Set the working directory, where you'll import/export files.
+```{r}
+getwd() 
+# Wherever this code is saved, the file(s) for your dataset(s) should be there too
+```
+# 2. Name & import your data frame, or set of information (like a .csv file of survey responses), as factor variables.
+- I created a dataframe object (which I named "raw.df") for each dataset that will read in the respective .csv files and convert categorical variables into factor variables. (Copy and paste the name of the file. There's a hidden character in the SurveyMonkey exports.)
+```{r}
+rawio.df <- read.csv("AYC TA Log 2020-2023.csv", stringsAsFactors = TRUE)
+rawcl.df <- read.csv("QI TA Log", stringsAsFactors = TRUE) ##look up 
+
+# Export .CSV from your survey platform and confirm numeric values, NOT choice text. 
+
+# Clean variable names in advance (e.g., insert a row of Q#s). Do NOT start variable names with numbers.
+```
+# 3. Clean the analytic dataset.
+- I created an analytic dataset (which I named "ta.df") that will subset the data and remove informational header rows that are not survey responses.
+
+(**1-based index**: R starts with the first row of obs. being "1"; 3:nrow means that your responses/obs. start on row 4 until the Nth row. Check your dataset to see which row the actual observations start.)
+```{r}
+##will need to match
+tacl.df <- rawcl.df[2:nrow(rawcl.df),c()]
+names(tacl.df) <- c("")
+
+taio.df <- rawio.df[2:nrow(rawio.df),c(3,10,12:28,63:72)] 
+names(taio.df) <- c("Start Date",
+                  "Trainer/TA Provider",
+                  "Training/TA",
+                  "Date of T/TA",
+                  "Minutes of T/TA",
+                  "Mode of T/TA",
+                  "Alamance Achieves",
+                  "ACHD",
+                  "CGDC",
+                  "CrossRoads",
+                  "ACDSS",
+                  "CHS",
+                  "PAYC",
+                  "Elon",
+                  "EC",
+                  "FAS",
+                  "SABGC",
+                  "Partners Present",
+                  "Other Adults Present",
+                  #col. 31-62 were the old Check-all-that-apply GTO steps
+                  "GTO-01",
+                  "GTO-02",
+                  "GTO-03",
+                  "GTO-04",
+                  "GTO-05",
+                  "GTO-06",
+                  "GTO-07",
+                  "GTO-08",
+                  "GTO-09",
+                  "GTO-10"
+                  #col. 73-96 are check-all-that-apply training topics
+                  )
+# Confirm the number of obs on SurveyMonkey.
+ta.df <- rbind(tacl.df,taio.df) 
+```
+- Recode missing data:
+```{r}
+ta.df[ta.df==""] <- NA
+ta.df[ta.df=="N/A"] <- NA
+```
+- Convert column/variable to "date" class (%m = 2-digit month; %d = 2-digit day; %[capital]Y = 4-digit year)(https://www.statmethods.net/input/dates.html; https://www.statology.org/subset-by-date-range-in-r/)
+```{r}
+ta.df$`Start Date` <- as.POSIXct(as.character(ta.df$`Start Date`), format = "%m/%d/%Y %H:%M:%S %p", tz="America/New_York")
+ta.df$`Date of T/TA` <- as.Date(ta.df$`Date of T/TA`,"%m/%d/%Y")
+```
+# 3a. Clean the nominal (categorical, dichotomous/MRdum, ordinal) variables.
+- For each multiple choice statement, change the response values to factor, specify levels, and rename the value labels, based on the survey/codebook: (open both the dataset and the codebook/survey with question numbers and recode values to make sure the labels and levels are correct)
+```{r}
+##if the same as QI TA Log; else move first? or repeat for QI TA numbers
+labelspec <- c("Lisa Garland",
+               "Caro Welker",
+               "Josephine McKelvy",
+               "Sophia Durant",
+               "Tommy White",
+               "Danielle Sherman",
+               "Other")
+labeltta <- c("Training",
+              "Technical Assistance")
+labelmode <- c("Phone",
+               "Web-based for one organization",
+               "In-person for one organization",
+               "In-person for multiple organizations",
+               "Web-based for multiple organizations")
+
+ta.df$`Trainer/TA Provider` <- factor(ta.df$`Trainer/TA Provider`,
+                   levels = c(1,2,3,4,5,6,7),
+                   labels = labelspec)
+ta.df$`Training/TA` <- factor(ta.df$`Training/TA`,
+                   levels = c(1,2),
+                   labels = labeltta)
+ta.df$`Mode of T/TA` <- factor(ta.df$`Mode of T/TA`,
+                   levels = c(1,2,3,4,5),
+                   labels = labelmode)
+```
+# 3b. Convert continuous variables from factor to numeric.
+(Factor variables are stored as integer codes--not numeric value--to create levels (e.g., responses ranging from 10 to 12 are three levels). Skipping "as.character" will save the level, not the label, as the value.
+(https://stackoverflow.com/questions/6328771/changing-values-when-converting-column-type-to-numeric; https://www.geeksforgeeks.org/convert-factor-to-numeric-and-numeric-to-factor-in-r-programming/) Convert to character and then numeric.)
+```{r}
+#ta.df$`Partners Trained` <- as.numeric(as.character(ta.df$`Partners Trained`))
+#sum(ta.df$`Partners Trained`) #will contain duplicates and across time; see M:\...\Facilitator Roster instead
+
+ta.df$`Minutes of T/TA` <- as.numeric(as.character(ta.df$`Minutes of T/TA`))
+#Optional: Convert to hours
+ta.df$hours <- ta.df$`Minutes of T/TA`/60
+```
+- Create an object (called "cleanIt") that performs a function to a vector, which serves as a placeholder for something like a column. In that function, convert the vector to a character variable. You have to convert this factor variable to a character variable first because you may see two types of labels (e.g., "1" and "NA"), but there could be more than 2 hidden levels in your factor variable. Where the variable is "NA" or a blank, replace with zero (0). Then convert the vector to a numeric variable that can be summed.
+```{r}
+cleanIt <- function(vec){
+  chars <- as.character(vec)
+  chars[is.na(chars)] <- "0"
+  chars[chars==""] <- "0"
+  chars[chars!="0"] <- "1"
+  return(as.numeric(chars))
+}
+```
+- There is a multiple-response item/column with varying numbers of options for each implementing organization (IO): columns 7-17 of the ta.df. Use list apply (lapply) to repeat the "cleanIt" function to those columns, i.e., your vectors.  
+```{r}
+ta.df[7:17] <- lapply(ta.df[7:17], cleanIt) # IOs
+#ta.df[31:40] <- lapply(ta.df[20:29], cleanIt) # create new GTO dummies
+#ta.df[62:83] <- lapply(ta.df[62:83], cleanIt) # training topics
+
+#If more than one IO applied, then sum > 1, or "Multiple"
+ta.df$mainio <- apply(ta.df[7:17], 1, function(x) {ifelse(sum(x) > 1, "Multiple settings", names(x[x != 0]))})
+
+ta.df$mainio <- ifelse(ta.df$mainio %in% c("ACHD"),"ACHD",
+                ifelse(ta.df$mainio %in% c("ACDSS"),"ACDSS",
+                ifelse(ta.df$mainio %in% c("CHS"),"CHS",       
+                ifelse(ta.df$mainio %in% c("CGDC"),"CGDC",
+                ifelse(ta.df$mainio %in% c("CrossRoads"),"CrossRoads",
+                ifelse(ta.df$mainio %in% c("PAYC"),"PAYC",
+                ifelse(ta.df$mainio %in% c("EC"),"Exchange",
+                ifelse(ta.df$mainio %in% c("FAS"),"FAS",       
+                ifelse(ta.df$mainio %in% c("SABGC"),"SABGC",
+                ifelse(ta.df$mainio %in% c("Elon"),"Elon",       
+                ifelse(ta.df$mainio %in% c("Multiple settings"),"Multiple settings",NA)))))))))))
+
+#If only one applied, re-categorize IO into setting: Clinic, Foster Care, Community, Higher Ed, or Multiple (probably training)
+ta.df$setting <- ifelse(ta.df$mainio %in% c("ACHD"), 1, #ACHD = Clinic
+           ifelse(ta.df$mainio %in% c("ACDSS"), 2, #ACDSS = Foster Care
+           ifelse(ta.df$mainio %in% c("CHS","CGDC","CrossRoads","PAYC","Exchange","FAS","SABGC"), 3, #CHS, CGDC, CrossRoads, PAYC, Exchange, FAS, SABGC = Community
+           ifelse(ta.df$mainio %in% c("Elon"), 4, #Elon = Higher Ed
+           ifelse(ta.df$mainio %in% c("Multiple IOs"), 5, NA)))))
+
+ta.df$setting <- factor(ta.df$setting,
+                   levels = c(1,2,3,4,5),
+                   labels = c("Clinic TA","Foster Care TA","Community TA","Higher Ed TA","Multi-setting"))
+
+#mertsetting <- data.frame(table(ta.df$setting))
+#names(mertsetting) <- c("Setting","Count") #counted logs submitted
+
+#library(sjPlot)
+#tab_df(mertsetting,
+#       title = "TTA logs for AYC",
+#       file = "MERT - TTA Logs Table.doc")
+#tab_xtab(var.row = ta.df$setting, var.col = ta.df$Mode.of.Training.or.TA,
+#         title = "TTA logs by mode",
+#         file = "MERT - TTA Mode Table.doc")
+```              
+- Updated GTO
+```{r}
+#Check all that apply:
+ta.df$`GTO-01` <- factor(ta.df$`GTO-01`,
+                         levels = c(1),
+                         labels = "GTO-01")
+ta.df$`GTO-02` <- factor(ta.df$`GTO-02`,
+                         levels = c(2),
+                         labels = "GTO-02")
+ta.df$`GTO-03` <- factor(ta.df$`GTO-03`,
+                         levels = c(3),
+                         labels = "GTO-03")
+ta.df$`GTO-04` <- factor(ta.df$`GTO-04`,
+                         levels = c(4),
+                         labels = "GTO-04")
+ta.df$`GTO-05` <- factor(ta.df$`GTO-05`,
+                         levels = c(5),
+                         labels = "GTO-05")
+ta.df$`GTO-06` <- factor(ta.df$`GTO-06`,
+                         levels = c(6),
+                         labels = "GTO-06")
+ta.df$`GTO-07` <- factor(ta.df$`GTO-07`,
+                         levels = c(7),
+                         labels = "GTO-07")
+ta.df$`GTO-08` <- factor(ta.df$`GTO-08`,
+                         levels = c(8),
+                         labels = "GTO-08")
+ta.df$`GTO-09` <- factor(ta.df$`GTO-09`,
+                         levels = c(9),
+                         labels = "GTO-09")
+ta.df$`GTO-10` <- factor(ta.df$`GTO-10`,
+                         levels = c(10),
+                         labels = "GTO-10")
+```
+# 4. Subset data by date ranges (e.g., quarters)
+Update begin/finish dates & ggsave file names below
+```{r}
+begin  <- "2021-07-01" #options: "2020-07-01", "2021-01-01", "2021-07-01", "2022-01-01", "2022-07-01", "2023-01-01"
+finish <- "2021-12-31" #options: "2020-12-31", "2021-06-30", "2021-12-31", "2022-06-30", "2022-12-31", "2023-06-30"
+
+thisperiod <- ta.df[ta.df$`Date of T/TA` >= begin & ta.df$`Date of T/TA`<= finish,]
+
+# can create specific dataframes (below) but will need to update the dataframe 6 times for the tabulations
+#year <- ta.df[ta.df$Date.of.Training.or.TA >="2020-07-01" & ta.df$Date.of.Training.or.TA <="2021-06-30"]
+#qtr1 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-07-01" & ta.df$Date.of.Training.or.TA <="2021-09-30",]
+#qtr2 <- ta.df[ta.df$Date.of.Training.or.TA >="2021-10-01" & ta.df$Date.of.Training.or.TA <="2021-12-31",]
+#qtr3 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-01-01" & ta.df$Date.of.Training.or.TA <="2022-03-31",]
+#qtr4 <- ta.df[ta.df$Date.of.Training.or.TA >="2022-04-01" & ta.df$Date.of.Training.or.TA <="2022-06-30",]
+```
+- How many adults (from IOs, CAG) were trained this quarter (by T vs TA)?
+```{r}
+# https://www.datasciencemadesimple.com/sum-function-in-r/
+aggregate(x = thisperiod$`Partners Trained`,
+          by= list(thisperiod$`Training/TA`),
+          FUN=sum) #will contain duplicates; see M:\...\Facilitator Roster instead
+```
+- How many hours of T/TA were provided this reporting period? (for SAPR/AER) by setting? (for MERT)
+```{r}
+
+#new <- ta.df[,c(2:3,31:32)] #check that the reinterpretation of TA vs Training is accurate
+
+hrsbytype <- aggregate(x=thisperiod$hours,
+          by= list(thisperiod$`Training/TA`),
+          FUN=sum) #more accurate
+
+tabyset<- aggregate(x=thisperiod$hours,
+          by= list(thisperiod$setting),
+          FUN=sum) #TA by setting (MERT)
+names(tabyset) <- c("Setting","TA Hours")
+
+tabyio <- aggregate(x = thisperiod$hours,
+          by= list(thisperiod$mainio),
+          FUN=sum) #TA by IO (AER)
+names(tabyio) <- c("IO","TA Hours")
+
+
+
+#######
+# GTO #
+#######
+
+GTO01 <- data.frame(table(thisperiod$`GTO-01`))
+GTO02 <- data.frame(table(thisperiod$`GTO-02`))
+GTO03 <- data.frame(table(thisperiod$`GTO-03`))
+GTO04 <- data.frame(table(thisperiod$`GTO-04`))
+GTO05 <- data.frame(table(thisperiod$`GTO-05`))
+GTO06 <- data.frame(table(thisperiod$`GTO-06`))
+GTO07 <- data.frame(table(thisperiod$`GTO-07`))
+GTO08 <- data.frame(table(thisperiod$`GTO-08`))
+GTO09 <- data.frame(table(thisperiod$`GTO-09`))
+GTO10 <- data.frame(table(thisperiod$`GTO-10`))
+
+GTOall <- rbind.data.frame(GTO01,GTO02,GTO03,GTO04,GTO05,GTO06,GTO07,GTO08,GTO09,GTO10)
+names(GTOall) <- c("GTO Step","Count of meetings")
+```

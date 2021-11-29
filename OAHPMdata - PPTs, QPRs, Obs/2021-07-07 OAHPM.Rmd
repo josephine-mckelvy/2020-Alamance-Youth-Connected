@@ -693,7 +693,7 @@ chisq.test(yrsthoughts.df$`Prepared to go to a doctor for birth control`,yrsthou
 # All Satisfaction #
 ####################
 
-yrssatisfaction.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish & ppt.df$Time=="After",c(72,4,6,49:56)] #8 Group variables on Post
+yrssatisfaction.df <- ppt.df[ppt.df$`Start Date`>=begin & ppt.df$`Start Date`<=finish & ppt.df$Time=="After",c(72,4,6,49:59)] #8 Group variables on Post
 yrssatisfaction.df <- na.omit(yrssatisfaction.df)
 
 yrlktsatisfaction <- likert(yrssatisfaction.df[,4:11])
