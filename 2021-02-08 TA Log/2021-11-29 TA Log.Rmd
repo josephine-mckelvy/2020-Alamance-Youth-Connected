@@ -120,20 +120,19 @@ labelmode <- c("Phone",
 tacl.df$`Trainer/TA Provider` <- factor(tacl.df$`Trainer/TA Provider`,
                    levels = c(1),
                    labels = c("Sophia Durant"))
-taio.df$`Trainer/TA Provider` <- factor(taio.df$`Trainer/TA Provider`,
-                   levels = c(1,2,3,4,5,6,7),
-                   labels = labelspec)
-
 tacl.df$`Training/TA` <- factor(tacl.df$`Training/TA`,
                    levels = c(1,2),
                    labels = labeltta)
-taio.df$`Training/TA` <- factor(taio.df$`Training/TA`,
-                   levels = c(1,2),
-                   labels = labeltta)
-
 tacl.df$`Mode of T/TA` <- factor(tacl.df$`Mode of T/TA`,
                    levels = c(1,2,3,4,5),
                    labels = labelmode)
+
+taio.df$`Trainer/TA Provider` <- factor(taio.df$`Trainer/TA Provider`,
+                   levels = c(1,2,3,4,5,6,7),
+                   labels = labelspec)
+taio.df$`Training/TA` <- factor(taio.df$`Training/TA`,
+                   levels = c(1,2),
+                   labels = labeltta)
 taio.df$`Mode of T/TA` <- factor(taio.df$`Mode of T/TA`,
                    levels = c(1,2,3,4,5),
                    labels = labelmode)
