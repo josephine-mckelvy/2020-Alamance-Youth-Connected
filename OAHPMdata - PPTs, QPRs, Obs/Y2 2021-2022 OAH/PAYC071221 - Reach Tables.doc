@@ -9,38 +9,33 @@ xmlns="http://www.w3.org/TR/REC-html40">
 <meta name=ProgId content=Word.Document>
 <meta name=Generator content="Microsoft Word 15">
 <meta name=Originator content="Microsoft Word 15">
-<link rel=File-List
-href="PAYC071221%20-%20OAH%20Race%20by%20Ethnicity%20Table_files/filelist.xml">
+<link rel=File-List href="PAYC071221%20-%20Reach%20Tables_files/filelist.xml">
 <!--[if gte mso 9]><xml>
  <o:DocumentProperties>
   <o:Author>Josephine McKelvy</o:Author>
   <o:LastAuthor>Josephine McKelvy</o:LastAuthor>
-  <o:Revision>2</o:Revision>
-  <o:TotalTime>0</o:TotalTime>
+  <o:Revision>3</o:Revision>
+  <o:TotalTime>5</o:TotalTime>
   <o:Created>2021-07-13T02:44:00Z</o:Created>
-  <o:LastSaved>2021-07-13T02:44:00Z</o:LastSaved>
+  <o:LastSaved>2021-12-06T22:45:00Z</o:LastSaved>
   <o:Pages>2</o:Pages>
-  <o:Words>74</o:Words>
-  <o:Characters>423</o:Characters>
+  <o:Words>80</o:Words>
+  <o:Characters>458</o:Characters>
   <o:Lines>3</o:Lines>
   <o:Paragraphs>1</o:Paragraphs>
-  <o:CharactersWithSpaces>496</o:CharactersWithSpaces>
+  <o:CharactersWithSpaces>537</o:CharactersWithSpaces>
   <o:Version>16.00</o:Version>
  </o:DocumentProperties>
  <o:OfficeDocumentSettings>
   <o:AllowPNG/>
  </o:OfficeDocumentSettings>
 </xml><![endif]-->
-<link rel=themeData
-href="PAYC071221%20-%20OAH%20Race%20by%20Ethnicity%20Table_files/themedata.thmx">
+<link rel=themeData href="PAYC071221%20-%20Reach%20Tables_files/themedata.thmx">
 <link rel=colorSchemeMapping
-href="PAYC071221%20-%20OAH%20Race%20by%20Ethnicity%20Table_files/colorschememapping.xml">
+href="PAYC071221%20-%20Reach%20Tables_files/colorschememapping.xml">
 <!--[if gte mso 9]><xml>
  <w:WordDocument>
   <w:View>Print</w:View>
-  <w:Zoom>89</w:Zoom>
-  <w:SpellingState>Clean</w:SpellingState>
-  <w:GrammarState>Clean</w:GrammarState>
   <w:TrackMoves>false</w:TrackMoves>
   <w:TrackFormatting/>
   <w:ValidateAgainstSchemas/>
@@ -55,6 +50,7 @@ href="PAYC071221%20-%20OAH%20Race%20by%20Ethnicity%20Table_files/colorschememapp
    <w:BreakWrappedTables/>
    <w:SplitPgBreakAndParaMark/>
   </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
   <m:mathPr>
    <m:mathFont m:val="Cambria Math"/>
    <m:brkBin m:val="before"/>
@@ -657,7 +653,7 @@ href="PAYC071221%20-%20OAH%20Race%20by%20Ethnicity%20Table_files/colorschememapp
 	mso-font-charset:0;
 	mso-generic-font-family:roman;
 	mso-font-pitch:variable;
-	mso-font-signature:3 0 0 0 1 0;}
+	mso-font-signature:-536869121 1107305727 33554432 0 415 0;}
  /* Style Definitions */
  p.MsoNormal, li.MsoNormal, div.MsoNormal
 	{mso-style-unhide:no;
@@ -681,9 +677,6 @@ p.msonormal0, li.msonormal0, div.msonormal0
 	font-family:"Times New Roman",serif;
 	mso-fareast-font-family:"Times New Roman";
 	mso-fareast-theme-font:minor-fareast;}
-span.SpellE
-	{mso-style-name:"";
-	mso-spl-e:yes;}
 .MsoChpDefault
 	{mso-style-type:export-only;
 	mso-default-props:yes;
@@ -729,11 +722,17 @@ div.WordSection1
 <div class=WordSection1>
 
 <table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
- style='border-collapse:collapse;mso-yfti-tbllook:1184'>
+ style='border-collapse:collapse;mso-yfti-tbllook:1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
  <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
   <td colspan=2 style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
   <p class=MsoNormal><b><span style='mso-fareast-font-family:"Times New Roman"'>Reach
   for: PAYC071221<o:p></o:p></span></b></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><b><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></b></p>
+  </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><b><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></b></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:1'>
@@ -748,6 +747,19 @@ div.WordSection1
   <p class=MsoNormal align=center style='text-align:center'><i><span
   style='mso-fareast-font-family:"Times New Roman"'>Count<o:p></o:p></span></i></p>
   </td>
+  <td width=48 valign=top style='width:.5in;border-top:double windowtext 2.25pt;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:none;
+  mso-border-top-alt:double windowtext 2.25pt;mso-border-bottom-alt:solid black .75pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><i><span
+  style='mso-fareast-font-family:"Times New Roman"'>NH<o:p></o:p></span></i></p>
+  </td>
+  <td valign=top style='border-top:double windowtext 2.25pt;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:none;mso-border-top-alt:double windowtext 2.25pt;
+  mso-border-bottom-alt:solid black .75pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><i><span
+  style='mso-fareast-font-family:"Times New Roman"'>H<o:p></o:p></span></i></p>
+  </td>
  </tr>
  <tr style='mso-yfti-irow:2'>
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
@@ -756,6 +768,14 @@ div.WordSection1
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
+  </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:3'>
@@ -767,6 +787,14 @@ div.WordSection1
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
   </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
  </tr>
  <tr style='mso-yfti-irow:4'>
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
@@ -775,6 +803,14 @@ div.WordSection1
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
+  </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:5'>
@@ -785,6 +821,14 @@ div.WordSection1
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>4<o:p></o:p></span></p>
   </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
  </tr>
  <tr style='mso-yfti-irow:6'>
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
@@ -793,6 +837,14 @@ div.WordSection1
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>4<o:p></o:p></span></p>
+  </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'>4<o:p></o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:7'>
@@ -803,6 +855,14 @@ div.WordSection1
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
   </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
  </tr>
  <tr style='mso-yfti-irow:8'>
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
@@ -810,6 +870,14 @@ div.WordSection1
   not reported<o:p></o:p></span></p>
   </td>
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
+  </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
   </td>
@@ -822,6 +890,14 @@ div.WordSection1
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
   </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
  </tr>
  <tr style='mso-yfti-irow:10'>
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
@@ -830,6 +906,14 @@ div.WordSection1
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>4<o:p></o:p></span></p>
+  </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:11'>
@@ -840,6 +924,14 @@ div.WordSection1
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>2<o:p></o:p></span></p>
   </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
  </tr>
  <tr style='mso-yfti-irow:12'>
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
@@ -848,6 +940,14 @@ div.WordSection1
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
+  </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:13'>
@@ -859,6 +959,14 @@ div.WordSection1
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>2<o:p></o:p></span></p>
   </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
  </tr>
  <tr style='mso-yfti-irow:14'>
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
@@ -868,6 +976,14 @@ div.WordSection1
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>2<o:p></o:p></span></p>
+  </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:15'>
@@ -879,6 +995,14 @@ div.WordSection1
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>2<o:p></o:p></span></p>
   </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
  </tr>
  <tr style='mso-yfti-irow:16;mso-yfti-lastrow:yes'>
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
@@ -888,6 +1012,14 @@ div.WordSection1
   <td valign=top style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>1<o:p></o:p></span></p>
+  </td>
+  <td width=48 valign=top style='width:.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td valign=top style='padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
   </td>
  </tr>
 </table>
@@ -901,25 +1033,20 @@ style='mso-special-character:line-break;page-break-before:always'>
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
- style='border-collapse:collapse;mso-yfti-tbllook:1184'>
+ style='border-collapse:collapse;mso-yfti-tbllook:1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
  <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:11.5pt'>
-  <td colspan=5 style='border:none;border-bottom:none black 1.0pt;mso-border-bottom-alt:
-  none black 0in;padding:.75pt .75pt .75pt .75pt;height:11.5pt'>
+  <td colspan=5 style='padding:.75pt .75pt .75pt .75pt;height:11.5pt'>
   <p class=MsoNormal><b><span style='mso-fareast-font-family:"Times New Roman"'>Race
   by Ethnicity for: PAYC071221<o:p></o:p></span></b></p>
   </td>
-  <![if !supportMisalignedRows]>
-  <td style='height:11.5pt;border:none' width=0 height=15></td>
-  <![endif]>
  </tr>
  <tr style='mso-yfti-irow:1'>
   <td rowspan=2 style='border-top:double windowtext 2.25pt;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:none;mso-border-top-alt:
   double windowtext 2.25pt;mso-border-bottom-alt:solid windowtext .75pt;
   padding:.75pt .75pt .75pt .75pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span class=SpellE><i><span
-  style='mso-fareast-font-family:"Times New Roman"'>race_cat</span></i></span><i><span
-  style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></i></p>
+  <p class=MsoNormal align=center style='text-align:center'><i><span
+  style='mso-fareast-font-family:"Times New Roman"'>race_cat<o:p></o:p></span></i></p>
   </td>
   <td colspan=3 style='border:none;border-top:double windowtext 2.25pt;
   padding:.75pt .75pt .75pt .75pt'>
@@ -933,9 +1060,6 @@ style='mso-special-character:line-break;page-break-before:always'>
   <p class=MsoNormal align=center style='text-align:center'><b><i><span
   style='mso-fareast-font-family:"Times New Roman"'>Total<o:p></o:p></span></i></b></p>
   </td>
-  <![if !supportMisalignedRows]>
-  <td style='border:none' width=0><p class='MsoNormal'>&nbsp;</td>
-  <![endif]>
  </tr>
  <tr style='mso-yfti-irow:2'>
   <td style='border:none;border-bottom:solid windowtext 1.0pt;mso-border-bottom-alt:
@@ -953,9 +1077,6 @@ style='mso-special-character:line-break;page-break-before:always'>
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-fareast-font-family:"Times New Roman"'>Prefer not to answer<o:p></o:p></span></p>
   </td>
-  <![if !supportMisalignedRows]>
-  <td style='border:none' width=0><p class='MsoNormal'>&nbsp;</td>
-  <![endif]>
  </tr>
  <tr style='mso-yfti-irow:3'>
   <td style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
@@ -981,9 +1102,6 @@ style='mso-special-character:line-break;page-break-before:always'>
   style='mso-fareast-font-family:"Times New Roman";color:black'>4</span><span
   style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
   </td>
-  <![if !supportMisalignedRows]>
-  <td style='border:none' width=0><p class='MsoNormal'>&nbsp;</td>
-  <![endif]>
  </tr>
  <tr style='mso-yfti-irow:4'>
   <td style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
@@ -1009,9 +1127,6 @@ style='mso-special-character:line-break;page-break-before:always'>
   style='mso-fareast-font-family:"Times New Roman";color:black'>1</span><span
   style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
   </td>
-  <![if !supportMisalignedRows]>
-  <td style='border:none' width=0><p class='MsoNormal'>&nbsp;</td>
-  <![endif]>
  </tr>
  <tr style='mso-yfti-irow:5'>
   <td style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
@@ -1038,9 +1153,6 @@ style='mso-special-character:line-break;page-break-before:always'>
   style='mso-fareast-font-family:"Times New Roman";color:black'>1</span><span
   style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
   </td>
-  <![if !supportMisalignedRows]>
-  <td style='border:none' width=0><p class='MsoNormal'>&nbsp;</td>
-  <![endif]>
  </tr>
  <tr style='mso-yfti-irow:6'>
   <td style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
@@ -1066,9 +1178,6 @@ style='mso-special-character:line-break;page-break-before:always'>
   style='mso-fareast-font-family:"Times New Roman";color:black'>1</span><span
   style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
   </td>
-  <![if !supportMisalignedRows]>
-  <td style='border:none' width=0><p class='MsoNormal'>&nbsp;</td>
-  <![endif]>
  </tr>
  <tr style='mso-yfti-irow:7'>
   <td style='border:none;border-bottom:double windowtext 2.25pt;padding:5.65pt 5.65pt 5.65pt 5.65pt'>
@@ -1094,20 +1203,13 @@ style='mso-special-character:line-break;page-break-before:always'>
   style='mso-fareast-font-family:"Times New Roman";color:black'>7</span><span
   style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
   </td>
-  <![if !supportMisalignedRows]>
-  <td style='border:none' width=0><p class='MsoNormal'>&nbsp;</td>
-  <![endif]>
  </tr>
  <tr style='mso-yfti-irow:8;mso-yfti-lastrow:yes'>
   <td colspan=5 style='padding:5.65pt 5.65pt 5.65pt 5.65pt'>
   <p class=MsoNormal align=right style='text-align:right'><i><span
-  style='font-size:11.0pt;mso-fareast-font-family:"Times New Roman"'>&#967;<sup>2</sup>=<span
-  class=SpellE>NaN</span> &middot; df=6 &middot; Cramer's V=<span class=SpellE>NaN</span>
-  &middot; Fisher's p=0.437<o:p></o:p></span></i></p>
+  style='font-size:11.0pt;mso-fareast-font-family:"Times New Roman"'>&#967;<sup>2</sup>=NaN
+  &middot; df=6 &middot; Cramer's V=NaN &middot; Fisher's p=0.437<o:p></o:p></span></i></p>
   </td>
-  <![if !supportMisalignedRows]>
-  <td style='border:none' width=0><p class='MsoNormal'>&nbsp;</td>
-  <![endif]>
  </tr>
 </table>
 
