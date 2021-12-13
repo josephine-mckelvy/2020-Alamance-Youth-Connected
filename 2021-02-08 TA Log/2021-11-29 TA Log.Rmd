@@ -3,7 +3,9 @@ title: "AYC TA Log - SAPR & MERT data"
 subtitle: "Summarizing Counts by Date & Setting"
 author: "Josephine McKelvy"
 date: "February 08, 2021"
-output: word_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}

@@ -4,8 +4,8 @@ username:
 account: rpubs
 server: rpubs.com
 hostUrl: rpubs.com
-appId: https://api.rpubs.com/api/v1/document/793851/8915f414909b41c8b597bc9c3a2dd221
-bundleId: https://api.rpubs.com/api/v1/document/793851/8915f414909b41c8b597bc9c3a2dd221
-url: http://rpubs.com/josephine-mckelvy/793851
-when: 1638908455.24743
-lastSyncTime: 1638908455.24743
+appId: https://api.rpubs.com/api/v1/document/847067/5131f17486b24adda4c9bb40629292d1
+bundleId: https://api.rpubs.com/api/v1/document/847067/5131f17486b24adda4c9bb40629292d1
+url: http://rpubs.com/publish/claim/847067/e56265296cd44f0d958cc2cffbaaeef7
+when: 1639408399.67693
+lastSyncTime: 1639408399.67693
