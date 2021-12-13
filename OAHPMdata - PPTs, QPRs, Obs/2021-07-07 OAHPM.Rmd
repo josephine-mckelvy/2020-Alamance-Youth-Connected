@@ -524,7 +524,7 @@ ppt.df$`I felt uncomfortable participating*` <- factor(ppt.df$`I felt uncomforta
 ```{r}
 #Pre/Post-Test by group if group name is exact 
 #Update thisgroup name and ggsave file names below
-thisgroup <- "payc120621b"
+thisgroup <- "achd110821d"
 
 ########################
 # Pre-Test: Experience #
@@ -632,8 +632,8 @@ gpdreach <- rbind.data.frame(gpdgender,gpdrace,gpdage,gpdgrade)
 
 library(sjPlot)
 tab_df(gpdreach,
-       title = "Reach for: PAYC120621b",
-       file = "PAYC120621b - Demographics Table.doc")
+       title = "Reach for: ACHD110821d",
+       file = "ACHD110821d - Demographics Table.doc")
 #gpdoahrace <- tab_xtab(var.row = gpdemographics.df$race_cat, var.col = gpdemographics.df$Hispanic,
 #         title = "Race by Ethnicity for: PAYC120621a",
 #         file = "PAYC120621b - OAH Race by Ethnicity Table.doc") #may not print if no Hispanic YP; need 2 or more non-zero column marginals
