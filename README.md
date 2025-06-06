@@ -1,5 +1,11 @@
 # AYC
-code for analyzing data for the Alamance Youth Connected (AYC) initiative
+code for analyzing data to assess the Alamance Youth Connected (AYC) initiative
++ member knowledge, skills, and attitudes (KSAs) within the Community Advisory Board (CAB)
++ technical assistance (TA) hours, tracked over time
++ organizational readiness, using indices from the Sex Education Collaborative's (SEC) Racial Justice and Equity Task Team (RJETT)
++ Implementation Partner Needs Assessment (IPNA) to support TA
++ self-assessment of facilitators' comfort with trauma-informed approaches (TIA)
++ reach, fidelity, and dosage via pre/post tests (PPTs) and observations of evidence-based programming by implementing organizations (IOs) for quarterly progress reports (QPRs) and semi-annual progress reports (SAPRs) to the Office of Populations Affairs (OPA)/Office of Adolescent Health Performance Measures (OAHPM) database
 
 # Purpose:
 to store datasets and R code to analyze assessment data for AYC
