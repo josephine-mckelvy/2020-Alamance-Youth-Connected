@@ -1,5 +1,5 @@
 # AYC
-code for analyzing data to assess the Alamance Youth Connected (AYC) initiative
+code for analyzing data to assess the Alamance Youth Connected (AYC) initiative:
 + member knowledge, skills, and attitudes (KSAs) within the Community Advisory Board (CAB)
 + technical assistance (TA) hours, tracked over time
 + organizational readiness, using indices from the Sex Education Collaborative's (SEC) Racial Justice and Equity Task Team (RJETT)
